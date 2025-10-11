@@ -1,5 +1,16 @@
+import { BrowserRouter, Routes, Route } from "react-router";
+import Account from "./pages/Account";
+import Home from "./pages/Home";
+
 function App() {
-	return <div className="w-screen h-screen bg-orange-500"></div>;
+	return (
+		<BrowserRouter>
+			<Routes>
+				<Route path="/" element={<Home />} />
+        <Route path="account" element={<Account />} />
+			</Routes>
+		</BrowserRouter>
+	);
 }
 
 export default App;
