@@ -1,10 +1,17 @@
 import { Link } from "react-router";
+import { Anchor } from "@mantine/core";
+import { Button } from "@mantine/core";
+import { User } from "lucide-react";
 
 const Navbar = () => {
 	return (
-		<nav>
-			<Link to="/">Home</Link> 
-      <Link to="/account">Account</Link>
+		<nav className="h-14 flex justify-between items-center px-4 border-b border-gray-200">
+			<Anchor component={Link} to="/" underline={false}>
+				<h1 className="text-2xl">Drumheller Public Library</h1>
+			</Anchor>
+			<Button component={Link} to="/account" variant="subtle" radius="xl">
+				<User />
+			</Button>
 		</nav>
 	);
 };
