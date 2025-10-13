@@ -1,7 +1,10 @@
-const Home = () => {
-  return (
-    <div className='bg-blue-500'>Home</div>
-  )
-}
+import { useEffect } from "react";
 
-export default Home
+const Home = () => {
+	useEffect(() => {
+		document.title = "Home";
+	}, []);
+	return <div>Home</div>;
+};
+
+export default Home;
