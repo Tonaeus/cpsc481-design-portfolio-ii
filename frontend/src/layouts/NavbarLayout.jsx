@@ -3,18 +3,14 @@ import Navbar from "../components/Navbar";
 
 function MainLayout() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <header>
         <Navbar />
       </header>
 
-      <main style={{ padding: "1rem" }}>
+      <main>
         <Outlet />
       </main>
-
-      <footer>
-        © 2025
-      </footer>
     </div>
   );
 }
