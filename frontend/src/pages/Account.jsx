@@ -25,20 +25,14 @@ const Account = () => {
 
 	return (
 		<div className="h-full flex justify-center items-center">
-			<Card
-				shadow="xs"
-				radius="lg"
-				padding="xl"
-				withBorder
-				className="w-sm"
-			>
+			<Card shadow="xs" radius="lg" padding="xl" withBorder className="w-sm">
 				<Tabs
 					variant="none"
 					value={value}
 					onChange={setValue}
 					className="relative"
 				>
-					<Tabs.List ref={setRootRef} className="flex w-full">
+					<Tabs.List ref={setRootRef} className="flex w-full" mb="sm">
 						<Tabs.Tab value="1" ref={setControlRef("1")} className="flex-1">
 							Sign In
 						</Tabs.Tab>
@@ -49,8 +43,9 @@ const Account = () => {
 						<FloatingIndicator
 							target={value ? controlsRefs[value] : null}
 							parent={rootRef}
-							className="bg-white rounded-md border border-gray-200 shadow-sm"
-						/>
+							className="bg-transparent rounded-md border border-gray-200 shadow-sm"
+						>
+						</FloatingIndicator>
 					</Tabs.List>
 
 					<Tabs.Panel value="1">
@@ -67,9 +62,7 @@ const Account = () => {
 							mb="sm"
 						/>
 						<Group justify="space-between" mt="md">
-							<Button fullWidth>
-								Sign in
-							</Button>
+							<Button fullWidth>Sign in</Button>
 						</Group>
 						<Text size="sm" mt="sm" c="dimmed" ta="center">
 							Forgot password?
@@ -77,8 +70,14 @@ const Account = () => {
 					</Tabs.Panel>
 					<Tabs.Panel value="2">
 						<TextInput
-							label="Full Name"
-							placeholder="John Doe"
+							label="First Name"
+							placeholder="First Name"
+							required
+							mb="sm"
+						/>
+						<TextInput
+							label="Last Name"
+							placeholder="Last Name"
 							required
 							mb="sm"
 						/>
