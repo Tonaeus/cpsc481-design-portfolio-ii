@@ -8,7 +8,9 @@ import {
 	Group,
 	Text,
 	FloatingIndicator,
+	Anchor,
 } from "@mantine/core";
+import { Link } from "react-router";
 
 const Account = () => {
 	useEffect(() => {
@@ -44,8 +46,7 @@ const Account = () => {
 							target={value ? controlsRefs[value] : null}
 							parent={rootRef}
 							className="bg-transparent rounded-md border border-gray-200 shadow-sm"
-						>
-						</FloatingIndicator>
+						></FloatingIndicator>
 					</Tabs.List>
 
 					<Tabs.Panel value="1">
@@ -64,9 +65,15 @@ const Account = () => {
 						<Group justify="space-between" mt="md">
 							<Button fullWidth>Sign in</Button>
 						</Group>
-						<Text size="sm" mt="sm" c="dimmed" ta="center">
-							Forgot password?
-						</Text>
+						<Anchor
+							component={Link}
+							to="/forgot-password"
+							c="dimmed"
+						>
+							<Text size="sm" mt="sm" ta="center" >
+								Forgot password?
+							</Text>
+						</Anchor>
 					</Tabs.Panel>
 					<Tabs.Panel value="2">
 						<TextInput

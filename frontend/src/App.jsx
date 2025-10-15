@@ -3,6 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
 import NavbarLayout from "./layouts/NavbarLayout";
 import Account from "./pages/Account";
+import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import Browse from "./pages/Browse";
@@ -27,6 +28,7 @@ function App() {
 					<Route element={<NavbarLayout />}>
 						<Route path="/" element={<Home />} />
 						<Route path="account" element={<Account />} />
+						<Route path="forgot-password" element={<ForgotPassword />} />
 						<Route path="menu" element={<Menu />} />
 						<Route path="browse" element={<Browse />} />
 						<Route path="book" element={<Book />} />
