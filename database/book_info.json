@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "The Lord of the Rings",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "publication_year": 1954,
+    "pages": 1178,
+    "publisher": "Allen & Unwin",
+    "isbn": "978-0618053267"
+  },
+  {
+    "id": 2,
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "genre": "Classic",
+    "publication_year": 1813,
+    "pages": 279,
+    "publisher": "T. Egerton, Whitehall",
+    "isbn": "978-0141439518"
+  },
+  {
+    "id": 3,
+    "title": "1984",
+    "author": "George Orwell",
+    "genre": "Dystopian",
+    "publication_year": 1949,
+    "pages": 328,
+    "publisher": "Secker & Warburg",
+    "isbn": "978-0451524935"
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "copy_id": 1,
+    "book_id": 1,
+    "location": {
+      "branch": "Main Branch",
+      "shelf": "A3"
+    },
+    "status": "available",
+    "acquisition_date": "2020-05-15"
+  },
+  {
+    "copy_id": 2,
+    "book_id": 1,
+    "location": {
+      "branch": "Main Branch",
+      "shelf": "A3"
+    },
+    "status": "checked_out",
+    "acquisition_date": "2020-05-15"
+  },
+  {
+    "copy_id": 3,
+    "book_id": 2,
+    "location": {
+      "branch": "Downtown Branch",
+      "shelf": "B1"
+    },
+    "status": "available",
+    "acquisition_date": "2019-11-02"
+  },
+  {
+    "copy_id": 4,
+    "book_id": 3,
+    "location": {
+      "branch": "Main Branch",
+      "shelf": "C4"
+    },
+    "status": "available",
+    "acquisition_date": "2021-01-20"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "email": "tony.tran@example.com",
+    "first_name": "Tony",
+    "last_name": "Tran",
+    "password": "hashed_password_here",
+    "membership_date": "2022-03-10",
+    "status": "active",
+    "role": "member",
+    "transactions": [
+      {
+        "transaction_id": 101,
+        "copy_id": 1,
+        "borrow_date": "2023-09-01",
+        "return_date": "2023-09-15",
+        "due_date": "2023-09-15",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 102,
+        "copy_id": 3,
+        "borrow_date": "2023-10-01",
+        "return_date": null,
+        "due_date": "2023-10-15",
+        "status": "Borrowed"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "email": "jane.doe@example.com",
+    "first_name": "Jane",
+    "last_name": "Doe",
+    "password": "hashed_password_here",
+    "membership_date": "2021-07-18",
+    "status": "active",
+    "role": "staff",
+    "transactions": [
+      {
+        "transaction_id": 103,
+        "copy_id": 2,
+        "borrow_date": "2023-08-20",
+        "return_date": "2023-09-05",
+        "due_date": "2023-09-05",
+        "status": "Returned"
+      }
+    ]
+  }
+]
