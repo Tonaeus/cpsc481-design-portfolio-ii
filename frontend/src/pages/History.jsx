@@ -31,7 +31,7 @@ const History = () => {
 	));
 
 	return (
-		<div className="flex flex-col gap-4">
+		<div className="flex flex-col gap-4 h-full">
 			<div className="flex justify-between">
 				<TextInput
 					className="w-1/2"
@@ -49,7 +49,7 @@ const History = () => {
 				{filteredTransactions.length === 0 ? (
 					<Text>No matching books found.</Text>
 				) : (
-					<ScrollArea h={400}>
+					<ScrollArea className="h-full">
 						<Table stickyHeader striped highlightOnHover>
 							<Table.Thead>
 								<Table.Tr>
