@@ -28,5 +28,175 @@
     "pages": 328,
     "publisher": "Secker & Warburg",
     "isbn": "978-0451524935"
+  },
+  {
+    "id": 4,
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "genre": "Classic",
+    "publication_year": 1960,
+    "pages": 281,
+    "publisher": "J.B. Lippincott & Co.",
+    "isbn": "978-0061120084"
+  },
+  {
+    "id": 5,
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "genre": "Classic",
+    "publication_year": 1925,
+    "pages": 180,
+    "publisher": "Charles Scribner's Sons",
+    "isbn": "978-0743273565"
+  },
+  {
+    "id": 6,
+    "title": "Harry Potter and the Sorcerer's Stone",
+    "author": "J.K. Rowling",
+    "genre": "Fantasy",
+    "publication_year": 1997,
+    "pages": 309,
+    "publisher": "Bloomsbury",
+    "isbn": "978-0439708180"
+  },
+  {
+    "id": 7,
+    "title": "The Hobbit",
+    "author": "J.R.R. Tolkien",
+    "genre": "Fantasy",
+    "publication_year": 1937,
+    "pages": 310,
+    "publisher": "George Allen & Unwin",
+    "isbn": "978-0261102217"
+  },
+  {
+    "id": 8,
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "genre": "Dystopian",
+    "publication_year": 1932,
+    "pages": 268,
+    "publisher": "Chatto & Windus",
+    "isbn": "978-0060850524"
+  },
+  {
+    "id": 9,
+    "title": "The Catcher in the Rye",
+    "author": "J.D. Salinger",
+    "genre": "Classic",
+    "publication_year": 1951,
+    "pages": 277,
+    "publisher": "Little, Brown and Company",
+    "isbn": "978-0316769488"
+  },
+  {
+    "id": 10,
+    "title": "The Chronicles of Narnia",
+    "author": "C.S. Lewis",
+    "genre": "Fantasy",
+    "publication_year": 1956,
+    "pages": 767,
+    "publisher": "Geoffrey Bles",
+    "isbn": "978-0064471190"
+  },
+  {
+    "id": 11,
+    "title": "Fahrenheit 451",
+    "author": "Ray Bradbury",
+    "genre": "Dystopian",
+    "publication_year": 1953,
+    "pages": 194,
+    "publisher": "Ballantine Books",
+    "isbn": "978-1451673319"
+  },
+  {
+    "id": 12,
+    "title": "The Alchemist",
+    "author": "Paulo Coelho",
+    "genre": "Adventure",
+    "publication_year": 1988,
+    "pages": 208,
+    "publisher": "HarperOne",
+    "isbn": "978-0061122415"
+  },
+  {
+    "id": 13,
+    "title": "Moby Dick",
+    "author": "Herman Melville",
+    "genre": "Classic",
+    "publication_year": 1851,
+    "pages": 635,
+    "publisher": "Harper & Brothers",
+    "isbn": "978-1503280786"
+  },
+  {
+    "id": 14,
+    "title": "The Da Vinci Code",
+    "author": "Dan Brown",
+    "genre": "Thriller",
+    "publication_year": 2003,
+    "pages": 454,
+    "publisher": "Doubleday",
+    "isbn": "978-0307474278"
+  },
+  {
+    "id": 15,
+    "title": "The Hunger Games",
+    "author": "Suzanne Collins",
+    "genre": "Dystopian",
+    "publication_year": 2008,
+    "pages": 374,
+    "publisher": "Scholastic Press",
+    "isbn": "978-0439023481"
+  },
+  {
+    "id": 16,
+    "title": "The Girl with the Dragon Tattoo",
+    "author": "Stieg Larsson",
+    "genre": "Mystery",
+    "publication_year": 2005,
+    "pages": 465,
+    "publisher": "Norstedts Förlag",
+    "isbn": "978-0307454546"
+  },
+  {
+    "id": 17,
+    "title": "A Game of Thrones",
+    "author": "George R.R. Martin",
+    "genre": "Fantasy",
+    "publication_year": 1996,
+    "pages": 694,
+    "publisher": "Bantam Books",
+    "isbn": "978-0553103540"
+  },
+  {
+    "id": 18,
+    "title": "The Kite Runner",
+    "author": "Khaled Hosseini",
+    "genre": "Drama",
+    "publication_year": 2003,
+    "pages": 371,
+    "publisher": "Riverhead Books",
+    "isbn": "978-1594631931"
+  },
+  {
+    "id": 19,
+    "title": "The Martian",
+    "author": "Andy Weir",
+    "genre": "Science Fiction",
+    "publication_year": 2011,
+    "pages": 369,
+    "publisher": "Crown Publishing Group",
+    "isbn": "978-0804139021"
+  },
+  {
+    "id": 20,
+    "title": "Sapiens: A Brief History of Humankind",
+    "author": "Yuval Noah Harari",
+    "genre": "Non-fiction",
+    "publication_year": 2011,
+    "pages": 443,
+    "publisher": "Harvill Secker",
+    "isbn": "978-0062316110"
   }
 ]

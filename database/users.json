@@ -23,6 +23,30 @@
         "borrow_date": "2023-10-01",
         "return_date": null,
         "due_date": "2023-10-15",
+        "status": "Overdue"
+      },
+      {
+        "transaction_id": 110,
+        "copy_id": 15,
+        "borrow_date": "2024-01-10",
+        "return_date": "2024-01-25",
+        "due_date": "2024-01-25",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 118,
+        "copy_id": 27,
+        "borrow_date": "2024-05-01",
+        "return_date": "2024-05-16",
+        "due_date": "2024-05-16",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 125,
+        "copy_id": 30,
+        "borrow_date": "2024-09-02",
+        "return_date": null,
+        "due_date": "2024-09-16",
         "status": "Borrowed"
       }
     ]
@@ -44,6 +68,126 @@
         "return_date": "2023-09-05",
         "due_date": "2023-09-05",
         "status": "Returned"
+      },
+      {
+        "transaction_id": 111,
+        "copy_id": 9,
+        "borrow_date": "2023-11-10",
+        "return_date": "2023-11-24",
+        "due_date": "2023-11-24",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 120,
+        "copy_id": 17,
+        "borrow_date": "2024-02-02",
+        "return_date": "2024-02-16",
+        "due_date": "2024-02-16",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 132,
+        "copy_id": 25,
+        "borrow_date": "2024-09-10",
+        "return_date": null,
+        "due_date": "2024-09-24",
+        "status": "Borrowed"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "email": "alex.nguyen@example.com",
+    "first_name": "Alex",
+    "last_name": "Nguyen",
+    "password": "hashed_password_here",
+    "membership_date": "2023-02-05",
+    "status": "active",
+    "role": "member",
+    "transactions": [
+      {
+        "transaction_id": 140,
+        "copy_id": 6,
+        "borrow_date": "2023-10-05",
+        "return_date": "2023-10-18",
+        "due_date": "2023-10-19",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 141,
+        "copy_id": 10,
+        "borrow_date": "2023-12-01",
+        "return_date": null,
+        "due_date": "2023-12-15",
+        "status": "Overdue"
+      },
+      {
+        "transaction_id": 145,
+        "copy_id": 21,
+        "borrow_date": "2024-04-12",
+        "return_date": "2024-04-28",
+        "due_date": "2024-04-26",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 152,
+        "copy_id": 34,
+        "borrow_date": "2024-07-15",
+        "return_date": null,
+        "due_date": "2024-07-29",
+        "status": "Borrowed"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "email": "maria.hernandez@example.com",
+    "first_name": "Maria",
+    "last_name": "Hernandez",
+    "password": "hashed_password_here",
+    "membership_date": "2020-11-23",
+    "status": "active",
+    "role": "member",
+    "transactions": [
+      {
+        "transaction_id": 160,
+        "copy_id": 5,
+        "borrow_date": "2023-06-20",
+        "return_date": "2023-07-04",
+        "due_date": "2023-07-04",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 161,
+        "copy_id": 7,
+        "borrow_date": "2023-08-01",
+        "return_date": "2023-08-18",
+        "due_date": "2023-08-15",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 165,
+        "copy_id": 19,
+        "borrow_date": "2024-02-10",
+        "return_date": "2024-02-25",
+        "due_date": "2024-02-25",
+        "status": "Returned"
+      },
+      {
+        "transaction_id": 172,
+        "copy_id": 33,
+        "borrow_date": "2024-09-12",
+        "return_date": null,
+        "due_date": "2024-09-26",
+        "status": "Borrowed"
+      },
+      {
+        "transaction_id": 173,
+        "copy_id": 35,
+        "borrow_date": "2024-10-02",
+        "return_date": null,
+        "due_date": "2024-10-16",
+        "status": "Reserved"
       }
     ]
   }

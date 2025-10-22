@@ -10,11 +10,15 @@ const History = () => {
 
 		const data = getTransactionsWithBookInfo("tony.tran@example.com");
 		setTransactions(data);
+		console.log(data);
 	}, []);
 
 	const rows = transactions.map((tx) => (
 		<Table.Tr key={tx.transaction_id}>
+			<Table.Td>{tx.copy_id}</Table.Td>
 			<Table.Td>{tx.book.title}</Table.Td>
+			<Table.Td>{tx.book.author}</Table.Td>
+			<Table.Td>{tx.copy.location.branch}</Table.Td>
 			<Table.Td>{tx.borrow_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
 			<Table.Td>{tx.status}</Table.Td>
@@ -34,7 +38,10 @@ const History = () => {
 					<Table stickyHeader striped highlightOnHover>
 						<Table.Thead>
 							<Table.Tr>
+								<Table.Th>Copy ID</Table.Th>
 								<Table.Th>Book Title</Table.Th>
+								<Table.Th>Book Author</Table.Th>
+								<Table.Th>Book Location</Table.Th>
 								<Table.Th>Borrow Date</Table.Th>
 								<Table.Th>Return Date</Table.Th>
 								<Table.Th>Status</Table.Th>
