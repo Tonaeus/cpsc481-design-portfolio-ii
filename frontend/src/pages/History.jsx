@@ -22,12 +22,16 @@ const History = () => {
 	const [statusFilter, setStatusFilter] = useState("");
 	const [sortBy, setSortBy] = useState("");
 
+	const [tempStatusFilter, setTempStatusFilter] = useState("");
+	const [tempSortBy, setTempSortBy] = useState("");
+
 	useEffect(() => {
 		document.title = "History";
 		const data = getTransactionsWithBookInfo("tony.tran@example.com");
 		setTransactions(data);
 	}, []);
 
+	// Filter and sort transactions based on applied values
 	let filteredTransactions = transactions.filter((tx) =>
 		tx.book.title.toLowerCase().includes(search.toLowerCase())
 	);
@@ -71,10 +75,22 @@ const History = () => {
 					onChange={(e) => setSearch(e.currentTarget.value)}
 				/>
 				<div className="flex gap-2">
-					<Button variant="filled" onClick={() => setFilterModalOpened(true)}>
+					<Button
+						variant="filled"
+						onClick={() => {
+							setTempStatusFilter(statusFilter);
+							setFilterModalOpened(true);
+						}}
+					>
 						Filter
 					</Button>
-					<Button variant="filled" onClick={() => setSortModalOpened(true)}>
+					<Button
+						variant="filled"
+						onClick={() => {
+							setTempSortBy(sortBy);
+							setSortModalOpened(true);
+						}}
+					>
 						Sort
 					</Button>
 				</div>
@@ -94,13 +110,16 @@ const History = () => {
 						{ value: "Returned", label: "Returned" },
 						{ value: "Overdue", label: "Overdue" },
 					]}
-					value={statusFilter}
-					onChange={setStatusFilter}
+					value={tempStatusFilter}
+					onChange={setTempStatusFilter}
 				/>
 				<Button
 					className="mt-4"
 					fullWidth
-					onClick={() => setFilterModalOpened(false)}
+					onClick={() => {
+						setStatusFilter(tempStatusFilter);
+						setFilterModalOpened(false);
+					}}
 				>
 					Apply Filter
 				</Button>
@@ -119,13 +138,16 @@ const History = () => {
 						{ value: "borrow_date", label: "Borrow Date" },
 						{ value: "return_date", label: "Return Date" },
 					]}
-					value={sortBy}
-					onChange={setSortBy}
+					value={tempSortBy}
+					onChange={setTempSortBy}
 				/>
 				<Button
 					className="mt-4"
 					fullWidth
-					onClick={() => setSortModalOpened(false)}
+					onClick={() => {
+						setSortBy(tempSortBy);
+						setSortModalOpened(false);
+					}}
 				>
 					Apply Sort
 				</Button>
