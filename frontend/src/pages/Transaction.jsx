@@ -32,24 +32,11 @@ const Transaction = () => {
 	return (
 		<div className="flex flex-col gap-4 h-full">
 			<div className="flex justify-between">
-				{/* <Card
-					shadow="sm"
-					padding="sm"
-					// className="w-1/2 flex items-center gap-4"
-				> */}
-				<Card shadow="xs" radius="lg" withBorder >
-					<Avatar
-						// src={user.avatar}
-						alt={`${user.firstName} ${user.lastName}`}
-						radius="xl"
-						size="md"
-					/>
-					<div>
-						<Text weight={500}>
-							{user.firstName} {user.lastName}
-						</Text>
-						<Text size="sm" color="dimmed">
-							{user.email}
+				<Card shadow="xs" withBorder className="w-1/2">
+					<div className="flex flex-row items-center gap-3">
+						<Avatar />
+						<Text size="sm">
+							{user.first_name} {user.first_name}
 						</Text>
 					</div>
 				</Card>
@@ -58,27 +45,34 @@ const Transaction = () => {
 				</div>
 			</div>
 			<Card shadow="xs" withBorder className="flex-1">
-				{transactions.length === 0 ? (
-					<Text>No matching books found.</Text>
-				) : (
-					<ScrollArea className="h-full">
-						<Table stickyHeader striped highlightOnHover>
-							<Table.Thead>
-								<Table.Tr>
-									<Table.Th>Copy ID</Table.Th>
-									<Table.Th>Book Title</Table.Th>
-									<Table.Th>Book Author</Table.Th>
-									<Table.Th>Book Location</Table.Th>
-									<Table.Th>Borrow Date</Table.Th>
-									<Table.Th>Return Date</Table.Th>
-									<Table.Th>Status</Table.Th>
-								</Table.Tr>
-							</Table.Thead>
-							<Table.Tbody>{rows}</Table.Tbody>
-						</Table>
-					</ScrollArea>
-				)}
+				<ScrollArea className="h-full">
+					<Table stickyHeader striped highlightOnHover>
+						<Table.Thead>
+							<Table.Tr>
+								<Table.Th>Copy ID</Table.Th>
+								<Table.Th>Book Title</Table.Th>
+								<Table.Th>Book Author</Table.Th>
+								<Table.Th>Book Location</Table.Th>
+								<Table.Th>Borrow Date</Table.Th>
+								<Table.Th>Return Date</Table.Th>
+								<Table.Th>Status</Table.Th>
+							</Table.Tr>
+						</Table.Thead>
+						<Table.Tbody>{rows}</Table.Tbody>
+					</Table>
+				</ScrollArea>
 			</Card>
+			<div className="flex justify-between">
+				<div className="flex gap-2">
+					<Button variant="filled">RFID Scan</Button>
+					<Button variant="filled">Barcode Scan</Button>
+				</div>
+				<div className="flex gap-2">
+					<Button variant="filled">Check Out</Button>
+					<Button variant="filled">Check In</Button>
+					<Button variant="filled">Renew</Button>
+				</div>
+			</div>
 		</div>
 	);
 };
