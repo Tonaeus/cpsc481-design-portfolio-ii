@@ -27,7 +27,7 @@ const Account = () => {
 
 	return (
 		<div className="h-full flex justify-center items-center">
-			<Card shadow="xs" radius="lg" padding="xl" withBorder className="w-sm">
+			<Card shadow="xs" padding="xl" withBorder className="w-sm">
 				<Tabs
 					variant="none"
 					value={value}
@@ -45,7 +45,7 @@ const Account = () => {
 						<FloatingIndicator
 							target={value ? controlsRefs[value] : null}
 							parent={rootRef}
-							className="bg-transparent rounded-md border border-gray-200 shadow-sm"
+							className="bg-transparent rounded-[4px] border border-gray-200 shadow-sm"
 						></FloatingIndicator>
 					</Tabs.List>
 

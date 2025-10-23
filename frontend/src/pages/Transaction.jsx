@@ -1,10 +1,86 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Avatar, Card, ScrollArea, Table, Text, Button } from "@mantine/core";
+import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
+import { getUser } from "../../../backend/transaction.jsx";
 
 const Transaction = () => {
-  useEffect(() => {
-    document.title = "Transaction";
-  }, []);
-  return <div>Transaction</div>;
+	const [transactions, setTransactions] = useState([]);
+	const [user, setUser] = useState("");
+
+	useEffect(() => {
+		document.title = "Transaction";
+
+		const user = getUser("tony.tran@example.com");
+		setUser(user);
+
+		const data = getTransactionsWithBookInfo("tony.tran@example.com");
+		setTransactions(data);
+	}, []);
+
+	const rows = transactions.map((tx) => (
+		<Table.Tr key={tx.transaction_id}>
+			<Table.Td>{tx.copy_id}</Table.Td>
+			<Table.Td>{tx.book.title}</Table.Td>
+			<Table.Td>{tx.book.author}</Table.Td>
+			<Table.Td>{tx.copy.location.branch}</Table.Td>
+			<Table.Td>{tx.borrow_date}</Table.Td>
+			<Table.Td>{tx.return_date || "—"}</Table.Td>
+			<Table.Td>{tx.status}</Table.Td>
+		</Table.Tr>
+	));
+
+	return (
+		<div className="flex flex-col gap-4 h-full">
+			<div className="flex justify-between">
+				{/* <Card
+					shadow="sm"
+					padding="sm"
+					// className="w-1/2 flex items-center gap-4"
+				> */}
+				<Card shadow="xs" radius="lg" withBorder >
+					<Avatar
+						// src={user.avatar}
+						alt={`${user.firstName} ${user.lastName}`}
+						radius="xl"
+						size="md"
+					/>
+					<div>
+						<Text weight={500}>
+							{user.firstName} {user.lastName}
+						</Text>
+						<Text size="sm" color="dimmed">
+							{user.email}
+						</Text>
+					</div>
+				</Card>
+				<div>
+					<Button variant="filled">Finish</Button>
+				</div>
+			</div>
+			<Card shadow="xs" withBorder className="flex-1">
+				{transactions.length === 0 ? (
+					<Text>No matching books found.</Text>
+				) : (
+					<ScrollArea className="h-full">
+						<Table stickyHeader striped highlightOnHover>
+							<Table.Thead>
+								<Table.Tr>
+									<Table.Th>Copy ID</Table.Th>
+									<Table.Th>Book Title</Table.Th>
+									<Table.Th>Book Author</Table.Th>
+									<Table.Th>Book Location</Table.Th>
+									<Table.Th>Borrow Date</Table.Th>
+									<Table.Th>Return Date</Table.Th>
+									<Table.Th>Status</Table.Th>
+								</Table.Tr>
+							</Table.Thead>
+							<Table.Tbody>{rows}</Table.Tbody>
+						</Table>
+					</ScrollArea>
+				)}
+			</Card>
+		</div>
+	);
 };
 
 export default Transaction;

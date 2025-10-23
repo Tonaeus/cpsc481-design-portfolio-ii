@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { ScrollArea, Table, TextInput, Text, Button } from "@mantine/core";
+import {
+	ScrollArea,
+	Table,
+	TextInput,
+	Text,
+	Button,
+	Card,
+} from "@mantine/core";
 import { Search } from "lucide-react";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
 
@@ -45,7 +52,7 @@ const History = () => {
 					<Button variant="filled">Sort</Button>
 				</div>
 			</div>
-			<div>
+			<Card shadow="xs" withBorder className="h-full">
 				{filteredTransactions.length === 0 ? (
 					<Text>No matching books found.</Text>
 				) : (
@@ -66,7 +73,7 @@ const History = () => {
 						</Table>
 					</ScrollArea>
 				)}
-			</div>
+			</Card>
 		</div>
 	);
 };

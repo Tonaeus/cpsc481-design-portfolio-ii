@@ -8,7 +8,7 @@ function MainLayout() {
 				<Navbar />
 			</header>
 			<main className="flex justify-center flex-1">
-        <div className="w-full max-w-7xl p-4">
+        <div className="h-[calc(100vh-56px)] w-full max-w-7xl p-4">
 				  <Outlet />
         </div>
 			</main>
