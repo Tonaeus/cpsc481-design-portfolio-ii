@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import {
+	Anchor,
 	ScrollArea,
 	Table,
 	TextInput,
@@ -9,7 +11,7 @@ import {
 	Modal,
 	Select,
 } from "@mantine/core";
-import { Search } from "lucide-react";
+import { Search, Info } from "lucide-react";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
 
 const History = () => {
@@ -31,7 +33,6 @@ const History = () => {
 		setTransactions(data);
 	}, []);
 
-	// Filter and sort transactions based on applied values
 	let filteredTransactions = transactions.filter((tx) =>
 		tx.book.title.toLowerCase().includes(search.toLowerCase())
 	);
@@ -54,7 +55,14 @@ const History = () => {
 
 	const rows = filteredTransactions.map((tx) => (
 		<Table.Tr key={tx.transaction_id}>
-			<Table.Td>{tx.copy_id}</Table.Td>
+			<Table.Td>
+				<Anchor
+					component={Link}
+					to={`/books/${tx.book.id}`}
+				>
+					<Info size={18} />
+				</Anchor>
+			</Table.Td>
 			<Table.Td>{tx.book.title}</Table.Td>
 			<Table.Td>{tx.book.author}</Table.Td>
 			<Table.Td>{tx.copy.location.branch}</Table.Td>
@@ -161,7 +169,7 @@ const History = () => {
 						<Table stickyHeader striped highlightOnHover>
 							<Table.Thead>
 								<Table.Tr>
-									<Table.Th>Copy ID</Table.Th>
+									<Table.Th>Book Info</Table.Th>
 									<Table.Th>Book Title</Table.Th>
 									<Table.Th>Book Author</Table.Th>
 									<Table.Th>Book Location</Table.Th>
