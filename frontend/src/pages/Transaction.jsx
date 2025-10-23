@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
-import { Avatar, Card, ScrollArea, Table, Text, Button } from "@mantine/core";
+import {
+	Avatar,
+	Card,
+	ScrollArea,
+	Table,
+	Text,
+	Button,
+	Checkbox,
+} from "@mantine/core";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
 import { getUser } from "../../../backend/transaction.jsx";
 
 const Transaction = () => {
 	const [transactions, setTransactions] = useState([]);
 	const [user, setUser] = useState("");
+	const [selectedRows, setSelectedRows] = useState([]);
 
 	useEffect(() => {
 		document.title = "Transaction";
@@ -17,8 +26,20 @@ const Transaction = () => {
 		setTransactions(data);
 	}, []);
 
+	const toggleRow = (id) => {
+		setSelectedRows((prev) =>
+			prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
+		);
+	};
+
 	const rows = transactions.map((tx) => (
 		<Table.Tr key={tx.transaction_id}>
+			<Table.Td>
+				<Checkbox
+					checked={selectedRows.includes(tx.transaction_id)}
+					onChange={() => toggleRow(tx.transaction_id)}
+				/>
+			</Table.Td>
 			<Table.Td>{tx.copy_id}</Table.Td>
 			<Table.Td>{tx.book.title}</Table.Td>
 			<Table.Td>{tx.book.author}</Table.Td>
@@ -49,6 +70,7 @@ const Transaction = () => {
 					<Table stickyHeader striped highlightOnHover>
 						<Table.Thead>
 							<Table.Tr>
+								<Table.Th>Select</Table.Th>
 								<Table.Th>Copy ID</Table.Th>
 								<Table.Th>Book Title</Table.Th>
 								<Table.Th>Book Author</Table.Th>
