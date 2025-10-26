@@ -109,18 +109,10 @@ const Transaction = () => {
 	};
 
 	const handleBarcodeScan = () => {
-		const selectedBooks = copies.filter((copy) =>
-			barcodeSelected.includes(copy.copy_id)
-		);
-
-		const newScanned = selectedBooks.filter(
-			(copy) => !scannedBooks.some((sb) => sb.copy_id === copy.copy_id)
-		);
-
-		if (newScanned.length === 0) {
+		if (barcodeSelected.length === 0) {
 			showNotification({
-				title: "Already Scanned",
-				message: "These books are already in the scanned list.",
+				title: "No Books Selected",
+				message: "Select at least one book to add.",
 				position: "bottom-center",
 				autoClose: 3000,
 				color: "red",
@@ -129,17 +121,13 @@ const Transaction = () => {
 			return;
 		}
 
-		setScannedBooks((prev) => [...prev, ...newScanned]);
+		const selectedBooks = copies.filter((copy) =>
+			barcodeSelected.includes(copy.copy_id)
+		);
+
+		setScannedBooks((prev) => [...prev, ...selectedBooks]);
 		setBarcodeSelected([]);
 		setBarcodeModalOpened(false);
-
-		showNotification({
-			title: "Books Scanned",
-			message: `${newScanned.length} book(s) added to scanned list.`,
-			position: "bottom-center",
-			autoClose: 2000,
-			classNames: notifClasses,
-		});
 	};
 
 	const barcodeModalRows = copies
