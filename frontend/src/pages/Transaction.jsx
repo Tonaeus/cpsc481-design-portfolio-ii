@@ -278,8 +278,10 @@ const Transaction = () => {
 							variant="filled"
 							onClick={() => {
 								setUser("");
+								setTempSelectedUser(""); 
 								setTransactions([]);
 								setSelectedRows([]);
+								setScannedBooks([]);
 							}}
 						>
 							Finish
@@ -335,7 +337,7 @@ const Transaction = () => {
 					<Modal
 						opened={rfidModalOpened}
 						onClose={() => setRfidModalOpened(false)}
-						title="Select Member"
+						title="Select a Library Card to Scan"
 					>
 						<Select
 							label="Member Email"
@@ -345,7 +347,7 @@ const Transaction = () => {
 							onChange={setTempSelectedUser}
 						/>
 						<Button className="mt-4" fullWidth onClick={handleRFIDScan}>
-							Select User
+							Scan Library Card
 						</Button>
 					</Modal>
 					<Button variant="filled" onClick={() => setBarcodeModalOpened(true)}>
@@ -354,7 +356,7 @@ const Transaction = () => {
 					<Modal
 						opened={barcodeModalOpened}
 						onClose={() => setBarcodeModalOpened(false)}
-						title="Select Books to Add"
+						title="Select Books to Scan"
 						size="lg"
 					>
 						<ScrollArea h={300}>
@@ -373,7 +375,7 @@ const Transaction = () => {
 							</Table>
 						</ScrollArea>
 						<Button fullWidth className="mt-4" onClick={handleBarcodeScan}>
-							Add to Scanned Books
+							Scan Books
 						</Button>
 					</Modal>
 				</div>
