@@ -53,11 +53,26 @@ const Transaction = () => {
 		</Table.Tr>
 	));
 
+	const checkLibraryCard = (action = "perform this action") => {
+		if (!user) {
+			showNotification({
+				title: "Library Card Required",
+				message: `Scan the member’s library card to ${action}.`,
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "red",
+				classNames: notifClasses,
+			});
+			return false;
+		}
+		return true;
+	};
+
 	const checkSelectedRows = (action = "perform this action") => {
 		if (selectedRows.length === 0) {
 			showNotification({
 				title: "No Selection",
-				message: `Please select at least one book to ${action}.`,
+				message: `Select at least one book to ${action}.`,
 				position: "bottom-center",
 				autoClose: 3000,
 				color: "red",
@@ -86,6 +101,29 @@ const Transaction = () => {
 
 		return true;
 	};
+
+	const handleCheckOut = () => {
+		const invalidRows = transactions.filter(
+			(tx) => selectedRows.includes(tx.transaction_id) && tx.status !== "-"
+		);
+
+		if (invalidRows.length > 0) {
+			showNotification({
+				title: "Cannot Check Out",
+				message: "Some selected books are already borrowed or unavailable.",
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "red",
+				classNames: notifClasses,
+			});
+
+			return;
+		}
+
+		setSelectedRows([]);
+	};
+
+	const handleCheckIn = () => {};
 
 	const handleRenew = () => {
 		const invalidRows = transactions.filter(
@@ -166,8 +204,11 @@ const Transaction = () => {
 					<Button
 						variant="filled"
 						onClick={() => {
+							if (!checkLibraryCard("check out")) return;
 							if (!checkSelectedRows("check out")) return;
-								if (!checkNoOverdueBooks(`${user.first_name} ${user.last_name}`)) return;
+							if (!checkNoOverdueBooks(`${user.first_name} ${user.last_name}`))
+								return;
+							handleCheckOut();
 						}}
 					>
 						Check Out
@@ -175,7 +216,9 @@ const Transaction = () => {
 					<Button
 						variant="filled"
 						onClick={() => {
+							if (!checkLibraryCard("check in")) return;
 							if (!checkSelectedRows("check in")) return;
+							handleCheckIn();
 						}}
 					>
 						Check In
@@ -183,6 +226,7 @@ const Transaction = () => {
 					<Button
 						variant="filled"
 						onClick={() => {
+							if (!checkLibraryCard("renew")) return;
 							if (!checkSelectedRows("renew")) return;
 							handleRenew();
 						}}
