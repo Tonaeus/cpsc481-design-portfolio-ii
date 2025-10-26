@@ -45,12 +45,15 @@ const Transaction = () => {
 		setCopies(copiesList);
 	}, []);
 
-	const updateTransactions = (newData) => {
-		setTransactions((prev) =>
-			[...prev, ...newData].sort(
+	const updateTransactions = (newDataOrFn) => {
+		setTransactions((prev) => {
+			const newData =
+				typeof newDataOrFn === "function" ? newDataOrFn(prev) : newDataOrFn;
+
+			return [...newData].sort(
 				(a, b) => new Date(b.borrow_date) - new Date(a.borrow_date)
-			)
-		);
+			);
+		});
 	};
 
 	const toggleRow = (id) => {
@@ -320,6 +323,7 @@ const Transaction = () => {
 			message: "Selected books have been checked in.",
 			position: "bottom-center",
 			autoClose: 3000,
+			color: "green",
 			classNames: notifClasses,
 		});
 	};
