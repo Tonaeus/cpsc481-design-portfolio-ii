@@ -10,14 +10,14 @@
     "copy_id": 2,
     "book_id": 1,
     "location": { "branch": "Main Branch", "shelf": "A3" },
-    "status": "Borrowed",
+    "status": "Available",
     "acquisition_date": "2020-05-15"
   },
   {
     "copy_id": 3,
     "book_id": 2,
     "location": { "branch": "Downtown Branch", "shelf": "B1" },
-    "status": "Available",
+    "status": "Overdue",
     "acquisition_date": "2019-11-02"
   },
   {
@@ -31,7 +31,7 @@
     "copy_id": 5,
     "book_id": 4,
     "location": { "branch": "Downtown Branch", "shelf": "B2" },
-    "status": "Borrowed",
+    "status": "Available",
     "acquisition_date": "2021-04-17"
   },
   {
@@ -45,7 +45,7 @@
     "copy_id": 7,
     "book_id": 5,
     "location": { "branch": "Eastside Branch", "shelf": "E1" },
-    "status": "Reserved",
+    "status": "Available",
     "acquisition_date": "2022-07-12"
   },
   {
@@ -59,7 +59,7 @@
     "copy_id": 9,
     "book_id": 6,
     "location": { "branch": "Downtown Branch", "shelf": "F2" },
-    "status": "Borrowed",
+    "status": "Available",
     "acquisition_date": "2021-09-10"
   },
   {
@@ -129,7 +129,7 @@
     "copy_id": 19,
     "book_id": 13,
     "location": { "branch": "Downtown Branch", "shelf": "M1" },
-    "status": "lost",
+    "status": "Lost",
     "acquisition_date": "2020-01-28"
   },
   {
@@ -192,7 +192,7 @@
     "copy_id": 28,
     "book_id": 17,
     "location": { "branch": "Downtown Branch", "shelf": "Q2" },
-    "status": "lost",
+    "status": "Lost",
     "acquisition_date": "2020-06-01"
   },
   {
@@ -227,21 +227,21 @@
     "copy_id": 33,
     "book_id": 19,
     "location": { "branch": "Eastside Branch", "shelf": "S3" },
-    "status": "Available",
+    "status": "Borrowed",
     "acquisition_date": "2022-12-05"
   },
   {
     "copy_id": 34,
     "book_id": 20,
     "location": { "branch": "Main Branch", "shelf": "T2" },
-    "status": "Available",
+    "status": "Borrowed",
     "acquisition_date": "2021-08-30"
   },
   {
     "copy_id": 35,
     "book_id": 20,
     "location": { "branch": "Downtown Branch", "shelf": "T2" },
-    "status": "Borrowed",
+    "status": "Reserved",
     "acquisition_date": "2021-08-30"
   },
   {

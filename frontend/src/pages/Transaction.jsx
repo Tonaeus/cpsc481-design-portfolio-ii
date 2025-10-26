@@ -43,7 +43,6 @@ const Transaction = () => {
 
 		const copiesList = getAllBookCopiesWithUser();
 		setCopies(copiesList);
-		console.log(copiesList);
 	}, []);
 
 	const toggleRow = (id) => {
@@ -82,9 +81,16 @@ const Transaction = () => {
 			<Table.Td>{sb.book_info.title}</Table.Td>
 			<Table.Td>{sb.book_info.author}</Table.Td>
 			<Table.Td>{sb.location.branch}</Table.Td>
-			<Table.Td>{sb.borrow_date}</Table.Td>
-			<Table.Td>{sb.due_date}</Table.Td>
-			<Table.Td>{sb.return_date || "—"}</Table.Td>
+			<Table.Td>
+				{sb.current_user
+					? `${sb.current_user.first_name} ${sb.current_user.last_name}`
+					: "-"}
+			</Table.Td>
+			<Table.Td>
+				{sb.current_user
+					? sb.current_user.email
+					: "-"}
+			</Table.Td>
 			<Table.Td>{sb.status}</Table.Td>
 		</Table.Tr>
 	));
@@ -257,7 +263,8 @@ const Transaction = () => {
 					<div className="flex flex-row items-center gap-3">
 						<Avatar />
 						<Text size="sm">
-							{user.first_name} {user.first_name}
+							{/* {user.first_name} {user.first_name} */}
+							{user.email}
 						</Text>
 					</div>
 				</Card>
@@ -308,9 +315,8 @@ const Transaction = () => {
 								<Table.Th>Book Title</Table.Th>
 								<Table.Th>Book Author</Table.Th>
 								<Table.Th>Book Location</Table.Th>
-								<Table.Th>Borrow Date</Table.Th>
-								<Table.Th>Due Date</Table.Th>
-								<Table.Th>Return Date</Table.Th>
+								<Table.Th>Member Name</Table.Th>
+								<Table.Th>Member Email</Table.Th>
 								<Table.Th>Status</Table.Th>
 							</Table.Tr>
 						</Table.Thead>
