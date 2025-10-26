@@ -45,6 +45,14 @@ const Transaction = () => {
 		setCopies(copiesList);
 	}, []);
 
+	const updateTransactions = (newData) => {
+		setTransactions((prev) =>
+			[...prev, ...newData].sort(
+				(a, b) => new Date(b.borrow_date) - new Date(a.borrow_date)
+			)
+		);
+	};
+
 	const toggleRow = (id) => {
 		setSelectedRows((prev) =>
 			prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
@@ -105,7 +113,7 @@ const Transaction = () => {
 			return;
 		}
 		setUser(scannedUser);
-		setTransactions(getTransactionsWithBookInfo(tempSelectedUser));
+		updateTransactions(getTransactionsWithBookInfo(tempSelectedUser));
 		setSelectedRows([]);
 		setRfidModalOpened(false);
 	};
@@ -260,7 +268,7 @@ const Transaction = () => {
 				status: "Borrowed",
 			}));
 
-		setTransactions((prev) => [...prev, ...newTransactions]);
+		updateTransactions((prev) => [...prev, ...newTransactions]);
 
 		showNotification({
 			title: "Check Out Successful",
@@ -290,7 +298,7 @@ const Transaction = () => {
 			})
 		);
 
-		setTransactions((prev) =>
+		updateTransactions((prev) =>
 			prev.map((tx) => {
 				if (selectedRows.includes(tx.copy_id)) {
 					if (tx.status === "Borrowed" || tx.status === "Overdue") {
@@ -341,7 +349,7 @@ const Transaction = () => {
 		twoWeeksLater.setDate(today.getDate() + 14);
 		const newDueDate = twoWeeksLater.toISOString().split("T")[0];
 
-		setTransactions((prev) =>
+		updateTransactions((prev) =>
 			prev.map((tx) => {
 				if (selectedRows.includes(tx.copy_id)) {
 					if (tx.status === "Borrowed" || tx.status === "Overdue") {
@@ -387,7 +395,7 @@ const Transaction = () => {
 							onClick={() => {
 								setUser("");
 								setTempSelectedUser("");
-								setTransactions([]);
+								updateTransactions([]);
 								setSelectedRows([]);
 								setScannedBooks([]);
 							}}
