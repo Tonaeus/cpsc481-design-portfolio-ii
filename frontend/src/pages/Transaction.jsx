@@ -186,14 +186,14 @@ const Transaction = () => {
 		return true;
 	};
 
-	const checkNoOverdueBooks = (memberName) => {
+	const checkNoOverdueBooks = () => {
 		const overdueRows = transactions.filter((tx) => tx.status === "Overdue");
 
 		if (overdueRows.length > 0) {
 			showNotification({
 				id: "single-notification",
 				title: "Overdue Books",
-				message: `${memberName} cannot check out because they have overdue books.`,
+				message: `The library member cannot check out because they have overdue books.`,
 				position: "bottom-center",
 				autoClose: 3000,
 				color: "red",
@@ -205,7 +205,74 @@ const Transaction = () => {
 		return true;
 	};
 
-	const handleCheckOut = () => {};
+	const handleCheckOut = () => {
+		const invalidRows = scannedBooks.filter(
+			(sb) => selectedRows.includes(sb.copy_id) && sb.status !== "Available"
+		);
+
+		if (invalidRows.length > 0) {
+			showNotification({
+				title: "Cannot Check Out",
+				message: "Some selected books are already borrowed or unavailable.",
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "red",
+				classNames: notifClasses,
+			});
+
+			return;
+		}
+
+		const today = new Date();
+		const twoWeeksLater = new Date(today);
+		twoWeeksLater.setDate(today.getDate() + 14);
+
+		const borrowDate = today.toISOString().split("T")[0];
+		const dueDate = twoWeeksLater.toISOString().split("T")[0];
+
+		setScannedBooks((prev) =>
+			prev.map((sb) => {
+				if (selectedRows.includes(sb.copy_id)) {
+					return {
+						...sb,
+						current_user: {
+							first_name: user.first_name,
+							last_name: user.last_name,
+							email: user.email,
+						},
+						status: "Borrowed",
+					};
+				}
+				return sb;
+			})
+		);
+
+		const newTransactions = scannedBooks
+			.filter((sb) => selectedRows.includes(sb.copy_id))
+			.map((sb) => ({
+				transaction_id: Math.floor(Math.random() * 100000),
+				copy_id: sb.copy_id,
+				book: sb.book_info,
+				copy: sb,
+				borrow_date: borrowDate,
+				due_date: dueDate,
+				return_date: null,
+				status: "Borrowed",
+			}));
+
+		setTransactions((prev) => [...prev, ...newTransactions]);
+
+		showNotification({
+			title: "Check Out Successful",
+			message: "Selected books have been checked out to the library member.",
+			position: "bottom-center",
+			autoClose: 3000,
+			color: "green",
+			classNames: notifClasses,
+		});
+
+		setSelectedRows([]);
+	};
 
 	const handleCheckIn = () => {
 		const today = new Date().toISOString().split("T")[0];
@@ -425,8 +492,7 @@ const Transaction = () => {
 						onClick={() => {
 							if (!checkLibraryCard("check out")) return;
 							if (!checkSelectedRows("check out")) return;
-							if (!checkNoOverdueBooks(`${user.first_name} ${user.last_name}`))
-								return;
+							if (!checkNoOverdueBooks()) return;
 							handleCheckOut();
 						}}
 					>
