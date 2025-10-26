@@ -142,27 +142,29 @@ const Transaction = () => {
 		});
 	};
 
-	const barcodeModalRows = copies.map((copy) => (
-		<Table.Tr key={copy.copy_id}>
-			<Table.Td>
-				<Checkbox
-					checked={barcodeSelected.includes(copy.copy_id)}
-					onChange={() =>
-						setBarcodeSelected((prev) =>
-							prev.includes(copy.copy_id)
-								? prev.filter((id) => id !== copy.copy_id)
-								: [...prev, copy.copy_id]
-						)
-					}
-				/>
-			</Table.Td>
-			<Table.Td>{copy.copy_id}</Table.Td>
-			<Table.Td>{copy.book_info.title}</Table.Td>
-			<Table.Td>{copy.book_info.author}</Table.Td>
-			<Table.Td>{copy.location.branch}</Table.Td>
-			<Table.Td>{copy.status}</Table.Td>
-		</Table.Tr>
-	));
+	const barcodeModalRows = copies
+		.filter((copy) => !scannedBooks.some((sb) => sb.copy_id === copy.copy_id))
+		.map((copy) => (
+			<Table.Tr key={copy.copy_id}>
+				<Table.Td>
+					<Checkbox
+						checked={barcodeSelected.includes(copy.copy_id)}
+						onChange={() =>
+							setBarcodeSelected((prev) =>
+								prev.includes(copy.copy_id)
+									? prev.filter((id) => id !== copy.copy_id)
+									: [...prev, copy.copy_id]
+							)
+						}
+					/>
+				</Table.Td>
+				<Table.Td>{copy.copy_id}</Table.Td>
+				<Table.Td>{copy.book_info.title}</Table.Td>
+				<Table.Td>{copy.book_info.author}</Table.Td>
+				<Table.Td>{copy.location.branch}</Table.Td>
+				<Table.Td>{copy.status}</Table.Td>
+			</Table.Tr>
+		));
 
 	const checkLibraryCard = (action = "perform this action") => {
 		if (!user) {
