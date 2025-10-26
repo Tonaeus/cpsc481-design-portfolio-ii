@@ -46,7 +46,7 @@ const Account = () => {
 							target={value ? controlsRefs[value] : null}
 							parent={rootRef}
 							className="bg-transparent rounded-[4px] border border-gray-200 shadow-sm"
-						></FloatingIndicator>
+						/>
 					</Tabs.List>
 
 					<Tabs.Panel value="1">
@@ -63,14 +63,12 @@ const Account = () => {
 							mb="sm"
 						/>
 						<Group justify="space-between" mt="md">
-							<Button fullWidth>Sign in</Button>
+							<Button component={Link} to="/menu" fullWidth>
+								Sign in
+							</Button>
 						</Group>
-						<Anchor
-							component={Link}
-							to="/forgot-password"
-							c="dimmed"
-						>
-							<Text size="sm" mt="sm" ta="center" >
+						<Anchor component={Link} to="/forgot-password" c="dimmed">
+							<Text size="sm" mt="sm" ta="center">
 								Forgot password?
 							</Text>
 						</Anchor>
@@ -106,7 +104,7 @@ const Account = () => {
 							required
 							mb="sm"
 						/>
-						<Button fullWidth mt="md">
+						<Button component={Link} to="/menu" fullWidth mt="md">
 							Sign up
 						</Button>
 					</Tabs.Panel>
