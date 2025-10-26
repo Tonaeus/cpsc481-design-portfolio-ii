@@ -62,7 +62,18 @@ const Transaction = () => {
 					</div>
 				</Card>
 				<div>
-					<Button variant="filled">Finish</Button>
+					<div>
+						<Button
+							variant="filled"
+							onClick={() => {
+								setUser("");
+								setTransactions([]);
+								setSelectedRows([]);
+							}}
+						>
+							Finish
+						</Button>
+					</div>
 				</div>
 			</div>
 			<Card shadow="xs" withBorder className="flex-1">

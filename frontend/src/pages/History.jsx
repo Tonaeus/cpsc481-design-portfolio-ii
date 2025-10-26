@@ -165,27 +165,23 @@ const History = () => {
 			</Modal>
 
 			<Card shadow="xs" withBorder className="h-full">
-				{filteredTransactions.length === 0 ? (
-					<Text>No matching books found.</Text>
-				) : (
-					<ScrollArea className="h-full">
-						<Table stickyHeader striped highlightOnHover>
-							<Table.Thead>
-								<Table.Tr>
-									<Table.Th>Book Info</Table.Th>
-									<Table.Th>Book Title</Table.Th>
-									<Table.Th>Book Author</Table.Th>
-									<Table.Th>Book Location</Table.Th>
-									<Table.Th>Borrow Date</Table.Th>
-									<Table.Th>Due Date</Table.Th>
-									<Table.Th>Return Date</Table.Th>
-									<Table.Th>Status</Table.Th>
-								</Table.Tr>
-							</Table.Thead>
-							<Table.Tbody>{rows}</Table.Tbody>
-						</Table>
-					</ScrollArea>
-				)}
+				<ScrollArea className="h-full">
+					<Table stickyHeader striped highlightOnHover>
+						<Table.Thead>
+							<Table.Tr>
+								<Table.Th>Book Info</Table.Th>
+								<Table.Th>Book Title</Table.Th>
+								<Table.Th>Book Author</Table.Th>
+								<Table.Th>Book Location</Table.Th>
+								<Table.Th>Borrow Date</Table.Th>
+								<Table.Th>Due Date</Table.Th>
+								<Table.Th>Return Date</Table.Th>
+								<Table.Th>Status</Table.Th>
+							</Table.Tr>
+						</Table.Thead>
+						<Table.Tbody>{rows}</Table.Tbody>
+					</Table>
+				</ScrollArea>
 			</Card>
 		</div>
 	);
