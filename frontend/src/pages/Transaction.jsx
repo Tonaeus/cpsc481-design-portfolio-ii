@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 import {
+	Anchor,
 	Avatar,
 	Card,
 	ScrollArea,
@@ -10,6 +12,7 @@ import {
 	Modal,
 	Select,
 } from "@mantine/core";
+import { Info } from "lucide-react";
 import { showNotification } from "@mantine/notifications";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
 import { getUser, getUsers } from "../../../backend/transaction.jsx";
@@ -18,16 +21,17 @@ import notifClasses from "../styles/notif.module.css";
 const Transaction = () => {
 	const [user, setUser] = useState("");
 	const [transactions, setTransactions] = useState([]);
+	const [scannedBooks, setScannedBooks] = useState([]);
 	const [selectedRows, setSelectedRows] = useState([]);
-	
+
 	const [rfidModalOpened, setRfidModalOpened] = useState(false);
-  const [allUsers, setAllUsers] = useState([]);
-  const [tempSelectedUser, setTempSelectedUser] = useState("");
+	const [allUsers, setAllUsers] = useState([]);
+	const [tempSelectedUser, setTempSelectedUser] = useState("");
 
 	useEffect(() => {
 		document.title = "Transaction";
 		const usersList = getUsers();
-    setAllUsers(usersList.map((email) => ({ value: email, label: email })));
+		setAllUsers(usersList.map((email) => ({ value: email, label: email })));
 	}, []);
 
 	const toggleRow = (id) => {
@@ -36,13 +40,12 @@ const Transaction = () => {
 		);
 	};
 
-	const rows = transactions.map((tx) => (
+	const transactionsRows = transactions.map((tx) => (
 		<Table.Tr key={tx.transaction_id}>
 			<Table.Td>
-				<Checkbox
-					checked={selectedRows.includes(tx.transaction_id)}
-					onChange={() => toggleRow(tx.transaction_id)}
-				/>
+				<Anchor component={Link} to={`/books/${tx.book.id}`}>
+					<Info size={18} />
+				</Anchor>
 			</Table.Td>
 			<Table.Td>{tx.copy_id}</Table.Td>
 			<Table.Td>{tx.book.title}</Table.Td>
@@ -55,24 +58,43 @@ const Transaction = () => {
 		</Table.Tr>
 	));
 
-  const handleSelectUser = () => {
-    const scannedUser = getUser(tempSelectedUser);
-    if (!scannedUser.email) {
-      showNotification({
-        title: "User Not Found",
-        message: `No member found with email ${tempSelectedUser}.`,
-        position: "bottom-center",
-        autoClose: 3000,
-        color: "red",
-        classNames: notifClasses,
-      });
-      return;
-    }
-    setUser(scannedUser);
-    setTransactions(getTransactionsWithBookInfo(tempSelectedUser));
-    setSelectedRows([]);
-    setRfidModalOpened(false);
-  };
+	const scannedRows = scannedBooks.map((sb) => (
+		<Table.Tr key={sb.transaction_id}>
+			<Table.Td>
+				<Checkbox
+					checked={selectedRows.includes(sb.transaction_id)}
+					onChange={() => toggleRow(sb.transaction_id)}
+				/>
+			</Table.Td>
+			<Table.Td>{sb.copy_id}</Table.Td>
+			<Table.Td>{sb.book.title}</Table.Td>
+			<Table.Td>{sb.book.author}</Table.Td>
+			<Table.Td>{sb.copy.location.branch}</Table.Td>
+			<Table.Td>{sb.borrow_date}</Table.Td>
+			<Table.Td>{sb.due_date}</Table.Td>
+			<Table.Td>{sb.return_date || "—"}</Table.Td>
+			<Table.Td>{sb.status}</Table.Td>
+		</Table.Tr>
+	));
+
+	const handleSelectUser = () => {
+		const scannedUser = getUser(tempSelectedUser);
+		if (!scannedUser.email) {
+			showNotification({
+				title: "User Not Found",
+				message: `No member found with email ${tempSelectedUser}.`,
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "red",
+				classNames: notifClasses,
+			});
+			return;
+		}
+		setUser(scannedUser);
+		setTransactions(getTransactionsWithBookInfo(tempSelectedUser));
+		setSelectedRows([]);
+		setRfidModalOpened(false);
+	};
 
 	const checkLibraryCard = (action = "perform this action") => {
 		if (!user) {
@@ -201,6 +223,26 @@ const Transaction = () => {
 					<Table stickyHeader striped highlightOnHover>
 						<Table.Thead>
 							<Table.Tr>
+								<Table.Th>Book Info</Table.Th>
+								<Table.Th>Copy ID</Table.Th>
+								<Table.Th>Book Title</Table.Th>
+								<Table.Th>Book Author</Table.Th>
+								<Table.Th>Book Location</Table.Th>
+								<Table.Th>Borrow Date</Table.Th>
+								<Table.Th>Due Date</Table.Th>
+								<Table.Th>Return Date</Table.Th>
+								<Table.Th>Status</Table.Th>
+							</Table.Tr>
+						</Table.Thead>
+						<Table.Tbody>{transactionsRows}</Table.Tbody>
+					</Table>
+				</ScrollArea>
+			</Card>
+			<Card shadow="xs" withBorder className="flex-1">
+				<ScrollArea className="h-full">
+					<Table stickyHeader striped highlightOnHover>
+						<Table.Thead>
+							<Table.Tr>
 								<Table.Th>Select</Table.Th>
 								<Table.Th>Copy ID</Table.Th>
 								<Table.Th>Book Title</Table.Th>
@@ -212,7 +254,7 @@ const Transaction = () => {
 								<Table.Th>Status</Table.Th>
 							</Table.Tr>
 						</Table.Thead>
-						<Table.Tbody>{rows}</Table.Tbody>
+						<Table.Tbody>{scannedRows}</Table.Tbody>
 					</Table>
 				</ScrollArea>
 			</Card>
