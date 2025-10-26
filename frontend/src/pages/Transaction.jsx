@@ -53,6 +53,40 @@ const Transaction = () => {
 		</Table.Tr>
 	));
 
+	const checkSelectedRows = (action = "perform this action") => {
+		if (selectedRows.length === 0) {
+			showNotification({
+				title: "No Selection",
+				message: `Please select at least one book to ${action}.`,
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "red",
+				classNames: notifClasses,
+			});
+			return false;
+		}
+		return true;
+	};
+
+	const checkNoOverdueBooks = (memberName) => {
+		const overdueRows = transactions.filter((tx) => tx.status === "Overdue");
+
+		if (overdueRows.length > 0) {
+			showNotification({
+				id: "single-notification",
+				title: "Overdue Books",
+				message: `${memberName} cannot check out because they have overdue books.`,
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "red",
+				classNames: notifClasses,
+			});
+			return false;
+		}
+
+		return true;
+	};
+
 	const handleRenew = () => {
 		const invalidRows = transactions.filter(
 			(tx) =>
@@ -63,9 +97,8 @@ const Transaction = () => {
 
 		if (invalidRows.length > 0) {
 			showNotification({
-				id: "single-notification",
 				title: "Cannot Renew",
-				message: "Some selected rows are not 'Borrowed' or 'Overdue'.",
+				message: "Some selected books are not 'Borrowed' or 'Overdue'.",
 				position: "bottom-center",
 				autoClose: 3000,
 				color: "red",
@@ -75,27 +108,7 @@ const Transaction = () => {
 			return;
 		}
 
-		// const today = new Date();
-		// const newTransactions = transactions.map((tx) => {
-		// 	if (selectedRows.includes(tx.transaction_id)) {
-		// 		const dueDate = new Date(tx.due_date);
-		// 		let status = tx.status;
-		// 		if (today > dueDate) {
-		// 			status = "Borrowed";
-		// 		}
-
-		// 		const newDueDate = new Date(today);
-		// 		newDueDate.setDate(today.getDate() + 14);
-
-		// 		return {
-		// 			...tx,
-		// 			due_date: newDueDate.toISOString().split("T")[0],
-		// 			status: status,
-		// 		};
-		// 	}
-		// 	return tx;
-		// });
-		// setTransactions(newTransactions);
+		setSelectedRows([]);
 	};
 
 	return (
@@ -150,9 +163,30 @@ const Transaction = () => {
 					<Button variant="filled">Barcode Scan</Button>
 				</div>
 				<div className="flex gap-2">
-					<Button variant="filled">Check Out</Button>
-					<Button variant="filled">Check In</Button>
-					<Button variant="filled" onClick={handleRenew}>
+					<Button
+						variant="filled"
+						onClick={() => {
+							if (!checkSelectedRows("check out")) return;
+								if (!checkNoOverdueBooks(`${user.first_name} ${user.last_name}`)) return;
+						}}
+					>
+						Check Out
+					</Button>
+					<Button
+						variant="filled"
+						onClick={() => {
+							if (!checkSelectedRows("check in")) return;
+						}}
+					>
+						Check In
+					</Button>
+					<Button
+						variant="filled"
+						onClick={() => {
+							if (!checkSelectedRows("renew")) return;
+							handleRenew();
+						}}
+					>
 						Renew
 					</Button>
 				</div>
