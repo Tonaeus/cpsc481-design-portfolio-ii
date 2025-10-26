@@ -3,126 +3,126 @@
     "copy_id": 1,
     "book_id": 1,
     "location": { "branch": "Main Branch", "shelf": "A3" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2020-05-15"
   },
   {
     "copy_id": 2,
     "book_id": 1,
     "location": { "branch": "Main Branch", "shelf": "A3" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2020-05-15"
   },
   {
     "copy_id": 3,
     "book_id": 2,
     "location": { "branch": "Downtown Branch", "shelf": "B1" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2019-11-02"
   },
   {
     "copy_id": 4,
     "book_id": 3,
     "location": { "branch": "Main Branch", "shelf": "C4" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2021-01-20"
   },
   {
     "copy_id": 5,
     "book_id": 4,
     "location": { "branch": "Downtown Branch", "shelf": "B2" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2021-04-17"
   },
   {
     "copy_id": 6,
     "book_id": 4,
     "location": { "branch": "Main Branch", "shelf": "A5" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2021-04-17"
   },
   {
     "copy_id": 7,
     "book_id": 5,
     "location": { "branch": "Eastside Branch", "shelf": "E1" },
-    "status": "reserved",
+    "status": "Reserved",
     "acquisition_date": "2022-07-12"
   },
   {
     "copy_id": 8,
     "book_id": 6,
     "location": { "branch": "Main Branch", "shelf": "F2" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2021-09-10"
   },
   {
     "copy_id": 9,
     "book_id": 6,
     "location": { "branch": "Downtown Branch", "shelf": "F2" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2021-09-10"
   },
   {
     "copy_id": 10,
     "book_id": 7,
     "location": { "branch": "Main Branch", "shelf": "G1" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2020-08-03"
   },
   {
     "copy_id": 11,
     "book_id": 7,
     "location": { "branch": "Eastside Branch", "shelf": "G3" },
-    "status": "lost",
+    "status": "Lost",
     "acquisition_date": "2020-08-03"
   },
   {
     "copy_id": 12,
     "book_id": 8,
     "location": { "branch": "Downtown Branch", "shelf": "H2" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2022-02-14"
   },
   {
     "copy_id": 13,
     "book_id": 8,
     "location": { "branch": "Main Branch", "shelf": "H2" },
-    "status": "reserved",
+    "status": "Reserved",
     "acquisition_date": "2022-02-14"
   },
   {
     "copy_id": 14,
     "book_id": 9,
     "location": { "branch": "Eastside Branch", "shelf": "I1" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2021-12-08"
   },
   {
     "copy_id": 15,
     "book_id": 10,
     "location": { "branch": "Main Branch", "shelf": "J4" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2020-11-03"
   },
   {
     "copy_id": 16,
     "book_id": 10,
     "location": { "branch": "Downtown Branch", "shelf": "J2" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2020-11-03"
   },
   {
     "copy_id": 17,
     "book_id": 11,
     "location": { "branch": "Eastside Branch", "shelf": "K1" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2023-03-25"
   },
   {
     "copy_id": 18,
     "book_id": 12,
     "location": { "branch": "Main Branch", "shelf": "L1" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2019-10-19"
   },
   {
@@ -136,56 +136,56 @@
     "copy_id": 20,
     "book_id": 13,
     "location": { "branch": "Main Branch", "shelf": "M2" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2020-01-28"
   },
   {
     "copy_id": 21,
     "book_id": 14,
     "location": { "branch": "Downtown Branch", "shelf": "N3" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2023-07-15"
   },
   {
     "copy_id": 22,
     "book_id": 14,
     "location": { "branch": "Eastside Branch", "shelf": "N3" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2023-07-15"
   },
   {
     "copy_id": 23,
     "book_id": 15,
     "location": { "branch": "Main Branch", "shelf": "O4" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2021-05-30"
   },
   {
     "copy_id": 24,
     "book_id": 15,
     "location": { "branch": "Eastside Branch", "shelf": "O4" },
-    "status": "reserved",
+    "status": "Reserved",
     "acquisition_date": "2021-05-30"
   },
   {
     "copy_id": 25,
     "book_id": 16,
     "location": { "branch": "Downtown Branch", "shelf": "P2" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2022-03-12"
   },
   {
     "copy_id": 26,
     "book_id": 16,
     "location": { "branch": "Main Branch", "shelf": "P2" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2022-03-12"
   },
   {
     "copy_id": 27,
     "book_id": 17,
     "location": { "branch": "Main Branch", "shelf": "Q1" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2020-06-01"
   },
   {
@@ -199,84 +199,84 @@
     "copy_id": 29,
     "book_id": 18,
     "location": { "branch": "Eastside Branch", "shelf": "R3" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2023-09-22"
   },
   {
     "copy_id": 30,
     "book_id": 18,
     "location": { "branch": "Main Branch", "shelf": "R3" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2023-09-22"
   },
   {
     "copy_id": 31,
     "book_id": 19,
     "location": { "branch": "Downtown Branch", "shelf": "S1" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2022-12-05"
   },
   {
     "copy_id": 32,
     "book_id": 19,
     "location": { "branch": "Main Branch", "shelf": "S1" },
-    "status": "reserved",
+    "status": "Reserved",
     "acquisition_date": "2022-12-05"
   },
   {
     "copy_id": 33,
     "book_id": 19,
     "location": { "branch": "Eastside Branch", "shelf": "S3" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2022-12-05"
   },
   {
     "copy_id": 34,
     "book_id": 20,
     "location": { "branch": "Main Branch", "shelf": "T2" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2021-08-30"
   },
   {
     "copy_id": 35,
     "book_id": 20,
     "location": { "branch": "Downtown Branch", "shelf": "T2" },
-    "status": "checked_out",
+    "status": "Borrowed",
     "acquisition_date": "2021-08-30"
   },
   {
     "copy_id": 36,
     "book_id": 20,
     "location": { "branch": "Eastside Branch", "shelf": "T3" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2021-08-30"
   },
   {
     "copy_id": 37,
     "book_id": 5,
     "location": { "branch": "Downtown Branch", "shelf": "B4" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2020-02-18"
   },
   {
     "copy_id": 38,
     "book_id": 6,
     "location": { "branch": "Eastside Branch", "shelf": "F4" },
-    "status": "reserved",
+    "status": "Reserved",
     "acquisition_date": "2020-02-18"
   },
   {
     "copy_id": 39,
     "book_id": 7,
     "location": { "branch": "Downtown Branch", "shelf": "G5" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2021-06-09"
   },
   {
     "copy_id": 40,
     "book_id": 8,
     "location": { "branch": "Main Branch", "shelf": "H5" },
-    "status": "available",
+    "status": "Available",
     "acquisition_date": "2021-06-09"
   }
 ]

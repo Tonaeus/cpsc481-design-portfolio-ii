@@ -71,11 +71,11 @@ const Transaction = () => {
 	));
 
 	const scannedRows = scannedBooks.map((sb) => (
-		<Table.Tr key={sb.transaction_id}>
+		<Table.Tr key={sb.copy_id}>
 			<Table.Td>
 				<Checkbox
-					checked={selectedRows.includes(sb.transaction_id)}
-					onChange={() => toggleRow(sb.transaction_id)}
+					checked={selectedRows.includes(sb.copy_id)}
+					onChange={() => toggleRow(sb.copy_id)}
 				/>
 			</Table.Td>
 			<Table.Td>{sb.copy_id}</Table.Td>
@@ -123,7 +123,7 @@ const Transaction = () => {
 				message: "These books are already in the scanned list.",
 				position: "bottom-center",
 				autoClose: 3000,
-				color: "blue",
+				color: "red",
 				classNames: notifClasses,
 			});
 			return;
@@ -138,7 +138,6 @@ const Transaction = () => {
 			message: `${newScanned.length} book(s) added to scanned list.`,
 			position: "bottom-center",
 			autoClose: 2000,
-			color: "green",
 			classNames: notifClasses,
 		});
 	};
@@ -278,7 +277,7 @@ const Transaction = () => {
 							variant="filled"
 							onClick={() => {
 								setUser("");
-								setTempSelectedUser(""); 
+								setTempSelectedUser("");
 								setTransactions([]);
 								setSelectedRows([]);
 								setScannedBooks([]);
