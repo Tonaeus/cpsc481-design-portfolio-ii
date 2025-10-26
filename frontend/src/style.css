@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+@layer components {
+  .example {
+    @apply bg-red-500
+  }
+}

@@ -1,6 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router";
 import { MantineProvider } from "@mantine/core";
+import { Notifications } from '@mantine/notifications';
 import "@mantine/core/styles.css";
+import '@mantine/notifications/styles.css';
 import NavbarLayout from "./layouts/NavbarLayout";
 import Account from "./pages/Account";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -23,6 +25,7 @@ function App() {
 			withGlobalStyles
 			withNormalizeCSS
 		>
+			<Notifications />
 			<BrowserRouter>
 				<Routes>
 					<Route element={<NavbarLayout />}>

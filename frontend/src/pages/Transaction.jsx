@@ -8,12 +8,14 @@ import {
 	Button,
 	Checkbox,
 } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
 import { getUser } from "../../../backend/transaction.jsx";
+import notifClasses from "../styles/notif.module.css";
 
 const Transaction = () => {
-	const [transactions, setTransactions] = useState([]);
 	const [user, setUser] = useState("");
+	const [transactions, setTransactions] = useState([]);
 	const [selectedRows, setSelectedRows] = useState([]);
 
 	useEffect(() => {
@@ -45,10 +47,56 @@ const Transaction = () => {
 			<Table.Td>{tx.book.author}</Table.Td>
 			<Table.Td>{tx.copy.location.branch}</Table.Td>
 			<Table.Td>{tx.borrow_date}</Table.Td>
+			<Table.Td>{tx.due_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
 			<Table.Td>{tx.status}</Table.Td>
 		</Table.Tr>
 	));
+
+	const handleRenew = () => {
+		const invalidRows = transactions.filter(
+			(tx) =>
+				selectedRows.includes(tx.transaction_id) &&
+				tx.status !== "Borrowed" &&
+				tx.status !== "Overdue"
+		);
+
+		if (invalidRows.length > 0) {
+			showNotification({
+				id: "single-notification",
+				title: "Cannot Renew",
+				message: "Some selected rows are not 'Borrowed' or 'Overdue'.",
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "red",
+				classNames: notifClasses,
+			});
+
+			return;
+		}
+
+		// const today = new Date();
+		// const newTransactions = transactions.map((tx) => {
+		// 	if (selectedRows.includes(tx.transaction_id)) {
+		// 		const dueDate = new Date(tx.due_date);
+		// 		let status = tx.status;
+		// 		if (today > dueDate) {
+		// 			status = "Borrowed";
+		// 		}
+
+		// 		const newDueDate = new Date(today);
+		// 		newDueDate.setDate(today.getDate() + 14);
+
+		// 		return {
+		// 			...tx,
+		// 			due_date: newDueDate.toISOString().split("T")[0],
+		// 			status: status,
+		// 		};
+		// 	}
+		// 	return tx;
+		// });
+		// setTransactions(newTransactions);
+	};
 
 	return (
 		<div className="flex flex-col gap-4 h-full">
@@ -87,6 +135,7 @@ const Transaction = () => {
 								<Table.Th>Book Author</Table.Th>
 								<Table.Th>Book Location</Table.Th>
 								<Table.Th>Borrow Date</Table.Th>
+								<Table.Th>Due Date</Table.Th>
 								<Table.Th>Return Date</Table.Th>
 								<Table.Th>Status</Table.Th>
 							</Table.Tr>
@@ -103,7 +152,9 @@ const Transaction = () => {
 				<div className="flex gap-2">
 					<Button variant="filled">Check Out</Button>
 					<Button variant="filled">Check In</Button>
-					<Button variant="filled">Renew</Button>
+					<Button variant="filled" onClick={handleRenew}>
+						Renew
+					</Button>
 				</div>
 			</div>
 		</div>
