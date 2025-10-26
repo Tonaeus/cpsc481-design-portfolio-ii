@@ -28,7 +28,7 @@ const History = () => {
 
 	useEffect(() => {
 		document.title = "History";
-		const data = getTransactionsWithBookInfo("tony.tran@example.com");
+		const data = getTransactionsWithBookInfo("ethan.clark@example.com");
 		setTransactions(data);
 	}, []);
 
