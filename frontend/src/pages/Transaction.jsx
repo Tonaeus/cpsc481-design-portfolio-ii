@@ -249,7 +249,57 @@ const Transaction = () => {
 		});
 	};
 
-	const handleRenew = () => {};
+	const handleRenew = () => {
+		const invalidRows = scannedBooks.filter(
+			(sb) =>
+				selectedRows.includes(sb.copy_id) &&
+				sb.status !== "Borrowed" &&
+				sb.status !== "Overdue"
+		);
+
+		if (invalidRows.length > 0) {
+			showNotification({
+				title: "Cannot Renew",
+				message: "Some selected books are not Borrowed or Overdue.",
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "red",
+				classNames: notifClasses,
+			});
+			return;
+		}
+
+		const today = new Date();
+		const twoWeeksLater = new Date(today);
+		twoWeeksLater.setDate(today.getDate() + 14);
+		const newDueDate = twoWeeksLater.toISOString().split("T")[0];
+
+		setTransactions((prev) =>
+			prev.map((tx) => {
+				if (selectedRows.includes(tx.copy_id)) {
+					if (tx.status === "Borrowed" || tx.status === "Overdue") {
+						return {
+							...tx,
+							status: tx.status === "Overdue" ? "Borrowed" : tx.status,
+							due_date: newDueDate,
+						};
+					}
+				}
+				return tx;
+			})
+		);
+
+		showNotification({
+			title: "Renew Successful",
+			message: "Selected books have been renewed for 2 more weeks.",
+			position: "bottom-center",
+			autoClose: 3000,
+			color: "green",
+			classNames: notifClasses,
+		});
+
+		setSelectedRows([]);
+	};
 
 	return (
 		<div className="flex flex-col gap-4 h-full">
