@@ -15,7 +15,11 @@ import {
 import { Info } from "lucide-react";
 import { showNotification } from "@mantine/notifications";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
-import { getUser, getUsers } from "../../../backend/transaction.jsx";
+import {
+	getUser,
+	getUsers,
+	getAllBookCopiesWithUser,
+} from "../../../backend/transaction.jsx";
 import notifClasses from "../styles/notif.module.css";
 
 const Transaction = () => {
@@ -28,10 +32,18 @@ const Transaction = () => {
 	const [allUsers, setAllUsers] = useState([]);
 	const [tempSelectedUser, setTempSelectedUser] = useState("");
 
+	const [copies, setCopies] = useState([]);
+	const [barcodeModalOpened, setBarcodeModalOpened] = useState(false);
+	const [barcodeSelected, setBarcodeSelected] = useState([]);
+
 	useEffect(() => {
 		document.title = "Transaction";
 		const usersList = getUsers();
 		setAllUsers(usersList.map((email) => ({ value: email, label: email })));
+
+		const copiesList = getAllBookCopiesWithUser();
+		setCopies(copiesList);
+		console.log(copiesList);
 	}, []);
 
 	const toggleRow = (id) => {
@@ -67,9 +79,9 @@ const Transaction = () => {
 				/>
 			</Table.Td>
 			<Table.Td>{sb.copy_id}</Table.Td>
-			<Table.Td>{sb.book.title}</Table.Td>
-			<Table.Td>{sb.book.author}</Table.Td>
-			<Table.Td>{sb.copy.location.branch}</Table.Td>
+			<Table.Td>{sb.book_info.title}</Table.Td>
+			<Table.Td>{sb.book_info.author}</Table.Td>
+			<Table.Td>{sb.location.branch}</Table.Td>
 			<Table.Td>{sb.borrow_date}</Table.Td>
 			<Table.Td>{sb.due_date}</Table.Td>
 			<Table.Td>{sb.return_date || "—"}</Table.Td>
@@ -77,7 +89,7 @@ const Transaction = () => {
 		</Table.Tr>
 	));
 
-	const handleSelectUser = () => {
+	const handleRFIDScan = () => {
 		const scannedUser = getUser(tempSelectedUser);
 		if (!scannedUser.email) {
 			showNotification({
@@ -95,6 +107,63 @@ const Transaction = () => {
 		setSelectedRows([]);
 		setRfidModalOpened(false);
 	};
+
+	const handleBarcodeScan = () => {
+		const selectedBooks = copies.filter((copy) =>
+			barcodeSelected.includes(copy.copy_id)
+		);
+
+		const newScanned = selectedBooks.filter(
+			(copy) => !scannedBooks.some((sb) => sb.copy_id === copy.copy_id)
+		);
+
+		if (newScanned.length === 0) {
+			showNotification({
+				title: "Already Scanned",
+				message: "These books are already in the scanned list.",
+				position: "bottom-center",
+				autoClose: 3000,
+				color: "blue",
+				classNames: notifClasses,
+			});
+			return;
+		}
+
+		setScannedBooks((prev) => [...prev, ...newScanned]);
+		setBarcodeSelected([]);
+		setBarcodeModalOpened(false);
+
+		showNotification({
+			title: "Books Scanned",
+			message: `${newScanned.length} book(s) added to scanned list.`,
+			position: "bottom-center",
+			autoClose: 2000,
+			color: "green",
+			classNames: notifClasses,
+		});
+	};
+
+	const barcodeModalRows = copies.map((copy) => (
+		<Table.Tr key={copy.copy_id}>
+			<Table.Td>
+				<Checkbox
+					checked={barcodeSelected.includes(copy.copy_id)}
+					onChange={() =>
+						setBarcodeSelected((prev) =>
+							prev.includes(copy.copy_id)
+								? prev.filter((id) => id !== copy.copy_id)
+								: [...prev, copy.copy_id]
+						)
+					}
+				/>
+			</Table.Td>
+			<Table.Td>{copy.copy_id}</Table.Td>
+			<Table.Td>{copy.book_info.title}</Table.Td>
+			<Table.Td>{copy.book_info.author}</Table.Td>
+			<Table.Td>{copy.location.branch}</Table.Td>
+			<Table.Td>{copy.status}</Table.Td>
+		</Table.Tr>
+	));
 
 	const checkLibraryCard = (action = "perform this action") => {
 		if (!user) {
@@ -275,11 +344,38 @@ const Transaction = () => {
 							value={tempSelectedUser}
 							onChange={setTempSelectedUser}
 						/>
-						<Button className="mt-4" fullWidth onClick={handleSelectUser}>
+						<Button className="mt-4" fullWidth onClick={handleRFIDScan}>
 							Select User
 						</Button>
 					</Modal>
-					<Button variant="filled">Barcode Scan</Button>
+					<Button variant="filled" onClick={() => setBarcodeModalOpened(true)}>
+						Barcode Scan
+					</Button>
+					<Modal
+						opened={barcodeModalOpened}
+						onClose={() => setBarcodeModalOpened(false)}
+						title="Select Books to Add"
+						size="lg"
+					>
+						<ScrollArea h={300}>
+							<Table striped highlightOnHover>
+								<Table.Thead>
+									<Table.Tr>
+										<Table.Th>Select</Table.Th>
+										<Table.Th>Copy ID</Table.Th>
+										<Table.Th>Title</Table.Th>
+										<Table.Th>Author</Table.Th>
+										<Table.Th>Location</Table.Th>
+										<Table.Th>Status</Table.Th>
+									</Table.Tr>
+								</Table.Thead>
+								<Table.Tbody>{barcodeModalRows}</Table.Tbody>
+							</Table>
+						</ScrollArea>
+						<Button fullWidth className="mt-4" onClick={handleBarcodeScan}>
+							Add to Scanned Books
+						</Button>
+					</Modal>
 				</div>
 				<div className="flex gap-2">
 					<Button
