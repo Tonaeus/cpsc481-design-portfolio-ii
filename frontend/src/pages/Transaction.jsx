@@ -7,25 +7,27 @@ import {
 	Text,
 	Button,
 	Checkbox,
+	Modal,
+	Select,
 } from "@mantine/core";
 import { showNotification } from "@mantine/notifications";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
-import { getUser } from "../../../backend/transaction.jsx";
+import { getUser, getUsers } from "../../../backend/transaction.jsx";
 import notifClasses from "../styles/notif.module.css";
 
 const Transaction = () => {
 	const [user, setUser] = useState("");
 	const [transactions, setTransactions] = useState([]);
 	const [selectedRows, setSelectedRows] = useState([]);
+	
+	const [rfidModalOpened, setRfidModalOpened] = useState(false);
+  const [allUsers, setAllUsers] = useState([]);
+  const [tempSelectedUser, setTempSelectedUser] = useState("");
 
 	useEffect(() => {
 		document.title = "Transaction";
-
-		const user = getUser("tony.tran@example.com");
-		setUser(user);
-
-		const data = getTransactionsWithBookInfo("tony.tran@example.com");
-		setTransactions(data);
+		const usersList = getUsers();
+    setAllUsers(usersList.map((email) => ({ value: email, label: email })));
 	}, []);
 
 	const toggleRow = (id) => {
@@ -52,6 +54,25 @@ const Transaction = () => {
 			<Table.Td>{tx.status}</Table.Td>
 		</Table.Tr>
 	));
+
+  const handleSelectUser = () => {
+    const scannedUser = getUser(tempSelectedUser);
+    if (!scannedUser.email) {
+      showNotification({
+        title: "User Not Found",
+        message: `No member found with email ${tempSelectedUser}.`,
+        position: "bottom-center",
+        autoClose: 3000,
+        color: "red",
+        classNames: notifClasses,
+      });
+      return;
+    }
+    setUser(scannedUser);
+    setTransactions(getTransactionsWithBookInfo(tempSelectedUser));
+    setSelectedRows([]);
+    setRfidModalOpened(false);
+  };
 
 	const checkLibraryCard = (action = "perform this action") => {
 		if (!user) {
@@ -197,7 +218,25 @@ const Transaction = () => {
 			</Card>
 			<div className="flex justify-between">
 				<div className="flex gap-2">
-					<Button variant="filled">RFID Scan</Button>
+					<Button variant="filled" onClick={() => setRfidModalOpened(true)}>
+						RFID Scan
+					</Button>
+					<Modal
+						opened={rfidModalOpened}
+						onClose={() => setRfidModalOpened(false)}
+						title="Select Member"
+					>
+						<Select
+							label="Member Email"
+							placeholder="Select member"
+							data={allUsers}
+							value={tempSelectedUser}
+							onChange={setTempSelectedUser}
+						/>
+						<Button className="mt-4" fullWidth onClick={handleSelectUser}>
+							Select User
+						</Button>
+					</Modal>
 					<Button variant="filled">Barcode Scan</Button>
 				</div>
 				<div className="flex gap-2">

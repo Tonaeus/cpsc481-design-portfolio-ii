@@ -5,7 +5,6 @@ import {
 	ScrollArea,
 	Table,
 	TextInput,
-	Text,
 	Button,
 	Card,
 	Modal,
