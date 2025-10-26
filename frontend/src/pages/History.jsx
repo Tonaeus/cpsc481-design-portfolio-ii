@@ -47,6 +47,10 @@ const History = () => {
 		filteredTransactions.sort(
 			(a, b) => new Date(a.borrow_date) - new Date(b.borrow_date)
 		);
+	} else if (sortBy === "due_date") {
+		filteredTransactions.sort(
+			(a, b) => new Date(a.due_date) - new Date(b.due_date)
+		);
 	} else if (sortBy === "return_date") {
 		filteredTransactions.sort(
 			(a, b) => new Date(a.return_date || 0) - new Date(b.return_date || 0)
@@ -56,10 +60,7 @@ const History = () => {
 	const rows = filteredTransactions.map((tx) => (
 		<Table.Tr key={tx.transaction_id}>
 			<Table.Td>
-				<Anchor
-					component={Link}
-					to={`/books/${tx.book.id}`}
-				>
+				<Anchor component={Link} to={`/books/${tx.book.id}`}>
 					<Info size={18} />
 				</Anchor>
 			</Table.Td>
@@ -67,6 +68,7 @@ const History = () => {
 			<Table.Td>{tx.book.author}</Table.Td>
 			<Table.Td>{tx.copy.location.branch}</Table.Td>
 			<Table.Td>{tx.borrow_date}</Table.Td>
+			<Table.Td>{tx.due_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
 			<Table.Td>{tx.status}</Table.Td>
 		</Table.Tr>
@@ -144,6 +146,7 @@ const History = () => {
 					data={[
 						{ value: "", label: "None" },
 						{ value: "borrow_date", label: "Borrow Date" },
+						{ value: "due_date", label: "Due Date" },
 						{ value: "return_date", label: "Return Date" },
 					]}
 					value={tempSortBy}
@@ -174,6 +177,7 @@ const History = () => {
 									<Table.Th>Book Author</Table.Th>
 									<Table.Th>Book Location</Table.Th>
 									<Table.Th>Borrow Date</Table.Th>
+									<Table.Th>Due Date</Table.Th>
 									<Table.Th>Return Date</Table.Th>
 									<Table.Th>Status</Table.Th>
 								</Table.Tr>
