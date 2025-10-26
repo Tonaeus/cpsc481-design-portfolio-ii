@@ -86,11 +86,7 @@ const Transaction = () => {
 					? `${sb.current_user.first_name} ${sb.current_user.last_name}`
 					: "-"}
 			</Table.Td>
-			<Table.Td>
-				{sb.current_user
-					? sb.current_user.email
-					: "-"}
-			</Table.Td>
+			<Table.Td>{sb.current_user ? sb.current_user.email : "-"}</Table.Td>
 			<Table.Td>{sb.status}</Table.Td>
 		</Table.Tr>
 	));
@@ -209,52 +205,51 @@ const Transaction = () => {
 		return true;
 	};
 
-	const handleCheckOut = () => {
-		const invalidRows = transactions.filter(
-			(tx) => selectedRows.includes(tx.transaction_id) && tx.status !== "-"
+	const handleCheckOut = () => {};
+
+	const handleCheckIn = () => {
+		const today = new Date().toISOString().split("T")[0];
+
+		setScannedBooks((prev) =>
+			prev.map((sb) => {
+				if (selectedRows.includes(sb.copy_id)) {
+					return {
+						...sb,
+						status: "Available",
+						current_user: null,
+					};
+				}
+				return sb;
+			})
 		);
 
-		if (invalidRows.length > 0) {
-			showNotification({
-				title: "Cannot Check Out",
-				message: "Some selected books are already borrowed or unavailable.",
-				position: "bottom-center",
-				autoClose: 3000,
-				color: "red",
-				classNames: notifClasses,
-			});
-
-			return;
-		}
-
-		setSelectedRows([]);
-	};
-
-	const handleCheckIn = () => {};
-
-	const handleRenew = () => {
-		const invalidRows = transactions.filter(
-			(tx) =>
-				selectedRows.includes(tx.transaction_id) &&
-				tx.status !== "Borrowed" &&
-				tx.status !== "Overdue"
+		setTransactions((prev) =>
+			prev.map((tx) => {
+				if (selectedRows.includes(tx.copy_id)) {
+					if (tx.status === "Borrowed" || tx.status === "Overdue") {
+						return {
+							...tx,
+							status: "Returned",
+							return_date: today,
+						};
+					}
+				}
+				return tx;
+			})
 		);
 
-		if (invalidRows.length > 0) {
-			showNotification({
-				title: "Cannot Renew",
-				message: "Some selected books are not 'Borrowed' or 'Overdue'.",
-				position: "bottom-center",
-				autoClose: 3000,
-				color: "red",
-				classNames: notifClasses,
-			});
-
-			return;
-		}
-
 		setSelectedRows([]);
+
+		showNotification({
+			title: "Check In Successful",
+			message: "Selected books have been checked in.",
+			position: "bottom-center",
+			autoClose: 3000,
+			classNames: notifClasses,
+		});
 	};
+
+	const handleRenew = () => {};
 
 	return (
 		<div className="flex flex-col gap-4 h-full">
