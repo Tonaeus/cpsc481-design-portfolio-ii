@@ -11,7 +11,7 @@ import { Link } from "react-router";
 
 const Menu = () => {
 	useEffect(() => {
-		document.title = "Menu";
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Menu`;
 	}, []);
 
 	return (

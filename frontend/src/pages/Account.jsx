@@ -14,7 +14,7 @@ import { Link } from "react-router";
 
 const Account = () => {
 	useEffect(() => {
-		document.title = "Account";
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Account`;
 	}, []);
 
 	const [rootRef, setRootRef] = useState(null);

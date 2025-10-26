@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 const Report = () => {
   useEffect(() => {
-    document.title = "Report";
+    document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Payment`;
   }, []);
   return <div>Report</div>;
 };

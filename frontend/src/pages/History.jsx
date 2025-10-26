@@ -27,7 +27,7 @@ const History = () => {
 	const [tempSortBy, setTempSortBy] = useState("");
 
 	useEffect(() => {
-		document.title = "History";
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | History`;
 		const data = getTransactionsWithBookInfo("ethan.clark@example.com");
 		setTransactions(data);
 	}, []);

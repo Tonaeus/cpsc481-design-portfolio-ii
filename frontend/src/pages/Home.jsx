@@ -2,7 +2,7 @@ import { useEffect } from "react";
 
 const Home = () => {
 	useEffect(() => {
-		document.title = "Home";
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Home`;
 	}, []);
 	return <div>Home</div>;
 };

@@ -37,7 +37,7 @@ const Transaction = () => {
 	const [barcodeSelected, setBarcodeSelected] = useState([]);
 
 	useEffect(() => {
-		document.title = "Transaction";
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Transaction`;
 		const usersList = getUsers();
 		setAllUsers(usersList.map((email) => ({ value: email, label: email })));
 
