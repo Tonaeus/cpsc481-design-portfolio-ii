@@ -14,6 +14,7 @@ import History from "./pages/History";
 import Report from "./pages/Report";
 import Transaction from "./pages/Transaction";
 import Reserve from "./pages/Reserve";
+import ReservationDetails from "./pages/ReservationDetails";
 import Payment from "./pages/Payment";
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
 						<Route path="report" element={<Report />} />
 						<Route path="transaction" element={<Transaction />} />
 						<Route path="reserve" element={<Reserve />} />
+						<Route path="details" element={<ReservationDetails />} />
 						<Route path="payment" element={<Payment />} />
 					</Route>
 				</Routes>
