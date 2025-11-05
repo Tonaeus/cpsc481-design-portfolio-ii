@@ -118,7 +118,7 @@ const Transaction = () => {
 			showNotification({
 				title: "User Not Found",
 				message: `No member found with email ${tempSelectedUser}.`,
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -136,7 +136,7 @@ const Transaction = () => {
 			showNotification({
 				title: "No Books Selected",
 				message: "Select at least one book to add.",
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -182,7 +182,7 @@ const Transaction = () => {
 			showNotification({
 				title: "Library Card Required",
 				message: `Scan the member’s library card to ${action}.`,
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -197,7 +197,7 @@ const Transaction = () => {
 			showNotification({
 				title: "No Selection",
 				message: `Select at least one book to ${action}.`,
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -215,7 +215,7 @@ const Transaction = () => {
 				id: "single-notification",
 				title: "Overdue Books",
 				message: `The library member cannot check out because they have overdue books.`,
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -235,7 +235,7 @@ const Transaction = () => {
 			showNotification({
 				title: "Cannot Check Out",
 				message: "Some selected books are already borrowed or unavailable.",
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -286,7 +286,7 @@ const Transaction = () => {
 		showNotification({
 			title: "Check Out Successful",
 			message: "Selected books have been checked out to the library member.",
-			position: "bottom-center",
+			position: "top-center",
 			autoClose: 3000,
 			color: "green",
 			classNames: notifClasses,
@@ -331,7 +331,7 @@ const Transaction = () => {
 		showNotification({
 			title: "Check In Successful",
 			message: "Selected books have been checked in.",
-			position: "bottom-center",
+			position: "top-center",
 			autoClose: 3000,
 			color: "green",
 			classNames: notifClasses,
@@ -350,7 +350,7 @@ const Transaction = () => {
 			showNotification({
 				title: "Cannot Renew",
 				message: "Some selected books are not Borrowed or Overdue.",
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -381,7 +381,7 @@ const Transaction = () => {
 		showNotification({
 			title: "Renew Successful",
 			message: "Selected books have been renewed for 2 more weeks.",
-			position: "bottom-center",
+			position: "top-center",
 			autoClose: 3000,
 			color: "green",
 			classNames: notifClasses,
@@ -403,7 +403,8 @@ const Transaction = () => {
 					</div>
 				</Card>
 				<div>
-					<div>
+					<div className="flex gap-2">
+						<Button variant="filled">Undo</Button>
 						<Button
 							variant="filled"
 							onClick={() => {
