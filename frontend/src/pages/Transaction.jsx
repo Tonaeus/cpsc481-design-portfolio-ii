@@ -383,7 +383,7 @@ const Transaction = () => {
 	return (
 		<div className="flex flex-col gap-4 h-full">
 			<div className="flex justify-between">
-				<Card shadow="xs" withBorder className="w-1/2">
+				<Card withBorder className="w-1/2">
 					<div className="flex flex-row items-center gap-3">
 						<Avatar />
 						<Text size="sm">
@@ -409,7 +409,7 @@ const Transaction = () => {
 					</div>
 				</div>
 			</div>
-			<Card shadow="xs" withBorder className="flex-1">
+			<Card withBorder className="flex-1">
 				<ScrollArea className="h-full">
 					<Table stickyHeader striped highlightOnHover>
 						<Table.Thead>
@@ -429,7 +429,7 @@ const Transaction = () => {
 					</Table>
 				</ScrollArea>
 			</Card>
-			<Card shadow="xs" withBorder className="flex-1">
+			<Card withBorder className="flex-1">
 				<ScrollArea className="h-full">
 					<Table stickyHeader striped highlightOnHover>
 						<Table.Thead>

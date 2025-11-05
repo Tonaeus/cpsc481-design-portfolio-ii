@@ -27,7 +27,7 @@ const Account = () => {
 
 	return (
 		<div className="h-full flex justify-center items-center">
-			<Card shadow="xs" padding="xl" withBorder className="w-sm">
+			<Card padding="xl" withBorder className="w-sm">
 				<Tabs
 					variant="none"
 					value={value}

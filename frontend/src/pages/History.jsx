@@ -163,7 +163,7 @@ const History = () => {
 				</Button>
 			</Modal>
 
-			<Card shadow="xs" withBorder className="h-full">
+			<Card withBorder className="h-full">
 				<ScrollArea className="h-full">
 					<Table stickyHeader striped highlightOnHover>
 						<Table.Thead>
