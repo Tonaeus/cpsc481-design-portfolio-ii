@@ -12,6 +12,7 @@ import {
 	Modal,
 	Select,
 	Tabs,
+	FloatingIndicator,
 } from "@mantine/core";
 import { Info } from "lucide-react";
 import { showNotification } from "@mantine/notifications";
@@ -36,6 +37,14 @@ const Transaction = () => {
 	const [copies, setCopies] = useState([]);
 	const [barcodeModalOpened, setBarcodeModalOpened] = useState(false);
 	const [barcodeSelected, setBarcodeSelected] = useState([]);
+
+	const [rootRef, setRootRef] = useState(null);
+	const [value, setValue] = useState("history");
+	const [controlsRefs, setControlsRefs] = useState({});
+	const setControlRef = (val) => (node) => {
+		controlsRefs[val] = node;
+		setControlsRefs(controlsRefs);
+	};
 
 	useEffect(() => {
 		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Transaction`;
@@ -411,11 +420,35 @@ const Transaction = () => {
 				</div>
 			</div>
 			<Card withBorder className="flex-1">
-				<Tabs defaultValue="history">
-					<Tabs.List>
-						<Tabs.Tab value="history">History</Tabs.Tab>
-						<Tabs.Tab value="transaction">Transaction</Tabs.Tab>
+				<Tabs
+					variant="none"
+					value={value}
+					onChange={setValue}
+					className="relative"
+				>
+					<Tabs.List ref={setRootRef} className="flex w-full" mb="sm">
+						<Tabs.Tab
+							value="history"
+							ref={setControlRef("history")}
+							className="flex-1"
+						>
+							History
+						</Tabs.Tab>
+						<Tabs.Tab
+							value="transaction"
+							ref={setControlRef("transaction")}
+							className="flex-1"
+						>
+							Transaction
+						</Tabs.Tab>
+
+						<FloatingIndicator
+							target={value ? controlsRefs[value] : null}
+							parent={rootRef}
+							className="bg-transparent rounded-[4px] border border-gray-200 shadow-sm"
+						/>
 					</Tabs.List>
+
 					<Tabs.Panel value="history" pt="md">
 						<ScrollArea className="h-[60vh]">
 							<Table stickyHeader striped highlightOnHover>
@@ -436,6 +469,7 @@ const Transaction = () => {
 							</Table>
 						</ScrollArea>
 					</Tabs.Panel>
+
 					<Tabs.Panel value="transaction" pt="md">
 						<ScrollArea className="h-[60vh]">
 							<Table stickyHeader striped highlightOnHover>
@@ -457,6 +491,7 @@ const Transaction = () => {
 					</Tabs.Panel>
 				</Tabs>
 			</Card>
+
 			<div className="flex justify-between">
 				<div className="flex gap-2">
 					<Button variant="filled" onClick={() => setRfidModalOpened(true)}>
