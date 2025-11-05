@@ -11,6 +11,7 @@ import {
 	Checkbox,
 	Modal,
 	Select,
+	Tabs,
 } from "@mantine/core";
 import { Info } from "lucide-react";
 import { showNotification } from "@mantine/notifications";
@@ -410,43 +411,51 @@ const Transaction = () => {
 				</div>
 			</div>
 			<Card withBorder className="flex-1">
-				<ScrollArea className="h-full">
-					<Table stickyHeader striped highlightOnHover>
-						<Table.Thead>
-							<Table.Tr>
-								<Table.Th>Book Info</Table.Th>
-								<Table.Th>Copy ID</Table.Th>
-								<Table.Th>Book Title</Table.Th>
-								<Table.Th>Book Author</Table.Th>
-								<Table.Th>Book Location</Table.Th>
-								<Table.Th>Borrow Date</Table.Th>
-								<Table.Th>Due Date</Table.Th>
-								<Table.Th>Return Date</Table.Th>
-								<Table.Th>Status</Table.Th>
-							</Table.Tr>
-						</Table.Thead>
-						<Table.Tbody>{transactionsRows}</Table.Tbody>
-					</Table>
-				</ScrollArea>
-			</Card>
-			<Card withBorder className="flex-1">
-				<ScrollArea className="h-full">
-					<Table stickyHeader striped highlightOnHover>
-						<Table.Thead>
-							<Table.Tr>
-								<Table.Th>Select</Table.Th>
-								<Table.Th>Copy ID</Table.Th>
-								<Table.Th>Book Title</Table.Th>
-								<Table.Th>Book Author</Table.Th>
-								<Table.Th>Book Location</Table.Th>
-								<Table.Th>Member Name</Table.Th>
-								<Table.Th>Member Email</Table.Th>
-								<Table.Th>Status</Table.Th>
-							</Table.Tr>
-						</Table.Thead>
-						<Table.Tbody>{scannedRows}</Table.Tbody>
-					</Table>
-				</ScrollArea>
+				<Tabs defaultValue="history">
+					<Tabs.List>
+						<Tabs.Tab value="history">History</Tabs.Tab>
+						<Tabs.Tab value="transaction">Transaction</Tabs.Tab>
+					</Tabs.List>
+					<Tabs.Panel value="history" pt="md">
+						<ScrollArea className="h-[60vh]">
+							<Table stickyHeader striped highlightOnHover>
+								<Table.Thead>
+									<Table.Tr>
+										<Table.Th>Book Info</Table.Th>
+										<Table.Th>Copy ID</Table.Th>
+										<Table.Th>Book Title</Table.Th>
+										<Table.Th>Book Author</Table.Th>
+										<Table.Th>Book Location</Table.Th>
+										<Table.Th>Borrow Date</Table.Th>
+										<Table.Th>Due Date</Table.Th>
+										<Table.Th>Return Date</Table.Th>
+										<Table.Th>Status</Table.Th>
+									</Table.Tr>
+								</Table.Thead>
+								<Table.Tbody>{transactionsRows}</Table.Tbody>
+							</Table>
+						</ScrollArea>
+					</Tabs.Panel>
+					<Tabs.Panel value="transaction" pt="md">
+						<ScrollArea className="h-[60vh]">
+							<Table stickyHeader striped highlightOnHover>
+								<Table.Thead>
+									<Table.Tr>
+										<Table.Th>Select</Table.Th>
+										<Table.Th>Copy ID</Table.Th>
+										<Table.Th>Book Title</Table.Th>
+										<Table.Th>Book Author</Table.Th>
+										<Table.Th>Book Location</Table.Th>
+										<Table.Th>Member Name</Table.Th>
+										<Table.Th>Member Email</Table.Th>
+										<Table.Th>Status</Table.Th>
+									</Table.Tr>
+								</Table.Thead>
+								<Table.Tbody>{scannedRows}</Table.Tbody>
+							</Table>
+						</ScrollArea>
+					</Tabs.Panel>
+				</Tabs>
 			</Card>
 			<div className="flex justify-between">
 				<div className="flex gap-2">
