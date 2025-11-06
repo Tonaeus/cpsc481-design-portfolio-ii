@@ -4,19 +4,23 @@ import { Button } from "@mantine/core";
 import { User } from "lucide-react";
 
 const Navbar = ({ showUserButton = true }) => {
-  return (
-    <nav className="h-14 flex justify-between items-center px-4 border-b border-gray-200">
-      <Anchor component={Link} to="/" underline={false}>
-        <h1 className="text-2xl">{import.meta.env.VITE_APP_NAME}</h1>
-      </Anchor>
+	return (
+		<nav className="h-14 flex items-center px-4 border-b border-gray-200 relative">
+			<div className="absolute left-1/2 transform -translate-x-1/2">
+				<Anchor component={Link} to="/" underline={false}>
+					<h1 className="text-2xl">{import.meta.env.VITE_APP_NAME}</h1>
+				</Anchor>
+			</div>
 
-      {showUserButton && (
-        <Button component={Link} to="/account" variant="subtle" radius="xl">
-          <User />
-        </Button>
-      )}
-    </nav>
-  );
+			{showUserButton && (
+				<div className="ml-auto">
+					<Button component={Link} to="/account" variant="subtle" radius="xl">
+						<User />
+					</Button>
+				</div>
+			)}
+		</nav>
+	);
 };
 
 export default Navbar;
