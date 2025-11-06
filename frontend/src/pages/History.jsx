@@ -12,6 +12,7 @@ import {
 } from "@mantine/core";
 import { Search, Info } from "lucide-react";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
+import { getStatusColor } from "../utils/status.js";
 
 const History = () => {
 	const [transactions, setTransactions] = useState([]);
@@ -69,7 +70,9 @@ const History = () => {
 			<Table.Td>{tx.borrow_date}</Table.Td>
 			<Table.Td>{tx.due_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
-			<Table.Td>{tx.status}</Table.Td>
+			<Table.Td>
+				<span style={{ color: getStatusColor(tx.status) }}>{tx.status}</span>
+			</Table.Td>
 		</Table.Tr>
 	));
 

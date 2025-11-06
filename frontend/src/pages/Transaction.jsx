@@ -23,6 +23,7 @@ import {
 	getAllBookCopiesWithUser,
 } from "../../../backend/transaction.jsx";
 import notifClasses from "../styles/notif.module.css";
+import { getStatusColor } from "../utils/status.js";
 
 const Transaction = () => {
 	const [user, setUser] = useState("");
@@ -86,7 +87,9 @@ const Transaction = () => {
 			<Table.Td>{tx.borrow_date}</Table.Td>
 			<Table.Td>{tx.due_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
-			<Table.Td>{tx.status}</Table.Td>
+			<Table.Td>
+				<span style={{ color: getStatusColor(tx.status) }}>{tx.status}</span>
+			</Table.Td>
 		</Table.Tr>
 	));
 
@@ -108,7 +111,9 @@ const Transaction = () => {
 					: "-"}
 			</Table.Td>
 			<Table.Td>{sb.current_user ? sb.current_user.email : "-"}</Table.Td>
-			<Table.Td>{sb.status}</Table.Td>
+			<Table.Td>
+				<span style={{ color: getStatusColor(sb.status) }}>{sb.status}</span>
+			</Table.Td>
 		</Table.Tr>
 	));
 
@@ -404,7 +409,7 @@ const Transaction = () => {
 				</Card>
 				<div>
 					<div className="flex gap-2">
-						<Button variant="filled">Undo</Button>
+						<Button variant="outline">Undo</Button>
 						<Button
 							variant="filled"
 							onClick={() => {
