@@ -6,7 +6,7 @@ function MainLayout() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<header>
-				<Navbar />
+				<Navbar showUserButton={false} />
 			</header>
 			<main className="relative flex justify-center flex-1 bg-gray-100">
 				<div className="absolute inset-0 hidden xl:flex justify-center items-center pointer-events-none">

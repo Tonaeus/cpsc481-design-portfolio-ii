@@ -3,7 +3,7 @@ import { MantineProvider } from "@mantine/core";
 import { Notifications } from '@mantine/notifications';
 import "@mantine/core/styles.css";
 import '@mantine/notifications/styles.css';
-import NavbarBackgroundLayout from "./layouts/NavbarBackgroundLayout";
+import AccountLayout from "./layouts/AccountLayout";
 import NavbarLayout from "./layouts/NavbarLayout";
 import Account from "./pages/Account";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -29,7 +29,7 @@ function App() {
 			<Notifications />
 			<BrowserRouter>
 				<Routes>
-					<Route element={<NavbarBackgroundLayout />}>
+					<Route element={<AccountLayout />}>
 						<Route path="account" element={<Account />} />
 					</Route>
 					<Route element={<NavbarLayout />}>
