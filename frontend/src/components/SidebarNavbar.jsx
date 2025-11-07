@@ -48,7 +48,7 @@ const SidebarNavbar = () => {
 				position="left"
 				styles={{
 					body: {
-						height: "calc(100% - 70px)",
+						height: "calc(100% - 71px)",
 					},
 				}}
 				title={
@@ -65,6 +65,7 @@ const SidebarNavbar = () => {
 					</Card>
 				}
 			>
+				<div className="h-[1px] mb-4 bg-gray-200" />
 				<div className="h-full flex flex-col justify-between">
 					<div>
 						<Button
@@ -139,7 +140,8 @@ const SidebarNavbar = () => {
 						</Button>
 					</div>
 
-					<div className="border-t pt-4 border-gray-200">
+					<div className="mb-4">
+						<div className="h-[1px] my-4 bg-gray-200" />
 						<Button
 							variant="subtle"
 							color="red"
