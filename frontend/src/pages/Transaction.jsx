@@ -399,12 +399,14 @@ const Transaction = () => {
 		<div className="flex flex-col gap-4 h-full">
 			<div className="flex justify-between">
 				<Card withBorder className="w-1/2">
-					<div className="flex flex-row items-center gap-3">
-						<Avatar />
-						<Text size="sm">
-							{/* {user.first_name} {user.first_name} */}
-							{user.email}
-						</Text>
+					<div className="flex items-center gap-4">
+						<Avatar color="teal" />
+						<div className="flex flex-col">
+							<span className="font-semibold leading-tight">
+								{user.first_name} {user.last_name}
+							</span>
+							<span className="text-xs text-gray-500 leading-tight">{user.email}</span>
+						</div>
 					</div>
 				</Card>
 				<div>

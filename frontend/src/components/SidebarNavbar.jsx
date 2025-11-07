@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router";
-import { Anchor, Button, Drawer } from "@mantine/core";
+import { Anchor, Avatar, Button, Card, Drawer } from "@mantine/core";
 import {
 	PanelLeft,
 	LayoutDashboard,
@@ -48,9 +48,22 @@ const SidebarNavbar = () => {
 				position="left"
 				styles={{
 					body: {
-						height: "calc(100% - 60px)",
+						height: "calc(100% - 70px)",
 					},
 				}}
+				title={
+					<Card padding={0}>
+						<div className="flex items-center gap-4">
+							<Avatar color="teal" />
+							<div className="flex flex-col">
+								<span className="font-semibold leading-tight">Ethan Clark</span>
+								<span className="text-xs text-gray-500 leading-tight">
+									ethan.clark@example.com
+								</span>
+							</div>
+						</div>
+					</Card>
+				}
 			>
 				<div className="h-full flex flex-col justify-between">
 					<div>
