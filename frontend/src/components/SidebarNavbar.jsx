@@ -23,7 +23,7 @@ const SidebarNavbar = () => {
 
 				<div className="absolute left-1/2 transform -translate-x-1/2">
 					<Anchor component={Link} to="/" underline={false}>
-						<h1 className="text-2xl">{import.meta.env.VITE_APP_NAME}</h1>
+						<h1 className="text-2xl text-nowrap">{import.meta.env.VITE_APP_NAME}</h1>
 					</Anchor>
 				</div>
 			</nav>
@@ -33,7 +33,7 @@ const SidebarNavbar = () => {
 				onClose={() => setSidebarOpened(false)}
 				title="Menu"
 				padding="md"
-				size="250px"
+				size="xs"
 				position="left"
 			>
 				<ul className="space-y-2">
