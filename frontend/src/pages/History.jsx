@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import { Search, Info } from "lucide-react";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
-import { getStatusColor } from "../utils/status.js";
+import { getStatusColor } from "../utils/status.jsx";
 
 const History = () => {
 	const [transactions, setTransactions] = useState([]);

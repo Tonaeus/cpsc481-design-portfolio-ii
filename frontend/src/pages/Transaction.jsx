@@ -23,7 +23,7 @@ import {
 	getAllBookCopiesWithUser,
 } from "../../../backend/transaction.jsx";
 import notifClasses from "../styles/notif.module.css";
-import { getStatusColor } from "../utils/status.js";
+import { getStatusColor } from "../utils/status.jsx";
 
 const Transaction = () => {
 	const [user, setUser] = useState("");
