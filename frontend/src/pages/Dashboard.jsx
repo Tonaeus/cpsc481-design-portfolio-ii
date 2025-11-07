@@ -9,9 +9,9 @@ import {
 } from "lucide-react";
 import { Link } from "react-router";
 
-const Menu = () => {
+const Dashboard = () => {
 	useEffect(() => {
-		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Menu`;
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Dashboard`;
 	}, []);
 
 	return (
@@ -73,4 +73,4 @@ const Menu = () => {
 	);
 };
 
-export default Menu;
+export default Dashboard;

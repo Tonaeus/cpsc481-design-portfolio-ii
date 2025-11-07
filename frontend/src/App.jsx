@@ -9,7 +9,7 @@ import SidebarNavbarLayout from "./layouts/SidebarNavbarLayout";
 import Account from "./pages/Account";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
-import Menu from "./pages/Menu";
+import Dashboard from "./pages/Dashboard";
 import Browse from "./pages/Browse";
 import Book from "./pages/Book";
 import History from "./pages/History";
@@ -38,7 +38,7 @@ function App() {
 						<Route path="account" element={<Account />} />
 					</Route>
 					<Route element={<SidebarNavbarLayout />}>
-						<Route path="menu" element={<Menu />} />
+						<Route path="dashboard" element={<Dashboard />} />
 						<Route path="browse" element={<Browse />} />
 						<Route path="book" element={<Book />} />
 						<Route path="history" element={<History />} />

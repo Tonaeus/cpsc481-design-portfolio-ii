@@ -63,7 +63,7 @@ const Account = () => {
 							mb="sm"
 						/>
 						<Group justify="space-between" mt="md">
-							<Button component={Link} to="/menu" fullWidth>
+							<Button component={Link} to="/dashboard" fullWidth>
 								Sign in
 							</Button>
 						</Group>
@@ -104,7 +104,7 @@ const Account = () => {
 							required
 							mb="sm"
 						/>
-						<Button component={Link} to="/menu" fullWidth mt="md">
+						<Button component={Link} to="/dashboard" fullWidth mt="md">
 							Sign up
 						</Button>
 					</Tabs.Panel>

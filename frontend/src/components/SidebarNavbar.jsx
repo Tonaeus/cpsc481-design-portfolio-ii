@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router";
 import { Anchor, Button, Drawer } from "@mantine/core";
 import {
 	PanelLeft,
+	LayoutDashboard,
 	BookOpen,
 	History,
 	CreditCard,
@@ -53,6 +54,17 @@ const SidebarNavbar = () => {
 			>
 				<div className="h-full flex flex-col justify-between">
 					<div>
+						<Button
+							component={Link}
+							to="/dashboard"
+							fullWidth
+							variant={isActive("/dashboard") ? "light" : "subtle"}
+						>
+							<div className="flex gap-4 items-center absolute left-4">
+								<LayoutDashboard size={18} />
+								Dashboard
+							</div>
+						</Button>
 						<Button
 							component={Link}
 							to="/browse"
