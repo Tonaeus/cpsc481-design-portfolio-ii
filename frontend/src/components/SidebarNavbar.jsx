@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router";
-import { Anchor, Button, Drawer, Stack } from "@mantine/core";
+import { Link, useLocation } from "react-router";
+import { Anchor, Button, Drawer } from "@mantine/core";
 import {
 	PanelLeft,
 	BookOpen,
@@ -12,6 +12,9 @@ import {
 
 const SidebarNavbar = () => {
 	const [sidebarOpened, setSidebarOpened] = useState(false);
+	const location = useLocation();
+
+	const isActive = (path) => location.pathname === path;
 
 	return (
 		<>
@@ -20,9 +23,7 @@ const SidebarNavbar = () => {
 					variant="subtle"
 					px={0}
 					py={0}
-					style={{
-						aspectRatio: "1 / 1",
-					}}
+					style={{ aspectRatio: "1 / 1" }}
 					onClick={() => setSidebarOpened(true)}
 				>
 					<PanelLeft />
@@ -40,37 +41,65 @@ const SidebarNavbar = () => {
 			<Drawer
 				opened={sidebarOpened}
 				onClose={() => setSidebarOpened(false)}
-				// title="Menu"
 				padding="md"
 				size="xs"
 				position="left"
 			>
 				<div>
-					<Button component={Link} to="/browse" fullWidth variant="subtle">
+					<Button
+						component={Link}
+						to="/browse"
+						fullWidth
+						variant={isActive("/browse") ? "light" : "subtle"}
+					>
 						<div className="flex gap-4 items-center absolute left-4">
 							<BookOpen size={18} />
 							Browse
 						</div>
 					</Button>
-					<Button component={Link} to="/history" fullWidth variant="subtle">
+
+					<Button
+						component={Link}
+						to="/history"
+						fullWidth
+						variant={isActive("/history") ? "light" : "subtle"}
+					>
 						<div className="flex gap-4 items-center absolute left-4">
 							<History size={18} />
 							History
 						</div>
 					</Button>
-					<Button component={Link} to="/payment" fullWidth variant="subtle">
+
+					<Button
+						component={Link}
+						to="/payment"
+						fullWidth
+						variant={isActive("/payment") ? "light" : "subtle"}
+					>
 						<div className="flex gap-4 items-center absolute left-4">
 							<CreditCard size={18} />
 							Payment
 						</div>
 					</Button>
-					<Button component={Link} to="/report" fullWidth variant="subtle">
+
+					<Button
+						component={Link}
+						to="/report"
+						fullWidth
+						variant={isActive("/report") ? "light" : "subtle"}
+					>
 						<div className="flex gap-4 items-center absolute left-4">
 							<BarChart3 size={18} />
 							Report
 						</div>
 					</Button>
-					<Button component={Link} to="/transaction" fullWidth variant="subtle">
+
+					<Button
+						component={Link}
+						to="/transaction"
+						fullWidth
+						variant={isActive("/transaction") ? "light" : "subtle"}
+					>
 						<div className="flex gap-4 items-center absolute left-4">
 							<FileText size={18} />
 							Transaction
