@@ -73,6 +73,7 @@ const SidebarNavbar = () => {
 							to="/dashboard"
 							fullWidth
 							variant={isActive("/dashboard") ? "light" : "subtle"}
+							color={isActive("/dashboard") ? undefined : "dark"}
 						>
 							<div className="flex gap-4 items-center absolute left-4">
 								<LayoutDashboard size={18} />
@@ -84,6 +85,7 @@ const SidebarNavbar = () => {
 							to="/browse"
 							fullWidth
 							variant={isActive("/browse") ? "light" : "subtle"}
+							color={isActive("/browse") ? undefined : "dark"}
 						>
 							<div className="flex gap-4 items-center absolute left-4">
 								<BookOpen size={18} />
@@ -96,6 +98,7 @@ const SidebarNavbar = () => {
 							to="/history"
 							fullWidth
 							variant={isActive("/history") ? "light" : "subtle"}
+							color={isActive("/history") ? undefined : "dark"}
 						>
 							<div className="flex gap-4 items-center absolute left-4">
 								<History size={18} />
@@ -108,6 +111,7 @@ const SidebarNavbar = () => {
 							to="/payment"
 							fullWidth
 							variant={isActive("/payment") ? "light" : "subtle"}
+							color={isActive("/payment") ? undefined : "dark"}
 						>
 							<div className="flex gap-4 items-center absolute left-4">
 								<CreditCard size={18} />
@@ -120,6 +124,7 @@ const SidebarNavbar = () => {
 							to="/report"
 							fullWidth
 							variant={isActive("/report") ? "light" : "subtle"}
+							color={isActive("/report") ? undefined : "dark"}
 						>
 							<div className="flex gap-4 items-center absolute left-4">
 								<Flag size={18} />
@@ -132,6 +137,7 @@ const SidebarNavbar = () => {
 							to="/transaction"
 							fullWidth
 							variant={isActive("/transaction") ? "light" : "subtle"}
+							color={isActive("/transaction") ? undefined : "dark"}
 						>
 							<div className="flex gap-4 items-center absolute left-4">
 								<ScanBarcode size={18} />
@@ -144,7 +150,7 @@ const SidebarNavbar = () => {
 						<div className="h-[1px] my-4 bg-gray-200" />
 						<Button
 							variant="subtle"
-							color="red"
+							color="dark"
 							fullWidth
 							onClick={() => console.log("Log Out")}
 						>
