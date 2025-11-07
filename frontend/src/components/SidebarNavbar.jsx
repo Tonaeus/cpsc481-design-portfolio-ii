@@ -6,8 +6,9 @@ import {
 	BookOpen,
 	History,
 	CreditCard,
-	BarChart3,
-	FileText,
+	Flag,
+	ScanBarcode,
+	LogOut,
 } from "lucide-react";
 
 const SidebarNavbar = () => {
@@ -44,67 +45,88 @@ const SidebarNavbar = () => {
 				padding="md"
 				size="xs"
 				position="left"
+				styles={{
+					body: {
+						height: "calc(100% - 60px)",
+					},
+				}}
 			>
-				<div>
-					<Button
-						component={Link}
-						to="/browse"
-						fullWidth
-						variant={isActive("/browse") ? "light" : "subtle"}
-					>
-						<div className="flex gap-4 items-center absolute left-4">
-							<BookOpen size={18} />
-							Browse
-						</div>
-					</Button>
+				<div className="h-full flex flex-col justify-between">
+					<div>
+						<Button
+							component={Link}
+							to="/browse"
+							fullWidth
+							variant={isActive("/browse") ? "light" : "subtle"}
+						>
+							<div className="flex gap-4 items-center absolute left-4">
+								<BookOpen size={18} />
+								Browse
+							</div>
+						</Button>
 
-					<Button
-						component={Link}
-						to="/history"
-						fullWidth
-						variant={isActive("/history") ? "light" : "subtle"}
-					>
-						<div className="flex gap-4 items-center absolute left-4">
-							<History size={18} />
-							History
-						</div>
-					</Button>
+						<Button
+							component={Link}
+							to="/history"
+							fullWidth
+							variant={isActive("/history") ? "light" : "subtle"}
+						>
+							<div className="flex gap-4 items-center absolute left-4">
+								<History size={18} />
+								History
+							</div>
+						</Button>
 
-					<Button
-						component={Link}
-						to="/payment"
-						fullWidth
-						variant={isActive("/payment") ? "light" : "subtle"}
-					>
-						<div className="flex gap-4 items-center absolute left-4">
-							<CreditCard size={18} />
-							Payment
-						</div>
-					</Button>
+						<Button
+							component={Link}
+							to="/payment"
+							fullWidth
+							variant={isActive("/payment") ? "light" : "subtle"}
+						>
+							<div className="flex gap-4 items-center absolute left-4">
+								<CreditCard size={18} />
+								Payment
+							</div>
+						</Button>
 
-					<Button
-						component={Link}
-						to="/report"
-						fullWidth
-						variant={isActive("/report") ? "light" : "subtle"}
-					>
-						<div className="flex gap-4 items-center absolute left-4">
-							<BarChart3 size={18} />
-							Report
-						</div>
-					</Button>
+						<Button
+							component={Link}
+							to="/report"
+							fullWidth
+							variant={isActive("/report") ? "light" : "subtle"}
+						>
+							<div className="flex gap-4 items-center absolute left-4">
+								<Flag size={18} />
+								Report
+							</div>
+						</Button>
 
-					<Button
-						component={Link}
-						to="/transaction"
-						fullWidth
-						variant={isActive("/transaction") ? "light" : "subtle"}
-					>
-						<div className="flex gap-4 items-center absolute left-4">
-							<FileText size={18} />
-							Transaction
-						</div>
-					</Button>
+						<Button
+							component={Link}
+							to="/transaction"
+							fullWidth
+							variant={isActive("/transaction") ? "light" : "subtle"}
+						>
+							<div className="flex gap-4 items-center absolute left-4">
+								<ScanBarcode size={18} />
+								Transaction
+							</div>
+						</Button>
+					</div>
+
+					<div className="border-t pt-4 border-gray-200">
+						<Button
+							variant="subtle"
+							color="red"
+							fullWidth
+							onClick={() => console.log("Log Out")}
+						>
+							<div className="flex gap-4 items-center absolute left-4">
+								<LogOut size={18} />
+								Log Out
+							</div>
+						</Button>
+					</div>
 				</div>
 			</Drawer>
 		</>
