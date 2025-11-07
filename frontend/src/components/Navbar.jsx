@@ -14,7 +14,16 @@ const Navbar = ({ showUserButton = true }) => {
 
 			{showUserButton && (
 				<div className="ml-auto">
-					<Button component={Link} to="/account" variant="subtle" radius="xl">
+					<Button
+						component={Link}
+						to="/account"
+						variant="subtle"
+						px={0}
+						py={0}
+						style={{
+							aspectRatio: "1 / 1",
+						}}
+					>
 						<User />
 					</Button>
 				</div>

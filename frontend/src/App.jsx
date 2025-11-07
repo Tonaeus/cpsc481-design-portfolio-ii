@@ -3,9 +3,9 @@ import { MantineProvider } from "@mantine/core";
 import { Notifications } from '@mantine/notifications';
 import "@mantine/core/styles.css";
 import '@mantine/notifications/styles.css';
-import HomeLayout from "./layouts/HomeLayout";
-import AccountLayout from "./layouts/AccountLayout";
-import SidebarLayout from "./layouts/SidebarLayout";
+import EmptyNavbarLayout from "./layouts/EmptyNavbarLayout";
+import AccountNavbarLayout from "./layouts/AccountNavbarLayout";
+import SidebarNavbarLayout from "./layouts/SidebarNavbarLayout";
 import Account from "./pages/Account";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
@@ -30,14 +30,14 @@ function App() {
 			<Notifications />
 			<BrowserRouter>
 				<Routes>
-					<Route element={<HomeLayout />}>
+					<Route element={<EmptyNavbarLayout />}>
 						<Route path="/" element={<Home />} />
 						<Route path="forgot-password" element={<ForgotPassword />} />
 					</Route>
-					<Route element={<AccountLayout />}>
+					<Route element={<AccountNavbarLayout />}>
 						<Route path="account" element={<Account />} />
 					</Route>
-					<Route element={<SidebarLayout />}>
+					<Route element={<SidebarNavbarLayout />}>
 						<Route path="menu" element={<Menu />} />
 						<Route path="browse" element={<Browse />} />
 						<Route path="book" element={<Book />} />
