@@ -66,9 +66,11 @@ const SidebarNavbar = () => {
 						<div className="flex items-center gap-4">
 							<Avatar color="teal" />
 							<div className="flex flex-col">
-								<span className="font-semibold leading-tight">Ethan Clark</span>
+								<span className="font-semibold leading-tight">
+									{user?.first_name} {user?.last_name}
+								</span>
 								<span className="text-xs text-gray-500 leading-tight">
-									ethan.clark@example.com
+									{user?.email}
 								</span>
 							</div>
 						</div>
