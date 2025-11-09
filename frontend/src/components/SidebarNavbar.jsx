@@ -14,7 +14,8 @@ import {
 import useAuthContext from "../hooks/useAuthContext";
 
 const SidebarNavbar = () => {
-	const { dispatch } = useAuthContext();
+	const { state, dispatch } = useAuthContext();
+	const { user } = state;
 	const navigate = useNavigate();
 
 	const [sidebarOpened, setSidebarOpened] = useState(false);
@@ -140,19 +141,20 @@ const SidebarNavbar = () => {
 								Report
 							</div>
 						</Button>
-
-						<Button
-							component={Link}
-							to="/transaction"
-							fullWidth
-							variant={isActive("/transaction") ? "light" : "subtle"}
-							color={isActive("/transaction") ? undefined : "dark"}
-						>
-							<div className="flex gap-4 items-center absolute left-4">
-								<ScanBarcode size={18} />
-								Transaction
-							</div>
-						</Button>
+						{user?.role === "staff" && (
+							<Button
+								component={Link}
+								to="/transaction"
+								fullWidth
+								variant={isActive("/transaction") ? "light" : "subtle"}
+								color={isActive("/transaction") ? undefined : "dark"}
+							>
+								<div className="flex gap-4 items-center absolute left-4">
+									<ScanBarcode size={18} />
+									Transaction
+								</div>
+							</Button>
+						)}
 					</div>
 
 					<div className="mb-4">

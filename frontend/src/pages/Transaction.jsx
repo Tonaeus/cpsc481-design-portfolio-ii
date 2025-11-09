@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
 	Anchor,
 	Avatar,
@@ -23,9 +23,14 @@ import {
 } from "../../../backend/transaction.jsx";
 import notifClasses from "../styles/notif.module.css";
 import { getStatusColor } from "../utils/status.jsx";
+import useAuthContext from "../hooks/useAuthContext";
 
 const Transaction = () => {
-	const [user, setUser] = useState("");
+	const { state } = useAuthContext();
+	const { user } = state;
+	const navigate = useNavigate();
+
+	const [scannedUser, setScannedUser] = useState("");
 	const [transactions, setTransactions] = useState([]);
 	const [scannedBooks, setScannedBooks] = useState([]);
 	const [selectedRows, setSelectedRows] = useState([]);
@@ -54,6 +59,15 @@ const Transaction = () => {
 		const copiesList = getAllBookCopiesWithUser();
 		setCopies(copiesList);
 	}, []);
+
+	useEffect(() => {
+		if (!user) {
+			navigate("/account");
+		}
+		else if (user?.role !== "staff") {
+			navigate("/dashboard");
+		}
+	}, [user, navigate]);
 
 	const updateTransactions = (newDataOrFn) => {
 		setTransactions((prev) => {
@@ -129,7 +143,7 @@ const Transaction = () => {
 			});
 			return;
 		}
-		setUser(scannedUser);
+		setScannedUser(scannedUser);
 		updateTransactions(getTransactionsWithBookInfo(tempSelectedUser));
 		setSelectedRows([]);
 		setRfidModalOpened(false);
@@ -182,7 +196,7 @@ const Transaction = () => {
 		));
 
 	const checkLibraryCard = (action = "perform this action") => {
-		if (!user) {
+		if (!scannedUser) {
 			showNotification({
 				title: "Library Card Required",
 				message: `Scan the member’s library card to ${action}.`,
@@ -261,9 +275,9 @@ const Transaction = () => {
 					return {
 						...sb,
 						current_user: {
-							first_name: user.first_name,
-							last_name: user.last_name,
-							email: user.email,
+							first_name: scannedUser.first_name,
+							last_name: scannedUser.last_name,
+							email: scannedUser.email,
 						},
 						status: "Borrowed",
 					};
@@ -402,9 +416,9 @@ const Transaction = () => {
 						<Avatar color="teal" />
 						<div className="flex flex-col">
 							<span className="font-semibold leading-tight">
-								{user.first_name} {user.last_name}
+								{scannedUser.first_name} {scannedUser.last_name}
 							</span>
-							<span className="text-xs text-gray-500 leading-tight">{user.email}</span>
+							<span className="text-xs text-gray-500 leading-tight">{scannedUser.email}</span>
 						</div>
 					</div>
 				</Card>
@@ -414,7 +428,7 @@ const Transaction = () => {
 						<Button
 							variant="filled"
 							onClick={() => {
-								setUser("");
+								setScannedUser("");
 								setTempSelectedUser("");
 								updateTransactions([]);
 								setSelectedRows([]);

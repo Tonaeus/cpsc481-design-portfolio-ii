@@ -7,12 +7,23 @@ import {
 	BarChart3,
 	FileText,
 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import useAuthContext from "../hooks/useAuthContext";
 
 const Dashboard = () => {
+	const { state } = useAuthContext();
+	const { user } = state;
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Dashboard`;
 	}, []);
+
+	useEffect(() => {
+		if (!user) {
+			navigate("/account");
+		}
+	}, [user, navigate]);
 
 	return (
 		<div className="h-full flex justify-center items-center">
@@ -58,15 +69,17 @@ const Dashboard = () => {
 						Report
 					</Button>
 
-					<Button
-						component={Link}
-						to="/transaction"
-						fullWidth
-						className="relative justify-center"
-					>
-						<FileText size={18} className="absolute left-4" />
-						Transaction
-					</Button>
+					{user?.role === "staff" && (
+						<Button
+							component={Link}
+							to="/transaction"
+							fullWidth
+							className="relative justify-center"
+						>
+							<FileText size={18} className="absolute left-4" />
+							Transaction
+						</Button>
+					)}
 				</Stack>
 			</Card>
 		</div>
