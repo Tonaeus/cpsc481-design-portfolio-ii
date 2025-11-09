@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
 	Anchor,
 	ScrollArea,
@@ -13,8 +13,13 @@ import {
 import { Search, Info } from "lucide-react";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
 import { getStatusColor } from "../utils/status.jsx";
+import useAuthContext from "../hooks/useAuthContext";
 
 const History = () => {
+	const { state } = useAuthContext();
+	const { user } = state;
+	const navigate = useNavigate();
+
 	const [transactions, setTransactions] = useState([]);
 	const [search, setSearch] = useState("");
 
@@ -29,9 +34,16 @@ const History = () => {
 
 	useEffect(() => {
 		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | History`;
-		const data = getTransactionsWithBookInfo("ethan.clark@example.com");
-		setTransactions(data);
 	}, []);
+
+	useEffect(() => {
+		if (!user) {
+			navigate("/account");
+		} else if (user?.email) {
+			const data = getTransactionsWithBookInfo(user?.email);
+			setTransactions(data);
+		}
+	}, [user, navigate]);
 
 	let filteredTransactions = transactions.filter((tx) =>
 		tx.book.title.toLowerCase().includes(search.toLowerCase())
