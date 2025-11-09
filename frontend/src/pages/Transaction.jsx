@@ -6,7 +6,6 @@ import {
 	Card,
 	ScrollArea,
 	Table,
-	Text,
 	Button,
 	Checkbox,
 	Modal,

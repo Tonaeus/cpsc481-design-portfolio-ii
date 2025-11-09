@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Anchor, Avatar, Button, Card, Drawer } from "@mantine/core";
 import {
 	PanelLeft,
@@ -11,12 +11,21 @@ import {
 	ScanBarcode,
 	LogOut,
 } from "lucide-react";
+import useAuthContext from "../hooks/useAuthContext";
 
 const SidebarNavbar = () => {
+	const { dispatch } = useAuthContext();
+	const navigate = useNavigate();
+
 	const [sidebarOpened, setSidebarOpened] = useState(false);
 	const location = useLocation();
 
 	const isActive = (path) => location.pathname === path;
+
+	const handleLogout = () => {
+		dispatch({ type: "LOGOUT" });
+		navigate("/account");
+	};
 
 	return (
 		<>
@@ -152,7 +161,7 @@ const SidebarNavbar = () => {
 							variant="subtle"
 							color="dark"
 							fullWidth
-							onClick={() => console.log("Log Out")}
+							onClick={handleLogout}
 						>
 							<div className="flex gap-4 items-center absolute left-4">
 								<LogOut size={18} />

@@ -9,13 +9,21 @@ import {
 	Text,
 	FloatingIndicator,
 	Anchor,
+	Modal,
+	Select,
 } from "@mantine/core";
-import { Link } from "react-router";
+import useAuthContext from "../hooks/useAuthContext";
+import { Link, useNavigate } from "react-router";
+import { getUser, getUsers } from "../../../backend/transaction.jsx";
 
 const Account = () => {
-	useEffect(() => {
-		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Account`;
-	}, []);
+	const { state, dispatch } = useAuthContext();
+	const { user } = state;
+	const navigate = useNavigate();
+
+	const [accountModal, setAccountModal] = useState(false);
+	const [allUsers, setAllUsers] = useState([]);
+	const [tempSelectedUser, setTempSelectedUser] = useState("");
 
 	const [rootRef, setRootRef] = useState(null);
 	const [value, setValue] = useState("1");
@@ -25,92 +33,131 @@ const Account = () => {
 		setControlsRefs(controlsRefs);
 	};
 
+	useEffect(() => {
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Account`;
+
+		const usersList = getUsers();
+		setAllUsers(usersList.map((email) => ({ value: email, label: email })));
+	}, []);
+
+	useEffect(() => {
+		if (user) {
+			navigate("/dashboard");
+		}
+	}, [user, navigate]);
+
+	const handleAccountModal = () => {
+		const user = getUser(tempSelectedUser);
+		dispatch({ type: "LOGIN", payload: user });
+		setAccountModal(false);
+		navigate("/dashboard");
+	};
+
 	return (
-		<div className="h-full flex justify-center items-center">
-			<Card padding="xl" withBorder className="w-sm">
-				<Tabs
-					variant="none"
-					value={value}
-					onChange={setValue}
-					className="relative"
-				>
-					<Tabs.List ref={setRootRef} className="flex w-full" mb="sm">
-						<Tabs.Tab value="1" ref={setControlRef("1")} className="flex-1">
-							Sign In
-						</Tabs.Tab>
-						<Tabs.Tab value="2" ref={setControlRef("2")} className="flex-1">
-							Sign Up
-						</Tabs.Tab>
+		<>
+			<div className="h-full flex justify-center items-center">
+				<Card padding="xl" withBorder className="w-sm">
+					<Tabs
+						variant="none"
+						value={value}
+						onChange={setValue}
+						className="relative"
+					>
+						<Tabs.List ref={setRootRef} className="flex w-full" mb="sm">
+							<Tabs.Tab value="1" ref={setControlRef("1")} className="flex-1">
+								Sign In
+							</Tabs.Tab>
+							<Tabs.Tab value="2" ref={setControlRef("2")} className="flex-1">
+								Sign Up
+							</Tabs.Tab>
 
-						<FloatingIndicator
-							target={value ? controlsRefs[value] : null}
-							parent={rootRef}
-							className="bg-transparent rounded-[4px] border border-gray-200 shadow-sm"
-						/>
-					</Tabs.List>
+							<FloatingIndicator
+								target={value ? controlsRefs[value] : null}
+								parent={rootRef}
+								className="bg-transparent rounded-[4px] border border-gray-200 shadow-sm"
+							/>
+						</Tabs.List>
 
-					<Tabs.Panel value="1">
-						<TextInput
-							label="Email"
-							placeholder="you@example.com"
-							required
-							mb="sm"
-						/>
-						<PasswordInput
-							label="Password"
-							placeholder="••••••••"
-							required
-							mb="sm"
-						/>
-						<Group justify="space-between" mt="md">
-							<Button component={Link} to="/dashboard" fullWidth>
-								Sign in
+						<Tabs.Panel value="1">
+							<TextInput
+								label="Email"
+								placeholder="you@example.com"
+								required
+								mb="sm"
+							/>
+							<PasswordInput
+								label="Password"
+								placeholder="••••••••"
+								required
+								mb="sm"
+							/>
+							<Group justify="space-between" mt="md">
+								<Button fullWidth onClick={() => setAccountModal(true)}>
+									Sign in
+								</Button>
+							</Group>
+							<Anchor component={Link} to="/forgot-password" c="dimmed">
+								<Text size="sm" mt="sm" ta="center">
+									Forgot password?
+								</Text>
+							</Anchor>
+						</Tabs.Panel>
+						<Tabs.Panel value="2">
+							<TextInput
+								label="First Name"
+								placeholder="First Name"
+								required
+								mb="sm"
+							/>
+							<TextInput
+								label="Last Name"
+								placeholder="Last Name"
+								required
+								mb="sm"
+							/>
+							<TextInput
+								label="Email"
+								placeholder="you@example.com"
+								required
+								mb="sm"
+							/>
+							<PasswordInput
+								label="Password"
+								placeholder="••••••••"
+								required
+								mb="sm"
+							/>
+							<PasswordInput
+								label="Confirm Password"
+								placeholder="••••••••"
+								required
+								mb="sm"
+							/>
+							<Button fullWidth mt="md" onClick={() => setAccountModal(true)}>
+								Sign up
 							</Button>
-						</Group>
-						<Anchor component={Link} to="/forgot-password" c="dimmed">
-							<Text size="sm" mt="sm" ta="center">
-								Forgot password?
-							</Text>
-						</Anchor>
-					</Tabs.Panel>
-					<Tabs.Panel value="2">
-						<TextInput
-							label="First Name"
-							placeholder="First Name"
-							required
-							mb="sm"
-						/>
-						<TextInput
-							label="Last Name"
-							placeholder="Last Name"
-							required
-							mb="sm"
-						/>
-						<TextInput
-							label="Email"
-							placeholder="you@example.com"
-							required
-							mb="sm"
-						/>
-						<PasswordInput
-							label="Password"
-							placeholder="••••••••"
-							required
-							mb="sm"
-						/>
-						<PasswordInput
-							label="Confirm Password"
-							placeholder="••••••••"
-							required
-							mb="sm"
-						/>
-						<Button component={Link} to="/dashboard" fullWidth mt="md">
-							Sign up
-						</Button>
-					</Tabs.Panel>
-				</Tabs>
-			</Card>
-		</div>
+						</Tabs.Panel>
+					</Tabs>
+				</Card>
+			</div>
+
+			<Modal
+				opened={accountModal}
+				onClose={() => setAccountModal(false)}
+				title="Select a Library Card to Scan"
+			>
+				<Select
+					label="Member Email"
+					placeholder="Select member"
+					data={allUsers}
+					value={tempSelectedUser}
+					onChange={setTempSelectedUser}
+				/>
+				<Button className="mt-4" fullWidth onClick={handleAccountModal}>
+					Select Library User
+				</Button>
+			</Modal>
+		</>
 	);
 };
 
