@@ -147,11 +147,13 @@ const Dashboard = () => {
 				<Card withBorder className="h-64 flex flex-col">
 					<Title order={4}>Total Books</Title>
 					<div className="flex flex-col justify-center items-center flex-1 text-center">
-						<BookOpen size={40} strokeWidth={1.5} />
-						<Title order={2} mt="sm">
+						<Text c="teal.6">
+							<BookOpen size={40} strokeWidth={1.5} />
+						</Text>
+						<Title c="teal.5" order={2} mt="sm">
 							132
 						</Title>
-						<Text c="dimmed" size="sm">
+						<Text c="teal.4" size="sm">
 							Total Books Read
 						</Text>
 					</div>
