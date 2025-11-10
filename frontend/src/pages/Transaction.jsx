@@ -28,7 +28,7 @@ import useAuthContext from "../hooks/useAuthContext";
 
 const Transaction = () => {
 	const { state } = useAuthContext();
-	const { user } = state;
+	const { user, loading } = state;
 	const navigate = useNavigate();
 
 	const [scannedUser, setScannedUser] = useState("");
@@ -62,20 +62,14 @@ const Transaction = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!user) {
+		if (!loading && !user) {
 			navigate("/account");
-		} else if (user?.role !== "staff") {
+		} else if (!loading && user?.role !== "staff") {
 			navigate("/dashboard");
 		}
-	}, [user, navigate]);
+	}, [loading, user, navigate]);
 
 	const updateTransactions = (newDataOrFn) => {
-		newDataOrFn = [
-			...newDataOrFn,
-			...newDataOrFn,
-			...newDataOrFn,
-			...newDataOrFn,
-		];
 		setTransactions((prev) => {
 			const newData =
 				typeof newDataOrFn === "function" ? newDataOrFn(prev) : newDataOrFn;
@@ -507,8 +501,8 @@ const Transaction = () => {
 						</ScrollArea>
 					</Tabs.Panel>
 
-					<Tabs.Panel value="transaction" pt="md">
-						<ScrollArea className="h-[60vh]">
+					<Tabs.Panel value="transaction" className="h-full">
+						<ScrollArea className="h-full">
 							<Table stickyHeader striped highlightOnHover>
 								<Table.Thead>
 									<Table.Tr>

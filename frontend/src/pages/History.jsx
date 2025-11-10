@@ -18,7 +18,7 @@ import useAuthContext from "../hooks/useAuthContext";
 
 const History = () => {
 	const { state } = useAuthContext();
-	const { user } = state;
+	const { user, loading } = state;
 	const navigate = useNavigate();
 
 	const [transactions, setTransactions] = useState([]);
@@ -38,13 +38,13 @@ const History = () => {
 	}, []);
 
 	useEffect(() => {
-		if (!user) {
+		if (!loading && !user) {
 			navigate("/account");
-		} else if (user?.email) {
-			const data = getTransactionsWithBookInfo(user?.email);
+		} else if (!loading && user?.email) {
+			const data = getTransactionsWithBookInfo(user.email);
 			setTransactions(data);
 		}
-	}, [user, navigate]);
+	}, [loading, user, navigate]);
 
 	let filteredTransactions = transactions.filter((tx) =>
 		tx.book.title.toLowerCase().includes(search.toLowerCase())

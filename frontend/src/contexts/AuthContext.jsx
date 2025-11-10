@@ -7,6 +7,7 @@ const AuthContext = createContext(undefined);
 const AuthContextProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(authReducer, {
 		user: null,
+    loading: true,
 	});
 
 	useEffect(() => {
@@ -16,6 +17,8 @@ const AuthContextProvider = ({ children }) => {
 		if (user) {
 			dispatch({ type: "LOGIN", payload: user });
 		}
+
+    dispatch({ type: "SET_LOADING", payload: false });
 	}, []);
 
 	useEffect(() => {
