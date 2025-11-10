@@ -5,6 +5,7 @@ import { Notifications } from "@mantine/notifications";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import '@mantine/charts/styles.css';
+import '@mantine/carousel/styles.css';
 import AccountNavbarLayout from "./layouts/AccountNavbarLayout";
 import EmptyNavbarLayout from "./layouts/EmptyNavbarLayout";
 import SidebarNavbarLayout from "./layouts/SidebarNavbarLayout";

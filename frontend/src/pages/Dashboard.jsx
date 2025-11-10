@@ -7,13 +7,23 @@ import {
 	Table,
 	Badge,
 	Text,
+	Image,
 } from "@mantine/core";
 import { DonutChart, BarChart } from "@mantine/charts";
+import { Carousel } from "@mantine/carousel";
 import { Info, BookOpen } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuthContext from "../hooks/useAuthContext";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
 import { getStatusColor } from "../utils/status.jsx";
+
+import theGreatGatsby from "../assets/book-covers/the-great-gatsby.jpg";
+import _1984 from "../assets/book-covers/1984.jpg";
+import toKillAMockingbird from "../assets/book-covers/to-kill-a-mockingbird.jpg";
+import prideAndPrejudice from "../assets/book-covers/pride-and-prejudice.jpg";
+import braveNewWorld from "../assets/book-covers/brave-new-world.jpg";
+import theHobbit from "../assets/book-covers/the-hobbit.jpg";
+import fahrenheit451 from "../assets/book-covers/fahrenheit-451.jpg";
 
 const Dashboard = () => {
 	const { state } = useAuthContext();
@@ -81,6 +91,51 @@ const Dashboard = () => {
 			</Table.Tr>
 		);
 	});
+
+	const recommendations = [
+		{
+			id: 1,
+			title: "The Great Gatsby",
+			author: "F. Scott Fitzgerald",
+			cover: theGreatGatsby,
+		},
+		{
+			id: 2,
+			title: "1984",
+			author: "George Orwell",
+			cover: _1984,
+		},
+		{
+			id: 3,
+			title: "To Kill a Mockingbird",
+			author: "Harper Lee",
+			cover: toKillAMockingbird,
+		},
+		{
+			id: 4,
+			title: "Pride and Prejudice",
+			author: "Jane Austen",
+			cover: prideAndPrejudice,
+		},
+		{
+			id: 5,
+			title: "Brave New World",
+			author: "Aldous Huxley",
+			cover: braveNewWorld,
+		},
+		{
+			id: 6,
+			title: "The Hobbit",
+			author: "J.R.R. Tolkien",
+			cover: theHobbit,
+		},
+		{
+			id: 7,
+			title: "Fahrenheit 451",
+			author: "Ray Bradbury",
+			cover: fahrenheit451,
+		},
+	];
 
 	return (
 		<div className="h-full flex flex-col gap-4">
@@ -199,8 +254,41 @@ const Dashboard = () => {
 				</Card>
 
 				{/* Recommendations */}
-				<Card withBorder className="h-80 md:col-span-3">
-					<Title order={4}>Recommendations</Title>
+				<Card withBorder className="h-80 md:col-span-3 p-4 flex flex-col">
+					<Title order={4} className="pb-4">
+						Recommendations
+					</Title>
+
+					<Carousel
+						className="h-full"
+						slideSize={{ base: "100%", sm: "33.333333%" }}
+						slideGap="md"
+						align="center"
+					>
+						{recommendations.map((book) => (
+							<Carousel.Slide withBorder key={book.id}>
+								<Card
+									withBorder
+									className="h-[243px] flex flex-col items-center justify-between"
+								>
+									<Image
+										src={book.cover}
+										fit="contain"
+										alt={book.title}
+										className="h-40"
+									/>
+									<div className="text-center pt-2">
+										<Text fw={500} size="sm" lineClamp={1}>
+											{book.title}
+										</Text>
+										<Text size="xs" c="dimmed" lineClamp={1}>
+											{book.author}
+										</Text>
+									</div>
+								</Card>
+							</Carousel.Slide>
+						))}
+					</Carousel>
 				</Card>
 			</div>
 		</div>
