@@ -456,14 +456,14 @@ const Transaction = () => {
 					</div>
 				</div>
 			</div>
-			<Card withBorder className="flex-1">
+			<Card withBorder className="h-full">
 				<Tabs
 					variant="none"
 					value={value}
 					onChange={setValue}
-					className="relative"
+					className="relative h-full pb-12"
 				>
-					<Tabs.List ref={setRootRef} className="flex w-full">
+					<Tabs.List ref={setRootRef} className="flex w-full" pb="md">
 						<Tabs.Tab
 							value="history"
 							ref={setControlRef("history")}
@@ -486,8 +486,8 @@ const Transaction = () => {
 						/>
 					</Tabs.List>
 
-					<Tabs.Panel value="history" pt="md">
-						<ScrollArea className="h-[60vh]">
+					<Tabs.Panel value="history" className="h-full">
+						<ScrollArea className="h-full">
 							<Table stickyHeader striped highlightOnHover>
 								<Table.Thead>
 									<Table.Tr>
