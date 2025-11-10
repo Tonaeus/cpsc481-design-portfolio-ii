@@ -9,7 +9,7 @@ function MainLayout() {
 			</header>
 			<main className="flex justify-center flex-1 bg-gray-100 overflow-y-auto">
 				<div className="h-[calc(100vh-56px)] w-full max-w-7xl">
-					<div className="h-full p-4">
+					<div className="p-4">
 						<Outlet />
 					</div>
 				</div>
