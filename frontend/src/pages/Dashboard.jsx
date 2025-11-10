@@ -94,7 +94,7 @@ const Dashboard = () => {
 				</Card>
 
 				{/* Borrowed Items */}
-				<Card withBorder className="h-80 md:col-span-2">
+				<Card withBorder className="h-72 md:col-span-2">
 					<Title order={4}>Borrowed Items</Title>
 					<div className="h-[1px] my-4 bg-gray-200" />
 					{rows.length > 0 ? (
@@ -120,7 +120,7 @@ const Dashboard = () => {
 				</Card>
 
 				{/* Fees */}
-				<Card withBorder className="h-80">
+				<Card withBorder className="h-72">
 					<Title order={4}>Fees</Title>
 					<div className="h-[1px] my-4 bg-gray-200" />
 					{fees.length > 0 ? (
@@ -169,15 +169,31 @@ const Dashboard = () => {
 								{ name: "Non-fiction", value: 30, color: "teal.7" },
 								{ name: "Science", value: 15, color: "teal.5" },
 								{ name: "History", value: 10, color: "teal.3" },
-								{ name: "Other", value: 10, color: "teal.1" },
+								{ name: "Other", value: 5, color: "teal.1" },
 							]}
 						/>
 					</div>
 				</Card>
 
 				{/* Book Author */}
-				<Card withBorder className="h-64">
-					<Title order={4}>Top Authors</Title>
+				<Card withBorder className="h-64" padding={0} clas>
+					<Title order={4} className="p-4">
+						Top Authors
+					</Title>
+					<div className="flex justify-start items-center flex-1">
+						<BarChart
+							className="h-full pb-4 pr-8"
+							data={[
+								{ author: "J.K. Rowling", Books: 13 },
+								{ author: "George R.R. Martin", Books: 10 },
+								{ author: "Agatha Christie", Books: 9 },
+								{ author: "Stephen King", Books: 7 },
+								{ author: "J.R.R. Tolkien", Books: 4 },
+							]}
+							dataKey="author"
+							series={[{ name: "Books", color: "teal.6" }]}
+						/>
+					</div>
 				</Card>
 
 				{/* Recommendations */}
