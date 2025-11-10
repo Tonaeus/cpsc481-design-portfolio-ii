@@ -8,6 +8,7 @@ import {
 	Badge,
 	Text,
 } from "@mantine/core";
+import { DonutChart, BarChart } from "@mantine/charts";
 import { Info, BookOpen } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuthContext from "../hooks/useAuthContext";
@@ -143,25 +144,35 @@ const Dashboard = () => {
 				</Card>
 
 				{/* Total Books */}
-				<Card
-					withBorder
-					className="h-64 flex flex-col items-center justify-center text-center"
-				>
-					<Title order={4} className="absolute top-4 left-4">
-						Total Books
-					</Title>
-					<BookOpen size={40} strokeWidth={1.5} />
-					<Title order={2} mt="sm">
-						132
-					</Title>
-					<Text c="dimmed" size="sm">
-						Total Books Read
-					</Text>
+				<Card withBorder className="h-64 flex flex-col">
+					<Title order={4}>Total Books</Title>
+					<div className="flex flex-col justify-center items-center flex-1 text-center">
+						<BookOpen size={40} strokeWidth={1.5} />
+						<Title order={2} mt="sm">
+							132
+						</Title>
+						<Text c="dimmed" size="sm">
+							Total Books Read
+						</Text>
+					</div>
 				</Card>
 
 				{/* Book Genre */}
-				<Card withBorder className="h-64">
+				<Card withBorder className="h-64 flex flex-col">
 					<Title order={4}>Book Genres</Title>
+					<div className="flex justify-center items-center flex-1">
+						<DonutChart
+							paddingAngle={2}
+							className="h-full"
+							data={[
+								{ name: "Fiction", value: 45, color: "teal.9" },
+								{ name: "Non-fiction", value: 30, color: "teal.7" },
+								{ name: "Science", value: 15, color: "teal.5" },
+								{ name: "History", value: 10, color: "teal.3" },
+								{ name: "Other", value: 10, color: "teal.1" },
+							]}
+						/>
+					</div>
 				</Card>
 
 				{/* Book Author */}
