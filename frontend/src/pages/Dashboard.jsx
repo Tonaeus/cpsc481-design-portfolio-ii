@@ -1,12 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-	Anchor,
-	Card,
-	Title,
-	ScrollArea,
-	Table,
-	Badge,
-} from "@mantine/core";
+import { Anchor, Card, Title, ScrollArea, Table, Badge } from "@mantine/core";
 import { Info } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuthContext from "../hooks/useAuthContext";
@@ -55,6 +48,31 @@ const Dashboard = () => {
 		</Table.Tr>
 	));
 
+	let feeFilteredTransactions = transactions.filter((tx) =>
+		["Overdue"].includes(tx.status)
+	);
+
+	const today = new Date();
+	const feeRate = 0.5;
+
+	const fees = feeFilteredTransactions.map((tx) => {
+		const dueDate = new Date(tx.due_date);
+		let fee = 0;
+
+		if (dueDate < today && tx.status !== "Returned") {
+			const daysOverdue = Math.ceil((today - dueDate) / (1000 * 60 * 60 * 24));
+			fee = daysOverdue * feeRate;
+		}
+
+		return (
+			<Table.Tr key={tx.transaction_id}>
+				<Table.Td>{tx.book.title}</Table.Td>
+				<Table.Td>{tx.due_date}</Table.Td>
+				<Table.Td>${fee.toFixed(2)}</Table.Td>
+			</Table.Tr>
+		);
+	});
+
 	return (
 		<div className="h-full flex flex-col gap-4">
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -65,12 +83,10 @@ const Dashboard = () => {
 						{user ? `${user.first_name} ${user.last_name}` : "Library Member"}!
 					</Title>
 				</Card>
-				
+
 				{/* Borrowed Items */}
 				<Card withBorder className="h-80 md:col-span-2">
-					<Title order={4} >
-						Borrowed Items
-					</Title>
+					<Title order={4}>Borrowed Items</Title>
 					<div className="h-[1px] my-4 bg-gray-200" />
 					<ScrollArea className="h-full">
 						<Table stickyHeader striped highlightOnHover>
@@ -91,6 +107,19 @@ const Dashboard = () => {
 				{/* Fees */}
 				<Card withBorder className="h-80">
 					<Title order={4}>Fees</Title>
+					<div className="h-[1px] my-4 bg-gray-200" />
+					<ScrollArea className="h-full">
+						<Table stickyHeader striped highlightOnHover>
+							<Table.Thead>
+								<Table.Tr>
+									<Table.Th>Book Title</Table.Th>
+									<Table.Th>Due Date</Table.Th>
+									<Table.Th>Fee</Table.Th>
+								</Table.Tr>
+							</Table.Thead>
+							<Table.Tbody>{fees}</Table.Tbody>
+						</Table>
+					</ScrollArea>
 				</Card>
 
 				{/* Total Books */}
