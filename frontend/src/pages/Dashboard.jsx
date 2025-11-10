@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Anchor, Card, Title, ScrollArea, Table, Badge } from "@mantine/core";
+import { Anchor, Card, Title, ScrollArea, Table, Badge, Text } from "@mantine/core";
 import { Info } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuthContext from "../hooks/useAuthContext";
@@ -88,38 +88,50 @@ const Dashboard = () => {
 				<Card withBorder className="h-80 md:col-span-2">
 					<Title order={4}>Borrowed Items</Title>
 					<div className="h-[1px] my-4 bg-gray-200" />
-					<ScrollArea className="h-full">
-						<Table stickyHeader striped highlightOnHover>
-							<Table.Thead>
-								<Table.Tr>
-									<Table.Th>Book Info</Table.Th>
-									<Table.Th>Book Title</Table.Th>
-									<Table.Th>Book Author</Table.Th>
-									<Table.Th>Due Date</Table.Th>
-									<Table.Th>Status</Table.Th>
-								</Table.Tr>
-							</Table.Thead>
-							<Table.Tbody>{rows}</Table.Tbody>
-						</Table>
-					</ScrollArea>
+					{rows.length > 0 ? (
+						<ScrollArea className="h-full">
+							<Table stickyHeader striped highlightOnHover>
+								<Table.Thead>
+									<Table.Tr>
+										<Table.Th>Book Info</Table.Th>
+										<Table.Th>Book Title</Table.Th>
+										<Table.Th>Book Author</Table.Th>
+										<Table.Th>Due Date</Table.Th>
+										<Table.Th>Status</Table.Th>
+									</Table.Tr>
+								</Table.Thead>
+								<Table.Tbody>{rows}</Table.Tbody>
+							</Table>
+						</ScrollArea>
+					) : (
+						<Text ta="center" c="dimmed" className="mt-6">
+							No borrowed items 📚
+						</Text>
+					)}
 				</Card>
 
 				{/* Fees */}
 				<Card withBorder className="h-80">
 					<Title order={4}>Fees</Title>
 					<div className="h-[1px] my-4 bg-gray-200" />
-					<ScrollArea className="h-full">
-						<Table stickyHeader striped highlightOnHover>
-							<Table.Thead>
-								<Table.Tr>
-									<Table.Th>Book Title</Table.Th>
-									<Table.Th>Due Date</Table.Th>
-									<Table.Th>Fee</Table.Th>
-								</Table.Tr>
-							</Table.Thead>
-							<Table.Tbody>{fees}</Table.Tbody>
-						</Table>
-					</ScrollArea>
+					{fees.length > 0 ? (
+						<ScrollArea className="h-full">
+							<Table stickyHeader striped highlightOnHover>
+								<Table.Thead>
+									<Table.Tr>
+										<Table.Th>Book Title</Table.Th>
+										<Table.Th>Due Date</Table.Th>
+										<Table.Th>Fee</Table.Th>
+									</Table.Tr>
+								</Table.Thead>
+								<Table.Tbody>{fees}</Table.Tbody>
+							</Table>
+						</ScrollArea>
+					) : (
+						<Text ta="center" c="dimmed" className="mt-6">
+							No outstanding fees 🎉
+						</Text>
+					)}
 				</Card>
 
 				{/* Total Books */}
