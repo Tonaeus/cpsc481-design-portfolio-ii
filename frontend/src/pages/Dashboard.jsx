@@ -107,15 +107,15 @@ const Dashboard = () => {
 		},
 		{
 			id: 3,
-			title: "To Kill a Mockingbird",
-			author: "Harper Lee",
-			cover: toKillAMockingbird,
-		},
-		{
-			id: 4,
 			title: "Pride and Prejudice",
 			author: "Jane Austen",
 			cover: prideAndPrejudice,
+		},
+		{
+			id: 4,
+			title: "To Kill a Mockingbird",
+			author: "Harper Lee",
+			cover: toKillAMockingbird,
 		},
 		{
 			id: 5,

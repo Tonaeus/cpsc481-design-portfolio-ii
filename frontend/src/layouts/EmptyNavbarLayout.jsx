@@ -8,7 +8,7 @@ function MainLayout() {
 			<header>
 				<Navbar showUserButton={false} />
 			</header>
-			<main className="relative flex justify-center flex-1 bg-gray-100">
+			<main className="relative flex justify-center flex-1 bg-gray-100 overflow-y-auto">
 				{/* <div className="absolute inset-0 hidden xl:flex justify-center items-center pointer-events-none">
 					<div
 						className="bg-contain bg-center bg-no-repeat w-9/10 h-9/10"
