@@ -4,12 +4,12 @@ import { Anchor, Avatar, Button, Card, Drawer } from "@mantine/core";
 import {
 	PanelLeft,
 	LayoutDashboard,
-	BookOpen,
 	History,
 	CreditCard,
 	Flag,
 	ScanBarcode,
 	LogOut,
+	Compass,
 } from "lucide-react";
 import useAuthContext from "../hooks/useAuthContext";
 
@@ -100,7 +100,7 @@ const SidebarNavbar = () => {
 							color={isActive("/browse") ? undefined : "dark"}
 						>
 							<div className="flex gap-4 items-center absolute left-4">
-								<BookOpen size={18} />
+								<Compass size={18} />
 								Browse
 							</div>
 						</Button>

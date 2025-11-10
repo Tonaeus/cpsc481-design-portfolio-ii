@@ -12,6 +12,7 @@ import {
 	Select,
 	Tabs,
 	FloatingIndicator,
+	Badge,
 } from "@mantine/core";
 import { Info } from "lucide-react";
 import { showNotification } from "@mantine/notifications";
@@ -63,8 +64,7 @@ const Transaction = () => {
 	useEffect(() => {
 		if (!user) {
 			navigate("/account");
-		}
-		else if (user?.role !== "staff") {
+		} else if (user?.role !== "staff") {
 			navigate("/dashboard");
 		}
 	}, [user, navigate]);
@@ -101,7 +101,9 @@ const Transaction = () => {
 			<Table.Td>{tx.due_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
 			<Table.Td>
-				<span style={{ color: getStatusColor(tx.status) }}>{tx.status}</span>
+				<Badge color={getStatusColor(tx.status)} variant="light">
+					{tx.status}
+				</Badge>
 			</Table.Td>
 		</Table.Tr>
 	));
@@ -125,7 +127,9 @@ const Transaction = () => {
 			</Table.Td>
 			<Table.Td>{sb.current_user ? sb.current_user.email : "-"}</Table.Td>
 			<Table.Td>
-				<span style={{ color: getStatusColor(sb.status) }}>{sb.status}</span>
+				<Badge color={getStatusColor(sb.status)} variant="light">
+					{sb.status}
+				</Badge>
 			</Table.Td>
 		</Table.Tr>
 	));
@@ -418,7 +422,9 @@ const Transaction = () => {
 							<span className="font-semibold leading-tight">
 								{scannedUser.first_name} {scannedUser.last_name}
 							</span>
-							<span className="text-xs text-gray-500 leading-tight">{scannedUser.email}</span>
+							<span className="text-xs text-gray-500 leading-tight">
+								{scannedUser.email}
+							</span>
 						</div>
 					</div>
 				</Card>

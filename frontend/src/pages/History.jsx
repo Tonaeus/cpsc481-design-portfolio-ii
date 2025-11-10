@@ -9,6 +9,7 @@ import {
 	Card,
 	Modal,
 	Select,
+	Badge,
 } from "@mantine/core";
 import { Search, Info } from "lucide-react";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
@@ -83,7 +84,9 @@ const History = () => {
 			<Table.Td>{tx.due_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
 			<Table.Td>
-				<span style={{ color: getStatusColor(tx.status) }}>{tx.status}</span>
+				<Badge color={getStatusColor(tx.status)} variant="light">
+					{tx.status}
+				</Badge>
 			</Table.Td>
 		</Table.Tr>
 	));

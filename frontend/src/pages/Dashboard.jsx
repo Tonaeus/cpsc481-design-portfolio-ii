@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Card, Button, Stack } from "@mantine/core";
+import { Card, Button, Stack, Title, Text } from "@mantine/core";
 import {
 	BookOpen,
 	History,
@@ -26,61 +26,12 @@ const Dashboard = () => {
 	}, [user, navigate]);
 
 	return (
-		<div className="h-full flex justify-center items-center">
-			<Card padding="xl" withBorder className="w-sm">
-				<Stack gap="md">
-					<Button
-						component={Link}
-						to="/browse"
-						fullWidth
-						className="relative justify-center"
-					>
-						<BookOpen size={18} className="absolute left-4" />
-						Browse
-					</Button>
-
-					<Button
-						component={Link}
-						to="/history"
-						fullWidth
-						className="relative justify-center"
-					>
-						<History size={18} className="absolute left-4" />
-						History
-					</Button>
-
-					<Button
-						component={Link}
-						to="/payment"
-						fullWidth
-						className="relative justify-center"
-					>
-						<CreditCard size={18} className="absolute left-4" />
-						Payment
-					</Button>
-
-					<Button
-						component={Link}
-						to="/report"
-						fullWidth
-						className="relative justify-center"
-					>
-						<BarChart3 size={18} className="absolute left-4" />
-						Report
-					</Button>
-
-					{user?.role === "staff" && (
-						<Button
-							component={Link}
-							to="/transaction"
-							fullWidth
-							className="relative justify-center"
-						>
-							<FileText size={18} className="absolute left-4" />
-							Transaction
-						</Button>
-					)}
-				</Stack>
+		<div className="h-full flex flex-col gap-4">
+			<Card>
+				<Title order={3}>
+					Welcome,{" "}
+					{user ? `${user.first_name} ${user.last_name}` : "Library Member"}!
+				</Title>
 			</Card>
 		</div>
 	);
