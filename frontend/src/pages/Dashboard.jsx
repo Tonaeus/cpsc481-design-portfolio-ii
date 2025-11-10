@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
-import { Anchor, Card, Title, ScrollArea, Table, Badge, Text } from "@mantine/core";
-import { Info } from "lucide-react";
+import {
+	Anchor,
+	Card,
+	Title,
+	ScrollArea,
+	Table,
+	Badge,
+	Text,
+} from "@mantine/core";
+import { Info, BookOpen } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuthContext from "../hooks/useAuthContext";
 import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
@@ -135,8 +143,20 @@ const Dashboard = () => {
 				</Card>
 
 				{/* Total Books */}
-				<Card withBorder className="h-64">
-					<Title order={4}>Total Books</Title>
+				<Card
+					withBorder
+					className="h-64 flex flex-col items-center justify-center text-center"
+				>
+					<Title order={4} className="absolute top-4 left-4">
+						Total Books
+					</Title>
+					<BookOpen size={40} strokeWidth={1.5} />
+					<Title order={2} mt="sm">
+						132
+					</Title>
+					<Text c="dimmed" size="sm">
+						Total Books Read
+					</Text>
 				</Card>
 
 				{/* Book Genre */}
