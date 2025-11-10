@@ -70,6 +70,12 @@ const Transaction = () => {
 	}, [user, navigate]);
 
 	const updateTransactions = (newDataOrFn) => {
+		newDataOrFn = [
+			...newDataOrFn,
+			...newDataOrFn,
+			...newDataOrFn,
+			...newDataOrFn,
+		];
 		setTransactions((prev) => {
 			const newData =
 				typeof newDataOrFn === "function" ? newDataOrFn(prev) : newDataOrFn;
@@ -417,7 +423,11 @@ const Transaction = () => {
 			<div className="flex justify-between">
 				<Card withBorder className="w-1/2">
 					<div className="flex items-center gap-4">
-						<Avatar color="teal" />
+						{scannedUser === "" ? (
+							<div className="h-[38px]" />
+						) : (
+							<Avatar color="teal" />
+						)}
 						<div className="flex flex-col">
 							<span className="font-semibold leading-tight">
 								{scannedUser.first_name} {scannedUser.last_name}
@@ -453,7 +463,7 @@ const Transaction = () => {
 					onChange={setValue}
 					className="relative"
 				>
-					<Tabs.List ref={setRootRef} className="flex w-full" mb="sm">
+					<Tabs.List ref={setRootRef} className="flex w-full">
 						<Tabs.Tab
 							value="history"
 							ref={setControlRef("history")}
