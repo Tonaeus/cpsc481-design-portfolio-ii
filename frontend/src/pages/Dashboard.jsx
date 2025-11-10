@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
+	Anchor,
 	Card,
 	Button,
 	Stack,
@@ -7,6 +8,7 @@ import {
 	Text,
 	ScrollArea,
 	Table,
+	Badge,
 } from "@mantine/core";
 import {
 	BookOpen,
@@ -14,14 +16,19 @@ import {
 	CreditCard,
 	BarChart3,
 	FileText,
+	Info,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuthContext from "../hooks/useAuthContext";
+import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
+import { getStatusColor } from "../utils/status.jsx";
 
 const Dashboard = () => {
 	const { state } = useAuthContext();
 	const { user, loading } = state;
 	const navigate = useNavigate();
+
+	const [transactions, setTransactions] = useState([]);
 
 	useEffect(() => {
 		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Dashboard`;
@@ -30,8 +37,33 @@ const Dashboard = () => {
 	useEffect(() => {
 		if (!loading && !user) {
 			navigate("/account");
+		} else if (!loading && user?.email) {
+			const data = getTransactionsWithBookInfo(user.email);
+			setTransactions(data);
 		}
 	}, [loading, user, navigate]);
+
+	let filteredTransactions = transactions.filter((tx) =>
+		["Borrowed", "Overdue", "Reserved"].includes(tx.status)
+	);
+
+	const rows = filteredTransactions.map((tx) => (
+		<Table.Tr key={tx.transaction_id}>
+			<Table.Td>
+				<Anchor component={Link} to={`/books/${tx.book.id}`}>
+					<Info size={18} />
+				</Anchor>
+			</Table.Td>
+			<Table.Td>{tx.book.title}</Table.Td>
+			<Table.Td>{tx.book.author}</Table.Td>
+			<Table.Td>{tx.due_date}</Table.Td>
+			<Table.Td>
+				<Badge color={getStatusColor(tx.status)} variant="light">
+					{tx.status}
+				</Badge>
+			</Table.Td>
+		</Table.Tr>
+	));
 
 	return (
 		<div className="h-full flex flex-col gap-4">
@@ -55,7 +87,7 @@ const Dashboard = () => {
 									<Table.Th>Status</Table.Th>
 								</Table.Tr>
 							</Table.Thead>
-							<Table.Tbody>{}</Table.Tbody>
+							<Table.Tbody>{rows}</Table.Tbody>
 						</Table>
 					</ScrollArea>
 				</Card>
