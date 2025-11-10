@@ -68,7 +68,7 @@ const Dashboard = () => {
 	return (
 		<div className="h-full flex flex-col gap-4">
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-				<Card withBorder className="col-span-3">
+				<Card withBorder className="md:col-span-3">
 					<Title order={3}>
 						Welcome,{" "}
 						{user ? `${user.first_name} ${user.last_name}` : "Library Member"}!

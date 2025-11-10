@@ -8,9 +8,11 @@ function MainLayout() {
 				<SidebarNavbar />
 			</header>
 			<main className="flex justify-center flex-1 bg-gray-100">
-        <div className="h-[calc(100vh-56px)] w-full max-w-7xl p-4">
-				  <Outlet />
-        </div>
+				<div className="h-[calc(100vh-56px)] w-full max-w-7xl overflow-y-auto">
+					<div className="p-4">
+						<Outlet />
+					</div>
+				</div>
 			</main>
 		</div>
 	);
