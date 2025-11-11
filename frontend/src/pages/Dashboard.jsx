@@ -261,7 +261,7 @@ const Dashboard = () => {
 
 					<Carousel
 						className="h-full"
-						slideSize={{ base: "100%", sm: "33.333333%" }}
+						slideSize={{ base: "100%", md: "20%" }}
 						slideGap="md"
 						align="center"
 					>
