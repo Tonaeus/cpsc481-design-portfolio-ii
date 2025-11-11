@@ -14,7 +14,7 @@ import { Carousel } from "@mantine/carousel";
 import { Info, BookOpen } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuthContext from "../hooks/useAuthContext";
-import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
+import { getTransactionsWithBookInfo } from "../../backend/history.jsx";
 import { getStatusColor } from "../utils/status.jsx";
 
 import theGreatGatsby from "../assets/book-covers/the-great-gatsby.jpg";
@@ -151,7 +151,7 @@ const Dashboard = () => {
 				{/* Borrowed Items */}
 				<Card withBorder className="h-72 md:col-span-2">
 					<Title order={4}>Borrowed Items</Title>
-					<div className="h-[1px] my-4 bg-gray-200" />
+					<div className="h-[px] my-4 bg-gray-200" />
 					{rows.length > 0 ? (
 						<ScrollArea className="h-full">
 							<Table stickyHeader striped highlightOnHover>
@@ -177,7 +177,7 @@ const Dashboard = () => {
 				{/* Fees */}
 				<Card withBorder className="h-72">
 					<Title order={4}>Fees</Title>
-					<div className="h-[1px] my-4 bg-gray-200" />
+					<div className="h-[px] my-4 bg-gray-200" />
 					{fees.length > 0 ? (
 						<ScrollArea className="h-full">
 							<Table stickyHeader striped highlightOnHover>

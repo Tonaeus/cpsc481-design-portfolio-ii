@@ -12,7 +12,7 @@ import {
 	Badge,
 } from "@mantine/core";
 import { Search, Info } from "lucide-react";
-import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
+import { getTransactionsWithBookInfo } from "../../backend/history.jsx";
 import { getStatusColor } from "../utils/status.jsx";
 import useAuthContext from "../hooks/useAuthContext";
 

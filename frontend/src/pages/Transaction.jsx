@@ -16,12 +16,12 @@ import {
 } from "@mantine/core";
 import { Info } from "lucide-react";
 import { showNotification } from "@mantine/notifications";
-import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
+import { getTransactionsWithBookInfo } from "../../backend/history.jsx";
 import {
 	getUser,
 	getUsers,
 	getAllBookCopiesWithUser,
-} from "../../../backend/transaction.jsx";
+} from "../../backend/transaction.jsx";
 import notifClasses from "../styles/notif.module.css";
 import { getStatusColor } from "../utils/status.jsx";
 import useAuthContext from "../hooks/useAuthContext";
@@ -476,7 +476,7 @@ const Transaction = () => {
 						<FloatingIndicator
 							target={value ? controlsRefs[value] : null}
 							parent={rootRef}
-							className="bg-transparent rounded-[4px] border border-gray-200 shadow-sm"
+							className="bg-transparent rounded-sm border border-gray-200 shadow-sm"
 						/>
 					</Tabs.List>
 

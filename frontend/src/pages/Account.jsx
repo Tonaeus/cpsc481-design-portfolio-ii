@@ -14,7 +14,7 @@ import {
 } from "@mantine/core";
 import useAuthContext from "../hooks/useAuthContext";
 import { Link, useNavigate } from "react-router";
-import { getUser, getUsers } from "../../../backend/transaction.jsx";
+import { getUser, getUsers } from "../../backend/transaction.jsx";
 
 const Account = () => {
 	const { state, dispatch } = useAuthContext();
@@ -74,7 +74,7 @@ const Account = () => {
 							<FloatingIndicator
 								target={value ? controlsRefs[value] : null}
 								parent={rootRef}
-								className="bg-transparent rounded-[4px] border border-gray-200 shadow-sm"
+								className="bg-transparent rounded-sm border border-gray-200 shadow-sm"
 							/>
 						</Tabs.List>
 
