@@ -233,7 +233,7 @@ const Dashboard = () => {
 				</Card>
 
 				{/* Book Author */}
-				<Card withBorder className="h-64" padding={0} clas>
+				<Card withBorder className="h-64" padding={0} >
 					<Title order={4} className="p-4">
 						Top Authors
 					</Title>
@@ -266,7 +266,7 @@ const Dashboard = () => {
 						align="center"
 					>
 						{recommendations.map((book) => (
-							<Carousel.Slide withBorder key={book.id}>
+							<Carousel.Slide key={book.id}>
 								<Card
 									withBorder
 									className="h-[243px] flex flex-col items-center justify-between"
