@@ -233,7 +233,7 @@ const Dashboard = () => {
 				</Card>
 
 				{/* Book Author */}
-				<Card withBorder className="h-64" padding={0} >
+				<Card withBorder className="h-64" padding={0}>
 					<Title order={4} className="p-4">
 						Top Authors
 					</Title>
