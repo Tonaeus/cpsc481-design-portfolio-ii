@@ -25,6 +25,7 @@ import {
 import notifClasses from "../styles/notif.module.css";
 import { getStatusColor } from "../utils/status.jsx";
 import useAuthContext from "../hooks/useAuthContext";
+import { useHotkeys } from "@mantine/hooks";
 
 const Transaction = () => {
 	const { state } = useAuthContext();
@@ -51,6 +52,9 @@ const Transaction = () => {
 		controlsRefs[val] = node;
 		setControlsRefs(controlsRefs);
 	};
+
+	useHotkeys([["r", () => setRfidModalOpened((o) => !o)]]);
+	useHotkeys([["b", () => setBarcodeModalOpened((o) => !o)]]);
 
 	useEffect(() => {
 		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Transaction`;
