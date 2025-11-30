@@ -20,6 +20,7 @@ import Report from "./pages/Report";
 import Transaction from "./pages/Transaction";
 import Reserve from "./pages/Reserve";
 import Payment from "./pages/Payment";
+import Empty from "./pages/Empty";
 
 function App() {
 	return (
@@ -50,6 +51,7 @@ function App() {
 							<Route path="transaction" element={<Transaction />} />
 							<Route path="reserve" element={<Reserve />} />
 							<Route path="payment" element={<Payment />} />
+							<Route path="empty" element={<Empty />} />
 						</Route>
 					</Routes>
 				</BrowserRouter>
