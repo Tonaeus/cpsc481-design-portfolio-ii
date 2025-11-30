@@ -434,8 +434,11 @@ const Transaction = () => {
 				</Card>
 				<div>
 					<div className="flex gap-2">
-						<Button variant="outline">Undo</Button>
+						<Button style={{ width: 135 }} variant="outline">
+							Undo
+						</Button>
 						<Button
+							style={{ width: 135 }}
 							variant="filled"
 							onClick={() => {
 								setScannedUser("");
@@ -525,7 +528,11 @@ const Transaction = () => {
 
 			<div className="flex justify-between">
 				<div className="flex gap-2">
-					<Button variant="filled" onClick={() => setRfidModalOpened(true)}>
+					<Button
+						style={{ width: 135 }}
+						variant="filled"
+						onClick={() => setRfidModalOpened(true)}
+					>
 						RFID Scan
 					</Button>
 					<Modal
@@ -544,7 +551,11 @@ const Transaction = () => {
 							Scan Library Card
 						</Button>
 					</Modal>
-					<Button variant="filled" onClick={() => setBarcodeModalOpened(true)}>
+					<Button
+						style={{ width: 135 }}
+						variant="filled"
+						onClick={() => setBarcodeModalOpened(true)}
+					>
 						Barcode Scan
 					</Button>
 					<Modal
@@ -575,6 +586,7 @@ const Transaction = () => {
 				</div>
 				<div className="flex gap-2">
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("check out")) return;
@@ -586,6 +598,7 @@ const Transaction = () => {
 						Check Out
 					</Button>
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("check in")) return;
@@ -596,6 +609,7 @@ const Transaction = () => {
 						Check In
 					</Button>
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("renew")) return;

@@ -103,6 +103,7 @@ const History = () => {
 				/>
 				<div className="flex gap-2">
 					<Button
+					style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							setTempStatusFilter(statusFilter);
@@ -112,6 +113,7 @@ const History = () => {
 						Filter
 					</Button>
 					<Button
+					style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							setTempSortBy(sortBy);
