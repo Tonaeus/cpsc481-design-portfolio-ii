@@ -436,24 +436,35 @@ const Transaction = () => {
 						</div>
 					</div>
 				</Card>
-				<div>
-					<div className="flex gap-2">
-						<Button style={{ width: 135 }} variant="outline">
-							Undo
-						</Button>
+				<div className="w-1/2">
+					<div className="flex justify-between gap-2">
 						<Button
-							style={{ width: 135 }}
-							variant="filled"
-							onClick={() => {
-								setScannedUser("");
-								setTempSelectedUser("");
-								updateTransactions([]);
-								setSelectedRows([]);
-								setScannedBooks([]);
-							}}
+							variant="subtle"
+							px={0}
+							py={0}
+							style={{ aspectRatio: "1 / 1" }}
+							// onClick={() => setHelpOpened(true)}
 						>
-							Finish
+							<Info />
 						</Button>
+						<div className="flex gap-2">
+							<Button style={{ width: 135 }} variant="outline">
+								Undo
+							</Button>
+							<Button
+								style={{ width: 135 }}
+								variant="filled"
+								onClick={() => {
+									setScannedUser("");
+									setTempSelectedUser("");
+									updateTransactions([]);
+									setSelectedRows([]);
+									setScannedBooks([]);
+								}}
+							>
+								Finish
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
