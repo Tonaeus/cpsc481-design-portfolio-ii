@@ -22,7 +22,7 @@ const SidebarNavbar = () => {
 	const [sidebarOpened, setSidebarOpened] = useState(false);
 	const location = useLocation();
 
-	useHotkeys([["s+b", () => setSidebarOpened((o) => !o)]]);
+	useHotkeys([["s", () => setSidebarOpened((o) => !o)]]);
 
 	const isActive = (path) => location.pathname === path;
 
@@ -62,6 +62,9 @@ const SidebarNavbar = () => {
 				styles={{
 					body: {
 						height: "calc(100% - 71px)",
+					},
+					close: {
+						outline: "none",
 					},
 				}}
 				title={
