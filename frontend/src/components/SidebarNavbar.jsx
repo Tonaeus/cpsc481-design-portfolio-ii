@@ -12,6 +12,7 @@ import {
 	Compass,
 } from "lucide-react";
 import useAuthContext from "../hooks/useAuthContext";
+import { useHotkeys } from "@mantine/hooks";
 
 const SidebarNavbar = () => {
 	const { state, dispatch } = useAuthContext();
@@ -20,6 +21,8 @@ const SidebarNavbar = () => {
 
 	const [sidebarOpened, setSidebarOpened] = useState(false);
 	const location = useLocation();
+
+	useHotkeys([["s", () => setSidebarOpened((o) => !o)]]);
 
 	const isActive = (path) => location.pathname === path;
 
@@ -59,6 +62,9 @@ const SidebarNavbar = () => {
 				styles={{
 					body: {
 						height: "calc(100% - 71px)",
+					},
+					close: {
+						outline: "none",
 					},
 				}}
 				title={

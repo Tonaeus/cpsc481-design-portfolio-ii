@@ -9,7 +9,6 @@ import "@mantine/carousel/styles.css";
 import AccountNavbarLayout from "./layouts/AccountNavbarLayout";
 import EmptyNavbarLayout from "./layouts/EmptyNavbarLayout";
 import SidebarNavbarLayout from "./layouts/SidebarNavbarLayout";
-import OverflowSidebarNavbarLayout from "./layouts/OverflowSidebarNavbarLayout";
 import Account from "./pages/Account";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
@@ -21,6 +20,7 @@ import Report from "./pages/Report";
 import Transaction from "./pages/Transaction";
 import Reserve from "./pages/Reserve";
 import Payment from "./pages/Payment";
+import Empty from "./pages/Empty";
 
 function App() {
 	return (
@@ -42,10 +42,8 @@ function App() {
 						<Route element={<EmptyNavbarLayout />}>
 							<Route path="account" element={<Account />} />
 						</Route>
-						<Route element={<OverflowSidebarNavbarLayout />}>
-							<Route path="dashboard" element={<Dashboard />} />
-						</Route>
 						<Route element={<SidebarNavbarLayout />}>
+							<Route path="dashboard" element={<Dashboard />} />
 							<Route path="browse" element={<Browse />} />
 							<Route path="book" element={<Book />} />
 							<Route path="history" element={<History />} />
@@ -53,6 +51,7 @@ function App() {
 							<Route path="transaction" element={<Transaction />} />
 							<Route path="reserve" element={<Reserve />} />
 							<Route path="payment" element={<Payment />} />
+							<Route path="empty" element={<Empty />} />
 						</Route>
 					</Routes>
 				</BrowserRouter>

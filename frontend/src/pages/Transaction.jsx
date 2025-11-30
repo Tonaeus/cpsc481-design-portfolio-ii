@@ -25,11 +25,15 @@ import {
 import notifClasses from "../styles/notif.module.css";
 import { getStatusColor } from "../utils/status.jsx";
 import useAuthContext from "../hooks/useAuthContext";
+import { useHotkeys } from "@mantine/hooks";
+import { Tooltip } from "@mantine/core";
 
 const Transaction = () => {
 	const { state } = useAuthContext();
 	const { user, loading } = state;
 	const navigate = useNavigate();
+
+	const [helpOpened, setHelpOpened] = useState(false);
 
 	const [scannedUser, setScannedUser] = useState("");
 	const [transactions, setTransactions] = useState([]);
@@ -51,6 +55,9 @@ const Transaction = () => {
 		controlsRefs[val] = node;
 		setControlsRefs(controlsRefs);
 	};
+
+	useHotkeys([["r", () => setRfidModalOpened((o) => !o)]]);
+	useHotkeys([["b", () => setBarcodeModalOpened((o) => !o)]]);
 
 	useEffect(() => {
 		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Transaction`;
@@ -414,7 +421,7 @@ const Transaction = () => {
 
 	return (
 		<div className="flex flex-col gap-4 h-full">
-			<div className="flex justify-between">
+			<div className="flex justify-between space-x-2">
 				<Card withBorder className="w-1/2">
 					<div className="flex items-center gap-4">
 						{scannedUser === "" ? (
@@ -432,21 +439,88 @@ const Transaction = () => {
 						</div>
 					</div>
 				</Card>
-				<div>
-					<div className="flex gap-2">
-						<Button variant="outline">Undo</Button>
-						<Button
-							variant="filled"
-							onClick={() => {
-								setScannedUser("");
-								setTempSelectedUser("");
-								updateTransactions([]);
-								setSelectedRows([]);
-								setScannedBooks([]);
-							}}
-						>
-							Finish
-						</Button>
+				<div className="w-1/2">
+					<div className="flex justify-between gap-2">
+						<div>
+							<Tooltip label="Help" withArrow>
+								<Button
+									variant="subtle"
+									px={0}
+									py={0}
+									style={{ aspectRatio: "1 / 1" }}
+									onClick={() => setHelpOpened(true)}
+								>
+									<Info />
+								</Button>
+							</Tooltip>
+							<Modal
+								opened={helpOpened}
+								onClose={() => setHelpOpened(false)}
+								title="How to Use the Transaction Page"
+								size="lg"
+							>
+								<div className="flex flex-col gap-4 text-sm">
+									<div>
+										<p className="font-semibold">1. Scan Library Card</p>
+										<p>
+											Click the <b>RFID Scan</b> or <b>Barcode Scan</b> button to scan the library card.
+										</p>
+									</div>
+
+									<div>
+										<p className="font-semibold">2. Scan Books</p>
+										<p>
+											Click the <b>RFID Scan</b> or <b>Barcode Scan</b> button to scan the books.
+										</p>
+									</div>
+
+									<div>
+										<p className="font-semibold">3. Select Books</p>
+										<p>Click the <b>Transaction</b> tab and the checkboxes in each book’s row to select the books.</p>
+									</div>
+
+									<div>
+										<p className="font-semibold">4. Perform Transaction</p>
+										<p>
+											Click the <b>Check Out</b>, <b>Check In</b>, or <b>Renew</b> to process the selected books.
+										</p>
+									</div>
+
+									<div>
+										<p className="font-semibold">5. Reset Session</p>
+										<p>
+											Click the <b>Finish</b> button to complete the current transaction session.
+										</p>
+									</div>
+
+									<Button
+										mt="md"
+										onClick={() => setHelpOpened(false)}
+										fullWidth
+									>
+										Got it
+									</Button>
+								</div>
+							</Modal>
+						</div>
+						<div className="flex gap-2">
+							<Button style={{ width: 135 }} variant="outline">
+								Undo
+							</Button>
+							<Button
+								style={{ width: 135 }}
+								variant="filled"
+								onClick={() => {
+									setScannedUser("");
+									setTempSelectedUser("");
+									updateTransactions([]);
+									setSelectedRows([]);
+									setScannedBooks([]);
+								}}
+							>
+								Finish
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -523,9 +597,13 @@ const Transaction = () => {
 				</Tabs>
 			</Card>
 
-			<div className="flex justify-between">
+			<div className="flex justify-between space-x-2">
 				<div className="flex gap-2">
-					<Button variant="filled" onClick={() => setRfidModalOpened(true)}>
+					<Button
+						style={{ width: 135 }}
+						variant="filled"
+						onClick={() => setRfidModalOpened(true)}
+					>
 						RFID Scan
 					</Button>
 					<Modal
@@ -544,7 +622,11 @@ const Transaction = () => {
 							Scan Library Card
 						</Button>
 					</Modal>
-					<Button variant="filled" onClick={() => setBarcodeModalOpened(true)}>
+					<Button
+						style={{ width: 135 }}
+						variant="filled"
+						onClick={() => setBarcodeModalOpened(true)}
+					>
 						Barcode Scan
 					</Button>
 					<Modal
@@ -575,6 +657,7 @@ const Transaction = () => {
 				</div>
 				<div className="flex gap-2">
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("check out")) return;
@@ -586,6 +669,7 @@ const Transaction = () => {
 						Check Out
 					</Button>
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("check in")) return;
@@ -596,6 +680,7 @@ const Transaction = () => {
 						Check In
 					</Button>
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("renew")) return;

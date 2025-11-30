@@ -93,7 +93,7 @@ const History = () => {
 
 	return (
 		<div className="flex flex-col gap-4 h-full">
-			<div className="flex justify-between">
+			<div className="flex justify-between space-x-2">
 				<TextInput
 					className="w-1/2"
 					placeholder="Search by book title"
@@ -103,6 +103,7 @@ const History = () => {
 				/>
 				<div className="flex gap-2">
 					<Button
+					style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							setTempStatusFilter(statusFilter);
@@ -112,6 +113,7 @@ const History = () => {
 						Filter
 					</Button>
 					<Button
+					style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							setTempSortBy(sortBy);
