@@ -9,7 +9,6 @@ import "@mantine/carousel/styles.css";
 import AccountNavbarLayout from "./layouts/AccountNavbarLayout";
 import EmptyNavbarLayout from "./layouts/EmptyNavbarLayout";
 import SidebarNavbarLayout from "./layouts/SidebarNavbarLayout";
-import OverflowSidebarNavbarLayout from "./layouts/OverflowSidebarNavbarLayout";
 import Account from "./pages/Account";
 import ForgotPassword from "./pages/ForgotPassword";
 import Home from "./pages/Home";
@@ -42,10 +41,8 @@ function App() {
 						<Route element={<EmptyNavbarLayout />}>
 							<Route path="account" element={<Account />} />
 						</Route>
-						<Route element={<OverflowSidebarNavbarLayout />}>
-							<Route path="dashboard" element={<Dashboard />} />
-						</Route>
 						<Route element={<SidebarNavbarLayout />}>
+							<Route path="dashboard" element={<Dashboard />} />
 							<Route path="browse" element={<Browse />} />
 							<Route path="book" element={<Book />} />
 							<Route path="history" element={<History />} />
