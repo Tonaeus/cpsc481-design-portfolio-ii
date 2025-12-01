@@ -133,7 +133,7 @@ const SidebarNavbar = () => {
 						>
 							<div className="flex gap-4 items-center absolute left-4">
 								<CreditCard size={18} />
-								Payment
+								Pay Fees
 							</div>
 						</Button>
 
