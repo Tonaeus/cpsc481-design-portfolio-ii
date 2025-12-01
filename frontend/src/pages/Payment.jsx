@@ -1,262 +1,472 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import {
-  Button,
-  Stack,
-  Title,
-  Text,
-  Group,
-  Table,
-  TextInput,
-  Divider,
-  Checkbox,
-  ScrollArea,
+	Button,
+	Stack,
+	Title,
+	Text,
+	Group,
+	Table,
+	TextInput,
+	Divider,
+	Checkbox,
+	// ScrollArea, // Removed ScrollArea in favor of flex-1 with overflow on Paper
+	Loader,
+	Center,
+	Paper,
 } from "@mantine/core";
-import { CreditCard, Check, MoveLeft } from "lucide-react";
-import { Link } from "react-router";
+import { CreditCard, CircleCheck, MoveLeft } from "lucide-react";
+import { Link, useNavigate } from "react-router";
 
-const overdueBooks = [
-  { id: "1", title: "The Great Gatsby", dueDate: "2025-10-01", feeAmount: 3.5 },
-  { id: "2", title: "To Kill a Mockingbird", dueDate: "2025-10-05", feeAmount: 5.0 },
-  { id: "3", title: "1984", dueDate: "2025-10-08", feeAmount: 4.25 },
-  { id: "4", title: "Pride and Prejudice", dueDate: "2025-10-10", feeAmount: 2.75 },
-  { id: "5", title: "The Catcher in the Rye", dueDate: "2025-10-12", feeAmount: 6.0 },
-];
+import useAuthContext from "../hooks/useAuthContext";
+import { getTransactionsWithBookInfo } from "../../backend/history.jsx";
 
 export default function Payment() {
-  const [currentStep, setCurrentStep] = useState("overview");
-  const [selectedBookIds, setSelectedBookIds] = useState([]);
-  const [formData, setFormData] = useState({
-    cardNumber: "",
-    expirationDate: "",
-    cvv: "",
-    cardholderName: "",
-  });
+	const { state } = useAuthContext();
+	const { user, loading } = state;
+	const navigate = useNavigate();
 
-  const selectedBooks = overdueBooks.filter((b) => selectedBookIds.includes(b.id));
-  const totalFees = useMemo(() => selectedBooks.reduce((s, b) => s + b.feeAmount, 0), [selectedBooks]);
+	// 2. State for Transactions and UI
+	const [transactions, setTransactions] = useState([]);
+	const [currentStep, setCurrentStep] = useState("overview");
+	const [selectedBookIds, setSelectedBookIds] = useState([]);
+    const [isProcessing, setIsProcessing] = useState(false);
+	const [formData, setFormData] = useState({
+		cardNumber: "",
+		expirationDate: "",
+		cvv: "",
+		cardholderName: "",
+	});
 
-const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  let formatted = value;
+	useEffect(() => {
+		if (!loading && !user) {
+			navigate("/account");
+		} else if (!loading && user?.email) {
+			const data = getTransactionsWithBookInfo(user.email);
+			setTransactions(data);
+		}
+	}, [loading, user, navigate]);
 
-  if (name === "cardNumber") {
-    // Only numbers, limit to 16 digits
-    formatted = value.replace(/\D/g, "").slice(0, 16);
-    // Add space every 4 digits
-    formatted = formatted.replace(/(.{4})/g, "$1 ").trim();
-  } 
-  
-  else if (name === "expirationDate") {
-    // Only numbers, insert slash after 2 digits
-    formatted = value.replace(/\D/g, "").slice(0, 4);
-    if (formatted.length > 2) {
-      formatted = formatted.slice(0, 2) + "/" + formatted.slice(2);
+	const overdueBooks = useMemo(() => {
+		const feeRate = 0.5;
+		const today = new Date();
+
+		return transactions
+			.filter((tx) => tx.status === "Overdue")
+			.map((tx) => {
+				const dueDate = new Date(tx.due_date);
+				let fee = 0;
+
+				if (dueDate < today) {
+					const daysOverdue = Math.ceil(
+						(today - dueDate) / (1000 * 60 * 60 * 24)
+					);
+					fee = daysOverdue * feeRate;
+				}
+
+				return {
+					id: tx.transaction_id,
+					title: tx.book.title,
+					dueDate: tx.due_date,
+					feeAmount: fee,
+				};
+			})
+			.filter((book) => book.feeAmount > 0); 
+	}, [transactions]);
+
+	const selectedBooks = overdueBooks.filter((b) =>
+		selectedBookIds.includes(b.id)
+	);
+
+	const totalFees = useMemo(
+		() => selectedBooks.reduce((s, b) => s + b.feeAmount, 0),
+		[selectedBooks]
+	);
+
+	// --- Validation Check for Payment Step ---
+	const isPaymentFormValid = useMemo(() => {
+		const { cardNumber, expirationDate, cvv, cardholderName } = formData;
+		return (
+			cardNumber.replace(/\s/g, '').length === 16 && // Checks for 16 digits
+			expirationDate.length === 5 && // Checks for MM/YY format length
+			cvv.length >= 3 && // Checks for 3 or 4 digits
+			cardholderName.trim().length > 0
+		);
+	}, [formData]);
+	// -----------------------------------------
+
+
+	const handleInputChange = (e) => {
+		const { name, value } = e.target;
+		let formatted = value;
+
+		if (name === "cardNumber") {
+			formatted = value.replace(/\D/g, "").slice(0, 16);
+			formatted = formatted.replace(/(.{4})/g, "$1 ").trim();
+		} else if (name === "expirationDate") {
+			formatted = value.replace(/\D/g, "").slice(0, 4);
+			if (formatted.length > 2) {
+				formatted = formatted.slice(0, 2) + "/" + formatted.slice(2);
+			}
+		} else if (name === "cvv") {
+			formatted = value.replace(/\D/g, "").slice(0, 4);
+		}
+
+		setFormData((prev) => ({ ...prev, [name]: formatted }));
+	};
+
+	const handleToggleBook = useCallback((id) => {
+		setSelectedBookIds((prev) =>
+			prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+		);
+	}, []);
+
+	const handleProceedToPayment = () => setCurrentStep("payment");
+	const handleBackToOverview = () => setCurrentStep("overview");
+	
+	const handlePayNow = (e) => {
+		e.preventDefault();
+
+		// Add final check before processing
+		if (!isPaymentFormValid) {
+			alert("Please fill in all required payment fields correctly.");
+			return;
+		}
+
+        setIsProcessing(true);
+
+        setTimeout(() => {
+            setIsProcessing(false);
+            setCurrentStep("confirmation");
+        }, 1500); 
+	};
+
+	if (loading) {
+		return (
+			<Center h="100%">
+				<Loader color="teal" />
+			</Center>
+		);
+	}
+
+    if (isProcessing) {
+        return (
+			<Center h="100%" className="flex flex-col">
+                <Loader color="teal" size="xl" />
+                <Title order={3} mt="md" c="teal">Processing Payment...</Title>
+                <Text c="dimmed" mt="xs">Do not close this window.</Text>
+			</Center>
+        );
     }
-  } 
-  
-  else if (name === "cvv") {
-    // Only numbers, limit to 4 digits
-    formatted = value.replace(/\D/g, "").slice(0, 4);
-  }
+if (currentStep === "confirmation") {
+		return (
+			// Main container: full height, centered horizontally
+<div className="flex flex-col items-center h-full p-6 text-center mt-20"> 
+    {/* ICON */}
+    <CircleCheck
+        size={150}
+        strokeWidth={1.5}
+        color="teal"
+        className="mb-8"
+    />
 
-  setFormData((prev) => ({ ...prev, [name]: formatted }));
-};
+    <Title order={1} className="text-teal-700 mt-6">
+        Payment Successful!
+    </Title>
 
-  const handleToggleBook = useCallback((id) => {
-    setSelectedBookIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
-    );
-  }, []);
+    <Text className="max-w-md mt-10 text-lg mb-4">
+        Thank you for your payment of <strong>${totalFees.toFixed(2)}</strong>.  
+        A receipt has been sent to <strong>{user?.email}</strong>.
+    </Text>
 
-  const handleProceedToPayment = () => setCurrentStep("payment");
-  const handleBackToOverview = () => setCurrentStep("overview");
-  const handlePayNow = (e) => {
-    e.preventDefault();
-    setCurrentStep("confirmation");
-  };
+    <Button 
+        component={Link}
+        to="/dashboard"
+        color="teal"
+        size="lg"
+        className="mt-9 mb-5"
+    >
+        Back to Dashboard
+    </Button>
+</div>
 
-  if (currentStep === "confirmation") {
-    return (
-      <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-        <Check size={40} color="teal" strokeWidth={2} />
-        <Title order={2} className="text-teal-700 mt-4">
-          Payment Successful!
-        </Title>
-        <Text c="dimmed" className="max-w-sm mt-2">
-          Thank you for your payment of ${totalFees.toFixed(2)}. A receipt has been sent to your email.
-        </Text>
-        <Button component={Link} to="/menu" color="teal" className="mt-6">
-          Back to Menu
-        </Button>
-      </div>
-    );
-  }
+		);
+	}
 
-  return (
-    <div className="flex flex-col h-full p-6 bg-transparent">
-      {currentStep === "overview" ? (
-        <>
-          <ScrollArea className="flex-1">
-            <Stack spacing="lg">
+	return (
+    <div className="flex flex-col h-full px-6 py-4 bg-transparent"> {/* Outer container now full width */}
+			{currentStep === "overview" ? (
+				<>
+					{/* Main Content Area (This one has shadow="xs" and rounded-xl) */}
+					<Paper 
+						withBorder 
+						shadow="xs" 
+						className="p-5 rounded-xl bg-white flex-1 overflow-auto" // Added flex-1 and overflow-auto
+					>
+						<Stack spacing="lg"> 
+							<Stack gap={2}>
+								<Title order={3} className="text-gray-800">
+									Select Fees to Pay
+								</Title>
+								<Text c="dimmed">
+									Check the books you wish to pay for below.
+								</Text>
+							</Stack>
+
+							{/* Removed Divider */}
+
+							{overdueBooks.length > 0 ? (
+							<Table
+								striped
+								highlightOnHover
+								withTableBorder
+								withColumnBorders
+								className="w-full text-base rounded-lg overflow-hidden shadow-sm"
+							>
+								<thead style={{ background: "var(--mantine-color-teal-filled)" }}>
+									<tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
+										<th className="px-4 py-3 text-center">Select</th>
+										<th className="px-4 py-3">Book Title</th>
+										<th className="px-4 py-3">Due Date</th>
+										<th className="px-4 py-3 text-right">Fee</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									{overdueBooks.map((book) => (
+										<tr
+											key={book.id}
+											className="transition-all border-b last:border-none hover:bg-teal-50"
+										>
+											<td className="px-4 py-3 text-center">
+												<Checkbox
+													checked={selectedBookIds.includes(book.id)}
+													onChange={() => handleToggleBook(book.id)}
+													color="teal"
+												/>
+											</td>
+
+											<td className="px-4 py-3 font-medium text-gray-900">
+												{book.title}
+											</td>
+
+											<td className="px-4 py-3 text-gray-600">
+												{book.dueDate}
+											</td>
+
+											<td className="px-4 py-3 text-right font-semibold text-red-600">
+												${book.feeAmount.toFixed(2)}
+											</td>
+										</tr>
+									))}
+								</tbody>
+							</Table>
+							) : (
+								<div className="py-10 text-center">
+									<Text c="dimmed">You have no overdue fees! 🎉</Text>
+									<Button
+										component={Link}
+										to="/dashboard"
+										variant="subtle"
+										color="teal"
+										mt="md"
+									>
+										Return to Dashboard
+									</Button>
+								</div>
+							)}
+						</Stack>
+					</Paper>
+
+					{/* Fee Summary (Now matching the shadow and border radius of the main Paper) */}
+					<Paper 
+						withBorder 
+                        shadow="xs" // Added shadow prop
+						className="p-5 bg-teal-50 rounded-xl mt-4" // Matched padding p-5
+					>
+						<Group justify="space-between" align="center" >
+							<Group>
+								<Text fw={600} size="lg">
+									Selected Fees Due:
+								</Text>
+								<Text fw={700} size="xl" className="text-red-600">
+									${totalFees.toFixed(2)}
+								</Text>
+							</Group>
+							<Button
+								color="teal"
+								size="lg"
+								onClick={handleProceedToPayment}
+								disabled={selectedBookIds.length === 0}
+							>
+								Proceed to Payment
+							</Button>
+						</Group>
+					</Paper>
+				</>
+			) : (
+				// PAYMENT STEP (Refactored for full width white boxes and footer button)
+				<div className="flex flex-col flex-1">
+					{/* 1. Header and Back Button Wrapped in White Paper Box */}
+					<Paper 
+						withBorder 
+						shadow="xs" 
+						className="p-5 rounded-xl bg-white mb-4" 
+					>
+						<Group justify="space-between" align="center">
               <Stack gap={2}>
-                <Title order={3} className="text-gray-800">Select Fees to Pay</Title>
-                <Text c="dimmed">Check the books you wish to pay for below.</Text>
-              </Stack>
+								<Title order={3} className="text-gray-800">
+									Enter Payment Details
+								</Title>
+								<Text c="dimmed">
+									Enter your preferred method of payment.
+								</Text>
+							</Stack>
+							<Button
+								variant="outline"
+								color="teal" 
+								size="md"
+								leftSection={<MoveLeft size={18} color="teal" />}
+								onClick={handleBackToOverview}
+							>
+								Back to Overview
+							</Button>
+						</Group>
+					</Paper>
 
-              <Divider />
+					{/* 2. Two-Column Content (Group grow) */}
+					<Group grow className="flex-1"> 
+						{/* Left Column: Fee Summary Table (Styled like Overview Paper) */}
+						<Paper 
+							withBorder 
+							shadow="xs" 
+							className="p-5 rounded-xl bg-white flex-1 h-full"
+						>
+							<Stack spacing="md" className="h-full"> {/* Added h-full here to ensure the inner content tries to fill space */}
+								<Text fw={600} size="lg">
+									Items to Pay:
+								</Text>
+								<Table
+									striped
+									withColumnBorders
+									withTableBorder
+									className="rounded-lg shadow-sm"
+								>
+									<thead style={{ background: "var(--mantine-color-teal-filled)" }}>
+										<tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
+											<th className="px-4 py-3">Book Title</th>
+											<th className="px-4 py-3 text-right">Fee</th>
+										</tr>
+									</thead>
+									<tbody>
+										{selectedBooks.map((b) => (
+											<tr key={b.id} className="hover:bg-teal-50 border-b last:border-none">
+												<td className="px-4 py-3 font-medium text-gray-900">
+													{b.title}
+												</td>
+												<td className="px-4 py-3 text-right font-semibold text-red-600">
+													${b.feeAmount.toFixed(2)}
+												</td>
+											</tr>
+										))}
+									</tbody>
+								</Table>
+							</Stack>
+						</Paper>
 
-              <Table
-                striped
-                highlightOnHover
-                withColumnBorders
-                className="w-full text-base"
-                style={{ tableLayout: "fixed" }}
-              >
-                <thead className="bg-gray-50">
-                  <tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
-                    <th className="px-4 py-3 text-center" style={{ width: "10%" }}>Select</th>
-                    <th className="px-4 py-3" style={{ width: "50%" }}>Book Title</th>
-                    <th className="px-4 py-3" style={{ width: "20%" }}>Due Date</th>
-                    <th className="px-4 py-3 text-right" style={{ width: "20%" }}>Fee</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {overdueBooks.map((book) => (
-                    <tr key={book.id} className="hover:bg-teal-50 transition-all">
-                      <td className="px-4 py-3 text-center align-middle">
-                        <Checkbox
-                          checked={selectedBookIds.includes(book.id)}
-                          onChange={() => handleToggleBook(book.id)}
-                          color="teal"
-                        />
-                      </td>
-                      <td className="px-4 py-3 font-medium text-gray-800 align-middle">{book.title}</td>
-                      <td className="px-4 py-3 text-gray-600 align-middle">{book.dueDate}</td>
-                      <td className="px-4 py-3 text-right font-semibold text-gray-700 align-middle">
-                        ${book.feeAmount.toFixed(2)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+						{/* Right Column: Payment Form (Styled like Overview Paper) */}
+						<Paper 
+							withBorder 
+							shadow="xs" 
+							className="p-5 rounded-xl bg-white flex-1 flex flex-col justify-between h-full"
+						>
+							<form onSubmit={handlePayNow} className="flex flex-col flex-1">
+								<Stack className="flex-1">
+									<Title order={4}>
+										Card Information
+									</Title>
 
-              <Divider />
+									<div className="grid grid-cols-1 gap-3">
+										<TextInput
+											label="Card Number"
+											name="cardNumber"
+											value={formData.cardNumber}
+											onChange={handleInputChange}
+											placeholder="1234 5678 9012 3456"
+											leftSection={<CreditCard size={18} color="teal" />}
+											required
+											inputMode="numeric"
+											maxLength={19}
+											error={formData.cardNumber.length > 0 && formData.cardNumber.replace(/\s/g, '').length < 16 ? "Card number must be 16 digits" : null}
+										/>
 
-              <Group justify="space-between" className="p-4 bg-teal-50 rounded-lg">
-                <Text fw={500} size="lg">Selected Fees Due:</Text>
-                <Text fw={700} size="xl" className="text-teal-700">
-                  ${totalFees.toFixed(2)}
-                </Text>
-              </Group>
-            </Stack>
-          </ScrollArea>
+										<Group grow>
+											<TextInput
+												label="Expiration Date"
+												name="expirationDate"
+												value={formData.expirationDate}
+												onChange={handleInputChange}
+												placeholder="MM/YY"
+												required
+												inputMode="numeric"
+												maxLength={5}
+												error={formData.expirationDate.length > 0 && formData.expirationDate.length < 5 ? "Must be MM/YY" : null}
+											/>
+											<TextInput
+												label="CVV"
+												name="cvv"
+												value={formData.cvv}
+												onChange={handleInputChange}
+												placeholder="123"
+												required
+												inputMode="numeric"
+												maxLength={4}
+												error={formData.cvv.length > 0 && formData.cvv.length < 3 ? "Must be 3 or 4 digits" : null}
+											/>
+										</Group>
+										<TextInput
+											label="Cardholder Name"
+											name="cardholderName"
+											value={formData.cardholderName}
+											onChange={handleInputChange}
+											placeholder="John Doe"
+											required
+											error={formData.cardholderName.length > 0 && formData.cardholderName.trim().length === 0 ? "Cardholder name is required" : null}
+										/>
+									</div>
+								</Stack>
+								{/* Submit button removed from form and moved to footer */}
+							</form>
+						</Paper>
+					</Group>
 
-          {/* Sticky Bottom Button */}
-          <div className="bg-transparent p-4 flex justify-end mt-2">
-            <Button
-              color="teal"
-              size="lg"
-              onClick={handleProceedToPayment}
-              disabled={selectedBookIds.length === 0}
-            >
-              Proceed to Payment
-            </Button>
-          </div>
-        </>
-      ) : (
-        <>
-          {/* --- Enter Payment Details (No Scroll, Flat Design) --- */}
-          <div className="flex flex-col flex-1 justify-between">
-            <div>
-              <Group justify="space-between" align="center" mb="md">
-                <Title order={3}>Enter Payment Details</Title>
-                <Button
-                  variant="outline"
-                  color="gray"
-                  leftSection={<MoveLeft size={18} color="teal" />}
-                  onClick={handleBackToOverview}
-                >
-                  Back
-                </Button>
-              </Group>
-
-              <Text c="dimmed" mb="sm">
-                Total due: <b className="text-teal-600">${totalFees.toFixed(2)}</b> for {selectedBooks.length} book(s).
-              </Text>
-
-              <Table
-                striped
-                className="w-full text-base mb-4"
-                style={{ tableLayout: "fixed" }}
-              >
-                <thead className="bg-gray-50">
-                  <tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
-                    <th className="px-4 py-2" style={{ width: "70%" }}>Book Title</th>
-                    <th className="px-4 py-2 text-right" style={{ width: "30%" }}>Fee</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {selectedBooks.map((b) => (
-                    <tr key={b.id} className="hover:bg-teal-50 transition-all">
-                      <td className="px-4 py-2 font-medium text-gray-800 align-middle">{b.title}</td>
-                      <td className="px-4 py-2 text-right font-semibold text-gray-700 align-middle">
-                        ${b.feeAmount.toFixed(2)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
-
-              <Title order={4} className="mb-2">Card Information</Title>
-
-              <div className="grid grid-cols-1 gap-3">
-                <TextInput
-                  label="Card Number"
-                  name="cardNumber"
-                  value={formData.cardNumber}
-                  onChange={handleInputChange}
-                  placeholder="1234 5678 9012 3456"
-                  leftSection={<CreditCard size={18} color="teal" />}
-                  required
-                  inputMode="numeric"
-                  maxLength={19}
-                />
-
-                <Group grow>
-                  <TextInput
-                    label="Expiration Date"
-                    name="expirationDate"
-                    value={formData.expirationDate}
-                    onChange={handleInputChange}
-                    placeholder="MM/YY"
-                    required
-                    inputMode="numeric"
-                    maxLength={5}
-                  />
-                  <TextInput
-                    label="CVV"
-                    name="cvv"
-                    value={formData.cvv}
-                    onChange={handleInputChange}
-                    placeholder="123"
-                    required
-                    inputMode="numeric"
-                    maxLength={4}
-                  />
-                </Group>
-                <TextInput label="Cardholder Name" name="cardholderName" value={formData.cardholderName} onChange={handleInputChange} placeholder="John Doe" required />
-              </div>
-            </div>
-
-            {/* Sticky Pay Button */}
-            <div className="mt-6 flex justify-end bg-transparent">
-              <Button type="submit" color="teal" size="lg" onClick={handlePayNow}>
-                Pay Now
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
+					{/* 3. Footer Summary Paper (Pay Now Button) */}
+					<Paper 
+						withBorder 
+                        shadow="xs" 
+						className="p-5 bg-teal-50 rounded-xl mt-4" 
+					>
+						<Group justify="space-between" align="center" >
+							<Group>
+								<Text fw={600} size="lg">
+									Total Payment Due:
+								</Text>
+								<Text fw={700} size="xl" className="text-red-600">
+									${totalFees.toFixed(2)}
+								</Text>
+							</Group>
+							<Button
+								type="button" 
+								color="teal"
+								size="lg"
+								onClick={handlePayNow} 
+								disabled={!isPaymentFormValid}
+							>
+								Pay Now
+							</Button>
+						</Group>
+					</Paper>
+				</div>
+			)}
+		</div>
+	);
 }
