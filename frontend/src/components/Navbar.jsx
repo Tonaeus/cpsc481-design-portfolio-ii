@@ -13,7 +13,7 @@ const Navbar = () => {
                 padding: '0.75rem 0'
                 }}>
                 <Container size="xl">
-                    <Group gap="md">
+                    <Group position="center" gap="md" style={{ width: '100%', justifyContent: 'center' }}>
                     <Button
                         variant="subtle"
                         leftSection={<BookOpen size={18} />}
