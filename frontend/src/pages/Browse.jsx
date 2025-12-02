@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { TextInput, Button, Paper, Text, Grid, Badge, Box, Stack, Group } from '@mantine/core';
+import { TextInput, Button, Paper, Text, Grid, Badge, Box, Stack, Group, Tooltip } from '@mantine/core';
 import { Search, BookOpen, User, MapPin } from 'lucide-react';
-import MOCK_BOOKS from '../data/MockBooks';
+import MOCK_BOOKS from '../assets/data/MockBooks';
 
 const Browse = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -173,22 +173,27 @@ const Browse = () => {
                         </Group>
                       </Stack>
 
-                      <Button 
-                        fullWidth 
-                        variant={reservedBooks.has(book.id) ? 'filled' : 'outline'}
-                        onClick={() => handleReserve(book.id)}
-                        disabled={!book.available}
-                        style={{
-                          backgroundColor: reservedBooks.has(book.id) ? '#14b8a6' : 'transparent',
-                          borderColor: '#14b8a6',
-                          color: reservedBooks.has(book.id) ? 'white' : '#14b8a6',
-                          '&:hover': {
-                            backgroundColor: reservedBooks.has(book.id) ? '#0f9d8e' : '#f0fdfa'
-                          }
-                        }}
-                      >
-                        {reservedBooks.has(book.id) ? 'Reserved' : 'Reserve Book'}
-                      </Button>
+                      <Tooltip label="This book is checked out" disabled={book.available} position="top" withArrow>
+                        <div>
+                          <Button
+                            fullWidth
+                            variant={reservedBooks.has(book.id) ? 'filled' : 'outline'}
+                            onClick={() => handleReserve(book.id)}
+                            disabled={!book.available}
+                            style={{
+                              backgroundColor: reservedBooks.has(book.id)
+                                ? '#14b8a6'
+                                : !book.available
+                                ? '#f3f4f6'
+                                : 'transparent',
+                              borderColor: reservedBooks.has(book.id) ? '#14b8a6' : !book.available ? '#e5e7eb' : '#14b8a6',
+                              color: reservedBooks.has(book.id) ? 'white' : !book.available ? '#9ca3af' : '#14b8a6',
+                            }}
+                          >
+                            {reservedBooks.has(book.id) ? 'Reserved' : 'Reserve Book'}
+                          </Button>
+                        </div>
+                      </Tooltip>
                     </Stack>
                   </Paper>
                 </Grid.Col>
