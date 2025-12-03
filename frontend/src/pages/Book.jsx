@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import {
   Card,
+  Grid,
   Group,
   Stack,
   Title,
@@ -8,65 +9,193 @@ import {
   Button,
   Image,
   Alert,
+  Badge,
+  Paper,
+  Divider,
 } from "@mantine/core";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
+import MOCK_BOOKS from "../assets/data/MockBooks";
 
 const Book = () => {
-  useEffect(() => {
-    document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Book`;
-  }, []);
+  const { state } = useLocation();
+  const book = state?.book || MOCK_BOOKS[0];
 
-  const book = {
-    id: "bk-001",
-    title: "Designing Data-Intensive Applications",
-    author: "Martin Kleppmann",
-    year: 2017,
-    isbn: "978-1449373320",
-    cover:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
-    available: true,
-  };
+  useEffect(() => {
+    document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | ${
+      book?.title || "Book"
+    }`;
+  }, [book?.title]);
+
+  if (!book) {
+    return (
+      <Card shadow="sm" padding="xl" radius="md" withBorder>
+        <Text>Book not found.</Text>
+      </Card>
+    );
+  }
+
+  const locationLabel = book.location
+    ? `Aisle ${book.location.aisle}, Shelf ${book.location.shelf}`
+    : "Location unavailable";
 
   return (
-    <Card shadow="sm" padding="lg" radius="md" withBorder>
-      <Group align="flex-start" gap="xl">
-        <Stack flex={1}>
-          <Title order={3}>{book.title}</Title>
-
-          {!book.available && (
-            <Alert variant="light" color="gray" title="Not available">
-              This book is currently checked out. You can place a reservation instead.
-            </Alert>
-          )}
-
-          <Stack gap={4}>
-            <Text size="sm" c="dimmed">
-              Metadata
+    <Card shadow="sm" padding="xl" radius="md" withBorder>
+      <Stack gap="lg">
+        <Group justify="space-between" align="flex-start">
+          <div>
+            <Text size="xs" c="dimmed" fw={500} tt="uppercase">
+              Book details
             </Text>
-            <Text size="sm">Author: {book.author}</Text>
-            <Text size="sm">Year: {book.year}</Text>
-            <Text size="sm">ISBN: {book.isbn}</Text>
-          </Stack>
+            <Title order={2} mt={4}>
+              {book.title}
+            </Title>
 
-          <Group mt="md">
-            <Button variant="default" disabled={!book.available}>
-              Checkout
-            </Button>
-            <Button component={Link} to="/reserve" state={{ book }}>
+            <Group gap="xs" mt="xs" align="center">
+              <Badge
+                variant="light"
+                color={book.available ? "green" : "gray"}
+                radius="sm"
+              >
+                {book.available ? "Available" : "Checked out"}
+              </Badge>
+
+              <Text size="sm" c="dimmed">
+                {book.author}
+              </Text>
+
+              {book.categories?.map((cat) => (
+                <Badge
+                  key={cat}
+                  variant="outline"
+                  radius="sm"
+                  size="sm"
+                  ml="xs"
+                >
+                  {cat}
+                </Badge>
+              ))}
+            </Group>
+          </div>
+        </Group>
+
+        {book.available ? (
+          <Alert
+            variant="light"
+            color="green"
+            radius="md"
+            title="Available to borrow"
+            mt="md"
+          >
+            This book is currently on the shelf. You can check it out here at
+            the kiosk or at the main desk.
+          </Alert>
+        ) : (
+          <Alert
+            variant="light"
+            color="red"
+            radius="md"
+            title="Currently checked out"
+            mt="md"
+          >
+            This title is on loan. Use the{" "}
+            <Text span inherit fw={600}>
               Reserve
-            </Button>
-          </Group>
-        </Stack>
+            </Text>{" "}
+            button below to place a hold, and we&apos;ll set it aside for you
+            once it&apos;s returned.
+          </Alert>
+        )}
 
-        <Image
-          src={book.cover}
-          alt="Book cover"
-          radius="md"
-          w={220}
-          h={300}
-          fit="cover"
-        />
-      </Group>
+        <Grid gutter="xl" align="stretch" mt="md">
+          <Grid.Col span={{ base: 12, md: 8 }}>
+            <Paper withBorder radius="md" p="md">
+              <Text size="sm" fw={600} mb={8}>
+                Metadata
+              </Text>
+              <Divider mb="sm" />
+
+              <Stack gap={6}>
+                <Group justify="space-between">
+                  <Text size="sm" c="dimmed">
+                    Author
+                  </Text>
+                  <Text size="sm" fw={500}>
+                    {book.author}
+                  </Text>
+                </Group>
+
+                <Group justify="space-between">
+                  <Text size="sm" c="dimmed">
+                    ISBN
+                  </Text>
+                  <Text size="sm" fw={500}>
+                    {book.isbn}
+                  </Text>
+                </Group>
+
+                <Group justify="space-between">
+                  <Text size="sm" c="dimmed">
+                    Location
+                  </Text>
+                  <Text size="sm" fw={500}>
+                    {locationLabel}
+                  </Text>
+                </Group>
+              </Stack>
+            </Paper>
+
+            <Paper radius="md" p="md" mt="md" bg="gray.0">
+              <Text size="sm" fw={600} mb={4}>
+                About this title
+              </Text>
+              <Text size="sm" c="dimmed">
+                When a copy is available, you can borrow it directly from the
+                library or this kiosk. When all copies are checked out, place a
+                hold and you&apos;ll be notified when one is ready for pickup.
+              </Text>
+            </Paper>
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, md: 4 }}>
+            <Paper withBorder radius="md" p="sm">
+              <Image
+                src={
+                  book.cover ||
+                  "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80"
+                }
+                alt={book.title}
+                radius="md"
+                w="100%"
+                h={320}
+                fit="cover"
+              />
+            </Paper>
+          </Grid.Col>
+        </Grid>
+
+        {book.available ? (
+          <>
+            <Group mt="lg">
+              <Button>Checkout</Button>
+            </Group>
+            <Text size="xs" c="dimmed" mt="xs">
+        
+            </Text>
+          </>
+        ) : (
+          <>
+            <Group mt="lg">
+              <Button component={Link} to="/reserve" state={{ book }}>
+                Reserve this book
+              </Button>
+            </Group>
+            <Text size="xs" c="dimmed" mt={4}>
+              You&apos;ll be notified via email when your reserved copy is
+              ready for pickup.
+            </Text>
+          </>
+        )}
+      </Stack>
     </Card>
   );
 };

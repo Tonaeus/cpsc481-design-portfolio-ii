@@ -52,6 +52,7 @@ function App() {
 							<Route path="transaction" element={<Transaction />} />
 							<Route path="reserve" element={<Reserve />} />
 							<Route path="payment" element={<Payment />} />
+							<Route path="details" element={<ReservationDetails />} />
 							<Route path="empty" element={<Empty />} />
 						</Route>
 					</Routes>
