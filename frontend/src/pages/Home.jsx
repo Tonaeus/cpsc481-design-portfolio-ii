@@ -168,10 +168,10 @@ export default function Home({ onNavigateToPayment }) {
 					{/* Card 1: Browse Catalog -> Links to /browse */}
 					<Card
 						withBorder
-						shadow="md"
+						shadow="xs"
 						component={Link}
 						to="/browse"
-						className="hover:shadow-lg transition-all cursor-pointer text-center"
+						className=" transition-all cursor-pointer text-center"
 					>
 						<Stack gap="xs" align="center">
 							<BookOpen size={48} color="var(--mantine-color-teal-6)" />
@@ -187,10 +187,10 @@ export default function Home({ onNavigateToPayment }) {
 					{/* Card 2: My Account */}
 					<Card
 						withBorder
-						shadow="md"
+						shadow="xs"
 						component={Link}
 						to="/dashboard"
-						className="hover:shadow-lg transition-all cursor-pointer text-center"
+						className=" transition-all cursor-pointer text-center"
 					>
 						<Stack gap="xs" align="center">
 							<Users size={48} color="var(--mantine-color-teal-6)" />
@@ -206,9 +206,9 @@ export default function Home({ onNavigateToPayment }) {
 					{/* Card 3: Events -> Scrolls to Events Section */}
 					<Card
 						withBorder
-						shadow="md"
+						shadow="xs"
 						onClick={scrollToEvents} // Use the scroll function
-						className="hover:shadow-lg transition-all cursor-pointer text-center"
+						className=" transition-all cursor-pointer text-center"
 					>
 						<Stack gap="xs" align="center">
 							<Calendar size={48} color="var(--mantine-color-teal-6)" />
@@ -235,8 +235,8 @@ export default function Home({ onNavigateToPayment }) {
 							<Card
 								key={book.id}
 								withBorder
-								shadow="md"
-								className="hover:shadow-lg transition-all cursor-pointer overflow-hidden"
+								shadow="xs"
+								className=" transition-all cursor-pointer overflow-hidden"
 								padding="0"
 							>
 								<Box className="h-48 flex items-center justify-center">
@@ -280,8 +280,8 @@ export default function Home({ onNavigateToPayment }) {
 								<Card
 									key={item.id}
 									withBorder
-									shadow="md"
-									className="hover:shadow-lg transition-all cursor-pointer"
+									shadow="xs"
+									className=" transition-all cursor-pointer"
 								>
 									<Group align="flex-start" wrap="nowrap">
 										<Center
@@ -320,8 +320,8 @@ export default function Home({ onNavigateToPayment }) {
 								<Card
 									key={event.id}
 									withBorder
-									shadow="md"
-									className="hover:shadow-lg transition-all cursor-pointer"
+									shadow="xs"
+									className=" transition-all cursor-pointer"
 								>
 									<Group align="flex-start" wrap="nowrap">
 										<Center

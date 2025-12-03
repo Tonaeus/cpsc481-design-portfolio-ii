@@ -422,7 +422,7 @@ const Transaction = () => {
 	return (
 		<div className="flex flex-col gap-4 h-full">
 			<div className="flex justify-between space-x-2">
-				<Card withBorder className="w-1/2">
+				<Card shadow="xs" withBorder className="w-1/2">
 					<div className="flex items-center gap-4">
 						{scannedUser === "" ? (
 							<div className="h-[38px]" />
@@ -524,7 +524,7 @@ const Transaction = () => {
 					</div>
 				</div>
 			</div>
-			<Card withBorder className="h-full">
+			<Card shadow="xs" withBorder className="h-full">
 				<Tabs
 					variant="none"
 					value={value}
