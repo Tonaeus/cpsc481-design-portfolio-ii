@@ -230,7 +230,7 @@ export default function Home({ onNavigateToPayment }) {
 						<H2Title>Staff Recommendations</H2Title>
 					</Group>
 
-					<div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+					<div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 						{featuredBooks.map((book) => (
 							<Card
 								key={book.id}
@@ -267,7 +267,7 @@ export default function Home({ onNavigateToPayment }) {
 				{/* Library News and Events */}
 				{/* Added ID to allow scrolling to this section */}
 				<div
-					className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+					className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12"
 					id="upcoming-events-section"
 				>
 					{/* News Section */}
@@ -275,7 +275,7 @@ export default function Home({ onNavigateToPayment }) {
 						<Group justify="space-between" mb="lg">
 							<H2Title className="mb-6">Library News</H2Title>
 						</Group>
-						<Stack gap="md">
+						<Stack className="gap-4">
 							{newsItems.map((item) => (
 								<Card
 									key={item.id}
@@ -315,7 +315,7 @@ export default function Home({ onNavigateToPayment }) {
 						<Group justify="space-between" mb="lg">
 							<H2Title className="mb-6">Upcoming Events</H2Title>
 						</Group>
-						<Stack gap="md">
+						<Stack className="gap-4">
 							{upcomingEvents.map((event) => (
 								<Card
 									key={event.id}
@@ -361,7 +361,7 @@ export default function Home({ onNavigateToPayment }) {
 
 				{/* Featured Image Section */}
 				<section className="">
-					<Paper withBorder shadow="xl" className="overflow-hidden">
+					<Paper withBorder shadow="xs" className="overflow-hidden">
 						<div className="grid md:grid-cols-2 gap-0">
 							<Box className="h-80 flex items-center justify-center">
 								<Image
