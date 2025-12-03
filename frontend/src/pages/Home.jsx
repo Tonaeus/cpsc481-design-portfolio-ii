@@ -51,21 +51,21 @@ export default function Home({ onNavigateToPayment }) {
 			title: "The Hobbit",
 			author: "J.R.R. Tolkien",
 			cover: theHobbit,
-			category: "Science"
+			category: "Science",
 		},
 		{
 			id: 3,
 			title: "1984",
 			author: "George Orwell",
 			cover: _1984,
-			category: "Sci-Fi"
+			category: "Sci-Fi",
 		},
 		{
 			id: 4,
 			title: "Brave New World",
 			author: "Aldous Huxley",
 			cover: braveNewWorld,
-			category: "Children's Book"
+			category: "Children's Book",
 		},
 	];
 
@@ -119,9 +119,9 @@ export default function Home({ onNavigateToPayment }) {
 
 	// Utility function for scrolling to the events section
 	const scrollToEvents = () => {
-		const eventsSection = document.getElementById('upcoming-events-section');
+		const eventsSection = document.getElementById("upcoming-events-section");
 		if (eventsSection) {
-			eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			eventsSection.scrollIntoView({ behavior: "smooth", block: "start" });
 		}
 	};
 
@@ -133,7 +133,7 @@ export default function Home({ onNavigateToPayment }) {
 	);
 
 	return (
-		<Box className="size-full overflow-y-auto bg-gray-50">
+		<Box className="size-full overflow-y-auto bg-gray-100">
 			{/* Hero Section (Matching teal background with image overlay) */}
 			<Box
 				className="relative h-[350px] flex items-center justify-center overflow-hidden"
@@ -162,15 +162,15 @@ export default function Home({ onNavigateToPayment }) {
 			</Box>
 
 			{/* Quick Actions (Updated to remove Pay Fees and modify Events link) */}
-			<Box className="max-w-6xl mx-auto px-6 -mt-20 relative z-20 mb-12">
+			<Box className="max-w-6xl mx-auto px-4 -mt-20 relative z-20 mb-12">
 				{/* Changed to grid-cols-3 since Pay Fees was removed */}
-				<div className="grid grid-cols-1 md:grid-cols-3 gap-4"> 
+				<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 					{/* Card 1: Browse Catalog -> Links to /browse */}
 					<Card
 						withBorder
 						shadow="md"
 						component={Link}
-						to="/browse" 
+						to="/browse"
 						className="hover:shadow-lg transition-all cursor-pointer text-center"
 					>
 						<Stack gap="xs" align="center">
@@ -189,7 +189,7 @@ export default function Home({ onNavigateToPayment }) {
 						withBorder
 						shadow="md"
 						component={Link}
-						to="/dashboard" 
+						to="/dashboard"
 						className="hover:shadow-lg transition-all cursor-pointer text-center"
 					>
 						<Stack gap="xs" align="center">
@@ -223,7 +223,7 @@ export default function Home({ onNavigateToPayment }) {
 				</div>
 			</Box>
 
-			<Box className="max-w-6xl mx-auto px-6 pb-12">
+			<Box className="max-w-6xl mx-auto px-4 pb-4">
 				{/* Featured Books */}
 				<section className="mb-12">
 					<Group justify="space-between" mb="lg">
@@ -239,17 +239,15 @@ export default function Home({ onNavigateToPayment }) {
 								className="hover:shadow-lg transition-all cursor-pointer overflow-hidden"
 								padding="0"
 							>
-								<Box
-									className="h-48 flex items-center justify-center"
-								>
+								<Box className="h-48 flex items-center justify-center">
 									<Image
 										src={book.cover}
 										fit="contain"
 										alt={book.title}
 										className="h-40"
 										size={80}
-									/>								
-									</Box>
+									/>
+								</Box>
 								<Box p="md">
 									<Badge color="teal.1" c="teal.7" mb="xs">
 										{book.category}
@@ -268,10 +266,15 @@ export default function Home({ onNavigateToPayment }) {
 
 				{/* Library News and Events */}
 				{/* Added ID to allow scrolling to this section */}
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12" id="upcoming-events-section"> 
+				<div
+					className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+					id="upcoming-events-section"
+				>
 					{/* News Section */}
 					<section>
-						<H2Title className="mb-6">Library News</H2Title>
+						<Group justify="space-between" mb="lg">
+							<H2Title className="mb-6">Library News</H2Title>
+						</Group>
 						<Stack gap="md">
 							{newsItems.map((item) => (
 								<Card
@@ -309,7 +312,9 @@ export default function Home({ onNavigateToPayment }) {
 
 					{/* Events Section */}
 					<section>
-						<H2Title className="mb-6">Upcoming Events</H2Title>
+						<Group justify="space-between" mb="lg">
+							<H2Title className="mb-6">Upcoming Events</H2Title>
+						</Group>
 						<Stack gap="md">
 							{upcomingEvents.map((event) => (
 								<Card
@@ -355,7 +360,7 @@ export default function Home({ onNavigateToPayment }) {
 				</div>
 
 				{/* Featured Image Section */}
-				<section className="mb-12">
+				<section className="">
 					<Paper withBorder shadow="xl" className="overflow-hidden">
 						<div className="grid md:grid-cols-2 gap-0">
 							<Box className="h-80 flex items-center justify-center">

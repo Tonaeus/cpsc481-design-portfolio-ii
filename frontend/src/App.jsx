@@ -6,6 +6,7 @@ import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/charts/styles.css";
 import "@mantine/carousel/styles.css";
+import HomeLayout from "./layouts/HomeLayout";
 import AccountNavbarLayout from "./layouts/AccountNavbarLayout";
 import EmptyNavbarLayout from "./layouts/EmptyNavbarLayout";
 import SidebarNavbarLayout from "./layouts/SidebarNavbarLayout";
@@ -35,8 +36,10 @@ function App() {
 				<Notifications />
 				<BrowserRouter>
 					<Routes>
-						<Route element={<AccountNavbarLayout />}>
+						<Route element={<HomeLayout />}>
 							<Route path="/" element={<Home />} />
+						</Route>
+						<Route element={<AccountNavbarLayout />}>
 							<Route path="forgot-password" element={<ForgotPassword />} />
 						</Route>
 						<Route element={<EmptyNavbarLayout />}>
