@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { TextInput, Button, Paper, Text, Grid, Badge, Box, Stack, Group, Tooltip } from '@mantine/core';
+import { useState, useEffect } from 'react';
+import { TextInput, Button, Paper, Text, Grid, Badge, Box, Stack, Group, Tooltip, Select, MultiSelect } from '@mantine/core';
 import { Search, BookOpen, User, MapPin } from 'lucide-react';
 import MOCK_BOOKS from '../assets/data/MockBooks';
 
@@ -8,22 +8,35 @@ const Browse = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [reservedBooks, setReservedBooks] = useState(new Set());
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedAuthors, setSelectedAuthors] = useState([]);
+  const [sortOrder, setSortOrder] = useState('alpha-asc');
+
+  // options for the multi-selects
+  const [categoryOptions] = useState(() => Array.from(new Set(MOCK_BOOKS.flatMap(b => b.categories))).sort());
+  const [authorOptions, setAuthorOptions] = useState(() => Array.from(new Set(MOCK_BOOKS.map(b => b.author))).sort());
 
   const handleSearch = () => {
-    if (!searchQuery.trim()) {
-      setSearchResults([]);
-      setHasSearched(false);
-      return;
-    }
+    const query = searchQuery.trim().toLowerCase();
 
-    const query = searchQuery.toLowerCase();
-    const results = MOCK_BOOKS.filter(
-      (book) =>
-        book.title.toLowerCase().includes(query) ||
-        book.author.toLowerCase().includes(query) ||
-        book.isbn.includes(query) ||
-        book.category.toLowerCase().includes(query)
-    );
+    // Filter by search (title and isbn only), category and author
+    let results = MOCK_BOOKS.filter((book) => {
+      const matchesSearch = query
+        ? book.title.toLowerCase().includes(query) || book.isbn.includes(query)
+        : true;
+      const matchesCategory = selectedCategories.length > 0 ? selectedCategories.some(cat => (book.categories || []).includes(cat)) : true;
+      const matchesAuthor = selectedAuthors.length > 0
+        ? selectedAuthors.some(sel => book.author.toLowerCase().includes(sel.toLowerCase()))
+        : true;
+      return matchesSearch && matchesCategory && matchesAuthor;
+    });
+
+    // Apply sorting
+    if (sortOrder === 'alpha-asc') {
+      results.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortOrder === 'alpha-desc') {
+      results.sort((a, b) => b.title.localeCompare(a.title));
+    }
 
     setSearchResults(results);
     setHasSearched(true);
@@ -34,6 +47,12 @@ const Browse = () => {
       handleSearch();
     }
   };
+
+  // Re-run search when filters or sorting change (if user has already searched)
+  useEffect(() => {
+    if (hasSearched) handleSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategories, selectedAuthors, sortOrder]);
 
   const handleReserve = (bookId) => {
     setReservedBooks(prev => {
@@ -53,11 +72,11 @@ const Browse = () => {
         <Stack gap="md">
           <Box>
             <Text size="lg" fw={600} mb={4} style={{ color: '#1f2937' }}>Search for Books</Text>
-            <Text size="sm" c="dimmed">Search by title, author, ISBN, or category</Text>
+            <Text size="sm" c="dimmed"></Text>
           </Box>
           <Group gap="xs">
             <TextInput
-              placeholder="Enter book title, author, ISBN, or category..."
+              placeholder="Enter book title or ISBN"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={handleKeyPress}
@@ -83,6 +102,48 @@ const Browse = () => {
             >
               Search
             </Button>
+          </Group>
+
+          {/* Filters & Sorting */}
+          <Group mt="md" align="center" spacing="sm">
+            <Text size="md" fw={600} style={{ color: '#1f2937' }}>Filters:</Text>
+            <MultiSelect
+              data={categoryOptions}
+              value={selectedCategories}
+              onChange={setSelectedCategories}
+              placeholder="Filter by Category (multi)"
+              style={{ minWidth: 200 }}
+            />
+
+            <MultiSelect
+              data={authorOptions}
+              value={selectedAuthors}
+              onChange={setSelectedAuthors}
+              placeholder="Filter by Author (type or pick)"
+              searchable
+              creatable
+              getCreateLabel={(query) => `Add "${query}"`}
+              onCreate={(query) => {
+                const item = query;
+                setAuthorOptions((prev) => [...prev, item]);
+                return item;
+              }}
+              style={{ minWidth: 250 }}
+            />
+
+            <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center' }}>
+              <Text size="md" fw={600} style={{ color: '#1f2937' }}>Sort:</Text>
+              <Select
+                data={[
+                  { value: 'alpha-asc', label: 'Alphabetical (A → Z)' },
+                  { value: 'alpha-desc', label: 'Alphabetical (Z → A)' },
+                ]}
+                value={sortOrder}
+                onChange={(val) => setSortOrder(val || 'alpha-asc')}
+                style={{ width: 220 }}
+              />
+              <Button variant="subtle" onClick={() => { setSelectedCategories([]); setSelectedAuthors([]); setSortOrder('alpha-asc'); if (searchQuery.trim()) handleSearch(); }}>Clear Filters</Button>
+            </div>
           </Group>
         </Stack>
       </Paper>
@@ -154,15 +215,17 @@ const Browse = () => {
                         </Group>
                         <Group>
                           <Text size="sm" c="dimmed" style={{ width: '80px' }}>Category:</Text>
-                          <Badge 
-                            variant="outline" 
-                            style={{ 
-                              borderColor: '#14b8a6', 
-                              color: '#14b8a6' 
-                            }}
-                          >
-                            {book.category}
-                          </Badge>
+                          <Group spacing="xs">
+                            {(book.categories || []).map((c) => (
+                              <Badge
+                                key={c}
+                                variant="outline"
+                                style={{ borderColor: '#14b8a6', color: '#14b8a6' }}
+                              >
+                                {c}
+                              </Badge>
+                            ))}
+                          </Group>
                         </Group>
                         <Group>
                           <Text size="sm" c="dimmed" style={{ width: '80px' }}>Location:</Text>
