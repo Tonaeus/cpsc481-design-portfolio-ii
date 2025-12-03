@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
 	Anchor,
 	ScrollArea,
@@ -9,11 +9,18 @@ import {
 	Card,
 	Modal,
 	Select,
+	Badge,
 } from "@mantine/core";
 import { Search, Info } from "lucide-react";
-import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
+import { getTransactionsWithBookInfo } from "../../backend/history.jsx";
+import { getStatusColor } from "../utils/status.jsx";
+import useAuthContext from "../hooks/useAuthContext";
 
 const History = () => {
+	const { state } = useAuthContext();
+	const { user, loading } = state;
+	const navigate = useNavigate();
+
 	const [transactions, setTransactions] = useState([]);
 	const [search, setSearch] = useState("");
 
@@ -28,9 +35,16 @@ const History = () => {
 
 	useEffect(() => {
 		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | History`;
-		const data = getTransactionsWithBookInfo("ethan.clark@example.com");
-		setTransactions(data);
 	}, []);
+
+	useEffect(() => {
+		if (!loading && !user) {
+			navigate("/account");
+		} else if (!loading && user?.email) {
+			const data = getTransactionsWithBookInfo(user.email);
+			setTransactions(data);
+		}
+	}, [loading, user, navigate]);
 
 	let filteredTransactions = transactions.filter((tx) =>
 		tx.book.title.toLowerCase().includes(search.toLowerCase())
@@ -69,13 +83,17 @@ const History = () => {
 			<Table.Td>{tx.borrow_date}</Table.Td>
 			<Table.Td>{tx.due_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
-			<Table.Td>{tx.status}</Table.Td>
+			<Table.Td>
+				<Badge color={getStatusColor(tx.status)} variant="light">
+					{tx.status}
+				</Badge>
+			</Table.Td>
 		</Table.Tr>
 	));
 
 	return (
 		<div className="flex flex-col gap-4 h-full">
-			<div className="flex justify-between">
+			<div className="flex justify-between space-x-2">
 				<TextInput
 					className="w-1/2"
 					placeholder="Search by book title"
@@ -85,6 +103,7 @@ const History = () => {
 				/>
 				<div className="flex gap-2">
 					<Button
+					style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							setTempStatusFilter(statusFilter);
@@ -94,6 +113,7 @@ const History = () => {
 						Filter
 					</Button>
 					<Button
+					style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							setTempSortBy(sortBy);
@@ -163,7 +183,7 @@ const History = () => {
 				</Button>
 			</Modal>
 
-			<Card shadow="xs" withBorder className="h-full">
+			<Card withBorder className="h-full">
 				<ScrollArea className="h-full">
 					<Table stickyHeader striped highlightOnHover>
 						<Table.Thead>

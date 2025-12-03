@@ -1,29 +1,41 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import {
 	Anchor,
 	Avatar,
 	Card,
 	ScrollArea,
 	Table,
-	Text,
 	Button,
 	Checkbox,
 	Modal,
 	Select,
+	Tabs,
+	FloatingIndicator,
+	Badge,
 } from "@mantine/core";
 import { Info } from "lucide-react";
 import { showNotification } from "@mantine/notifications";
-import { getTransactionsWithBookInfo } from "../../../backend/history.jsx";
+import { getTransactionsWithBookInfo } from "../../backend/history.jsx";
 import {
 	getUser,
 	getUsers,
 	getAllBookCopiesWithUser,
-} from "../../../backend/transaction.jsx";
+} from "../../backend/transaction.jsx";
 import notifClasses from "../styles/notif.module.css";
+import { getStatusColor } from "../utils/status.jsx";
+import useAuthContext from "../hooks/useAuthContext";
+import { useHotkeys } from "@mantine/hooks";
+import { Tooltip } from "@mantine/core";
 
 const Transaction = () => {
-	const [user, setUser] = useState("");
+	const { state } = useAuthContext();
+	const { user, loading } = state;
+	const navigate = useNavigate();
+
+	const [helpOpened, setHelpOpened] = useState(false);
+
+	const [scannedUser, setScannedUser] = useState("");
 	const [transactions, setTransactions] = useState([]);
 	const [scannedBooks, setScannedBooks] = useState([]);
 	const [selectedRows, setSelectedRows] = useState([]);
@@ -36,6 +48,17 @@ const Transaction = () => {
 	const [barcodeModalOpened, setBarcodeModalOpened] = useState(false);
 	const [barcodeSelected, setBarcodeSelected] = useState([]);
 
+	const [rootRef, setRootRef] = useState(null);
+	const [value, setValue] = useState("history");
+	const [controlsRefs, setControlsRefs] = useState({});
+	const setControlRef = (val) => (node) => {
+		controlsRefs[val] = node;
+		setControlsRefs(controlsRefs);
+	};
+
+	useHotkeys([["r", () => setRfidModalOpened((o) => !o)]]);
+	useHotkeys([["b", () => setBarcodeModalOpened((o) => !o)]]);
+
 	useEffect(() => {
 		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Transaction`;
 		const usersList = getUsers();
@@ -44,6 +67,14 @@ const Transaction = () => {
 		const copiesList = getAllBookCopiesWithUser();
 		setCopies(copiesList);
 	}, []);
+
+	useEffect(() => {
+		if (!loading && !user) {
+			navigate("/account");
+		} else if (!loading && user?.role !== "staff") {
+			navigate("/dashboard");
+		}
+	}, [loading, user, navigate]);
 
 	const updateTransactions = (newDataOrFn) => {
 		setTransactions((prev) => {
@@ -76,7 +107,11 @@ const Transaction = () => {
 			<Table.Td>{tx.borrow_date}</Table.Td>
 			<Table.Td>{tx.due_date}</Table.Td>
 			<Table.Td>{tx.return_date || "—"}</Table.Td>
-			<Table.Td>{tx.status}</Table.Td>
+			<Table.Td>
+				<Badge color={getStatusColor(tx.status)} variant="light">
+					{tx.status}
+				</Badge>
+			</Table.Td>
 		</Table.Tr>
 	));
 
@@ -98,7 +133,11 @@ const Transaction = () => {
 					: "-"}
 			</Table.Td>
 			<Table.Td>{sb.current_user ? sb.current_user.email : "-"}</Table.Td>
-			<Table.Td>{sb.status}</Table.Td>
+			<Table.Td>
+				<Badge color={getStatusColor(sb.status)} variant="light">
+					{sb.status}
+				</Badge>
+			</Table.Td>
 		</Table.Tr>
 	));
 
@@ -108,14 +147,14 @@ const Transaction = () => {
 			showNotification({
 				title: "User Not Found",
 				message: `No member found with email ${tempSelectedUser}.`,
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
 			});
 			return;
 		}
-		setUser(scannedUser);
+		setScannedUser(scannedUser);
 		updateTransactions(getTransactionsWithBookInfo(tempSelectedUser));
 		setSelectedRows([]);
 		setRfidModalOpened(false);
@@ -126,7 +165,7 @@ const Transaction = () => {
 			showNotification({
 				title: "No Books Selected",
 				message: "Select at least one book to add.",
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -168,11 +207,11 @@ const Transaction = () => {
 		));
 
 	const checkLibraryCard = (action = "perform this action") => {
-		if (!user) {
+		if (!scannedUser) {
 			showNotification({
 				title: "Library Card Required",
 				message: `Scan the member’s library card to ${action}.`,
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -187,7 +226,7 @@ const Transaction = () => {
 			showNotification({
 				title: "No Selection",
 				message: `Select at least one book to ${action}.`,
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -205,7 +244,7 @@ const Transaction = () => {
 				id: "single-notification",
 				title: "Overdue Books",
 				message: `The library member cannot check out because they have overdue books.`,
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -225,7 +264,7 @@ const Transaction = () => {
 			showNotification({
 				title: "Cannot Check Out",
 				message: "Some selected books are already borrowed or unavailable.",
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -247,9 +286,9 @@ const Transaction = () => {
 					return {
 						...sb,
 						current_user: {
-							first_name: user.first_name,
-							last_name: user.last_name,
-							email: user.email,
+							first_name: scannedUser.first_name,
+							last_name: scannedUser.last_name,
+							email: scannedUser.email,
 						},
 						status: "Borrowed",
 					};
@@ -276,7 +315,7 @@ const Transaction = () => {
 		showNotification({
 			title: "Check Out Successful",
 			message: "Selected books have been checked out to the library member.",
-			position: "bottom-center",
+			position: "top-center",
 			autoClose: 3000,
 			color: "green",
 			classNames: notifClasses,
@@ -321,7 +360,7 @@ const Transaction = () => {
 		showNotification({
 			title: "Check In Successful",
 			message: "Selected books have been checked in.",
-			position: "bottom-center",
+			position: "top-center",
 			autoClose: 3000,
 			color: "green",
 			classNames: notifClasses,
@@ -340,7 +379,7 @@ const Transaction = () => {
 			showNotification({
 				title: "Cannot Renew",
 				message: "Some selected books are not Borrowed or Overdue.",
-				position: "bottom-center",
+				position: "top-center",
 				autoClose: 3000,
 				color: "red",
 				classNames: notifClasses,
@@ -371,7 +410,7 @@ const Transaction = () => {
 		showNotification({
 			title: "Renew Successful",
 			message: "Selected books have been renewed for 2 more weeks.",
-			position: "bottom-center",
+			position: "top-center",
 			autoClose: 3000,
 			color: "green",
 			classNames: notifClasses,
@@ -382,75 +421,189 @@ const Transaction = () => {
 
 	return (
 		<div className="flex flex-col gap-4 h-full">
-			<div className="flex justify-between">
-				<Card shadow="xs" withBorder className="w-1/2">
-					<div className="flex flex-row items-center gap-3">
-						<Avatar />
-						<Text size="sm">
-							{/* {user.first_name} {user.first_name} */}
-							{user.email}
-						</Text>
+			<div className="flex justify-between space-x-2">
+				<Card withBorder className="w-1/2">
+					<div className="flex items-center gap-4">
+						{scannedUser === "" ? (
+							<div className="h-[38px]" />
+						) : (
+							<Avatar color="teal" />
+						)}
+						<div className="flex flex-col">
+							<span className="font-semibold leading-tight">
+								{scannedUser.first_name} {scannedUser.last_name}
+							</span>
+							<span className="text-xs text-gray-500 leading-tight">
+								{scannedUser.email}
+							</span>
+						</div>
 					</div>
 				</Card>
-				<div>
-					<div>
-						<Button
-							variant="filled"
-							onClick={() => {
-								setUser("");
-								setTempSelectedUser("");
-								updateTransactions([]);
-								setSelectedRows([]);
-								setScannedBooks([]);
-							}}
-						>
-							Finish
-						</Button>
+				<div className="w-1/2">
+					<div className="flex justify-between gap-2">
+						<div>
+							<Tooltip label="Help" withArrow>
+								<Button
+									variant="subtle"
+									px={0}
+									py={0}
+									style={{ aspectRatio: "1 / 1" }}
+									onClick={() => setHelpOpened(true)}
+								>
+									<Info />
+								</Button>
+							</Tooltip>
+							<Modal
+								opened={helpOpened}
+								onClose={() => setHelpOpened(false)}
+								title="How to Use the Transaction Page"
+								size="lg"
+							>
+								<div className="flex flex-col gap-4 text-sm">
+									<div>
+										<p className="font-semibold">1. Scan Library Card</p>
+										<p>
+											Click the <b>RFID Scan</b> or <b>Barcode Scan</b> button to scan the library card.
+										</p>
+									</div>
+
+									<div>
+										<p className="font-semibold">2. Scan Books</p>
+										<p>
+											Click the <b>RFID Scan</b> or <b>Barcode Scan</b> button to scan the books.
+										</p>
+									</div>
+
+									<div>
+										<p className="font-semibold">3. Select Books</p>
+										<p>Click the <b>Transaction</b> tab and the checkboxes in each book’s row to select the books.</p>
+									</div>
+
+									<div>
+										<p className="font-semibold">4. Perform Transaction</p>
+										<p>
+											Click the <b>Check Out</b>, <b>Check In</b>, or <b>Renew</b> to process the selected books.
+										</p>
+									</div>
+
+									<div>
+										<p className="font-semibold">5. Reset Session</p>
+										<p>
+											Click the <b>Finish</b> button to complete the current transaction session.
+										</p>
+									</div>
+
+									<Button
+										mt="md"
+										onClick={() => setHelpOpened(false)}
+										fullWidth
+									>
+										Got it
+									</Button>
+								</div>
+							</Modal>
+						</div>
+						<div className="flex gap-2">
+							<Button style={{ width: 135 }} variant="outline">
+								Undo
+							</Button>
+							<Button
+								style={{ width: 135 }}
+								variant="filled"
+								onClick={() => {
+									setScannedUser("");
+									setTempSelectedUser("");
+									updateTransactions([]);
+									setSelectedRows([]);
+									setScannedBooks([]);
+								}}
+							>
+								Finish
+							</Button>
+						</div>
 					</div>
 				</div>
 			</div>
-			<Card shadow="xs" withBorder className="flex-1">
-				<ScrollArea className="h-full">
-					<Table stickyHeader striped highlightOnHover>
-						<Table.Thead>
-							<Table.Tr>
-								<Table.Th>Book Info</Table.Th>
-								<Table.Th>Copy ID</Table.Th>
-								<Table.Th>Book Title</Table.Th>
-								<Table.Th>Book Author</Table.Th>
-								<Table.Th>Book Location</Table.Th>
-								<Table.Th>Borrow Date</Table.Th>
-								<Table.Th>Due Date</Table.Th>
-								<Table.Th>Return Date</Table.Th>
-								<Table.Th>Status</Table.Th>
-							</Table.Tr>
-						</Table.Thead>
-						<Table.Tbody>{transactionsRows}</Table.Tbody>
-					</Table>
-				</ScrollArea>
+			<Card withBorder className="h-full">
+				<Tabs
+					variant="none"
+					value={value}
+					onChange={setValue}
+					className="relative h-full pb-12"
+				>
+					<Tabs.List ref={setRootRef} className="flex w-full" pb="md">
+						<Tabs.Tab
+							value="history"
+							ref={setControlRef("history")}
+							className="flex-1"
+						>
+							History
+						</Tabs.Tab>
+						<Tabs.Tab
+							value="transaction"
+							ref={setControlRef("transaction")}
+							className="flex-1"
+						>
+							Transaction
+						</Tabs.Tab>
+
+						<FloatingIndicator
+							target={value ? controlsRefs[value] : null}
+							parent={rootRef}
+							className="bg-transparent rounded-sm border border-gray-200 shadow-sm"
+						/>
+					</Tabs.List>
+
+					<Tabs.Panel value="history" className="h-full">
+						<ScrollArea className="h-full">
+							<Table stickyHeader striped highlightOnHover>
+								<Table.Thead>
+									<Table.Tr>
+										<Table.Th>Book Info</Table.Th>
+										<Table.Th>Copy ID</Table.Th>
+										<Table.Th>Book Title</Table.Th>
+										<Table.Th>Book Author</Table.Th>
+										<Table.Th>Book Location</Table.Th>
+										<Table.Th>Borrow Date</Table.Th>
+										<Table.Th>Due Date</Table.Th>
+										<Table.Th>Return Date</Table.Th>
+										<Table.Th>Status</Table.Th>
+									</Table.Tr>
+								</Table.Thead>
+								<Table.Tbody>{transactionsRows}</Table.Tbody>
+							</Table>
+						</ScrollArea>
+					</Tabs.Panel>
+
+					<Tabs.Panel value="transaction" className="h-full">
+						<ScrollArea className="h-full">
+							<Table stickyHeader striped highlightOnHover>
+								<Table.Thead>
+									<Table.Tr>
+										<Table.Th>Select</Table.Th>
+										<Table.Th>Copy ID</Table.Th>
+										<Table.Th>Book Title</Table.Th>
+										<Table.Th>Book Author</Table.Th>
+										<Table.Th>Book Location</Table.Th>
+										<Table.Th>Member Name</Table.Th>
+										<Table.Th>Member Email</Table.Th>
+										<Table.Th>Status</Table.Th>
+									</Table.Tr>
+								</Table.Thead>
+								<Table.Tbody>{scannedRows}</Table.Tbody>
+							</Table>
+						</ScrollArea>
+					</Tabs.Panel>
+				</Tabs>
 			</Card>
-			<Card shadow="xs" withBorder className="flex-1">
-				<ScrollArea className="h-full">
-					<Table stickyHeader striped highlightOnHover>
-						<Table.Thead>
-							<Table.Tr>
-								<Table.Th>Select</Table.Th>
-								<Table.Th>Copy ID</Table.Th>
-								<Table.Th>Book Title</Table.Th>
-								<Table.Th>Book Author</Table.Th>
-								<Table.Th>Book Location</Table.Th>
-								<Table.Th>Member Name</Table.Th>
-								<Table.Th>Member Email</Table.Th>
-								<Table.Th>Status</Table.Th>
-							</Table.Tr>
-						</Table.Thead>
-						<Table.Tbody>{scannedRows}</Table.Tbody>
-					</Table>
-				</ScrollArea>
-			</Card>
-			<div className="flex justify-between">
+
+			<div className="flex justify-between space-x-2">
 				<div className="flex gap-2">
-					<Button variant="filled" onClick={() => setRfidModalOpened(true)}>
+					<Button
+						style={{ width: 135 }}
+						variant="filled"
+						onClick={() => setRfidModalOpened(true)}
+					>
 						RFID Scan
 					</Button>
 					<Modal
@@ -469,7 +622,11 @@ const Transaction = () => {
 							Scan Library Card
 						</Button>
 					</Modal>
-					<Button variant="filled" onClick={() => setBarcodeModalOpened(true)}>
+					<Button
+						style={{ width: 135 }}
+						variant="filled"
+						onClick={() => setBarcodeModalOpened(true)}
+					>
 						Barcode Scan
 					</Button>
 					<Modal
@@ -500,6 +657,7 @@ const Transaction = () => {
 				</div>
 				<div className="flex gap-2">
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("check out")) return;
@@ -511,6 +669,7 @@ const Transaction = () => {
 						Check Out
 					</Button>
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("check in")) return;
@@ -521,6 +680,7 @@ const Transaction = () => {
 						Check In
 					</Button>
 					<Button
+						style={{ width: 135 }}
 						variant="filled"
 						onClick={() => {
 							if (!checkLibraryCard("renew")) return;
