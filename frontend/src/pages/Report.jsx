@@ -1,10 +1,313 @@
-import { useEffect } from "react";
+import { useState } from 'react';
+import { Paper, Autocomplete, TextInput, Select, Textarea, Button, Stack, Text, Alert, Group, Box, Center } from '@mantine/core';
+import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import ReportList from './ReportList.jsx';
+import MOCK_BOOKS from '../assets/data/MockBooks';
+import { useNavigate } from 'react-router';
 
-const Report = () => {
-  useEffect(() => {
-    document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Report`;
-  }, []);
-  return <div>Report</div>;
-};
+const Report = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({
+    bookId: '',
+    bookTitle: '',
+    bookAuthor: '',
+    status: '',
+    description: '',
+  });
+
+  const [submitted, setSubmitted] = useState(false);
+  const [submittedBookTitle, setSubmittedBookTitle] = useState('');
+  const [errors, setErrors] = useState([]);
+  const [reports, setReports] = useState([]);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    const validationErrors = [];
+    
+    if (!formData.bookTitle.trim()) validationErrors.push('Book title is required');
+    if (!formData.bookAuthor.trim()) validationErrors.push('Book author is required');
+    if (!formData.status) validationErrors.push('Status is required');
+    if (!formData.description.trim()) validationErrors.push('Description is required');
+
+    if (validationErrors.length > 0) {
+      setErrors(validationErrors);
+      setSubmitted(false);
+      return;
+    }
+
+    // Build a full report object
+    const newReport = {
+      id: Date.now().toString(),
+      bookId: formData.bookId || '',
+      bookTitle: formData.bookTitle,
+      bookAuthor: formData.bookAuthor,
+      status: formData.status,
+      description: formData.description,
+      reportedBy: 'You',
+      reportedDate: new Date().toISOString(),
+    };
+
+    // Store book title before clearing
+    setSubmittedBookTitle(formData.bookTitle);
+
+    // call optional external handler
+    if (typeof onSubmit === 'function') onSubmit(newReport);
+
+    // add to internal list
+    setReports(prev => [newReport, ...prev]);
+    setFormData({
+      bookId: '',
+      bookTitle: '',
+      bookAuthor: '',
+      status: '',
+      description: '',
+    });
+    setErrors([]);
+    setSubmitted(true);
+  };
+
+  const handleClear = () => {
+    setFormData({
+      bookId: '',
+      bookTitle: '',
+      bookAuthor: '',
+      status: '',
+      description: '',
+    });
+    setErrors([]);
+  };
+
+  const bookTitleOptions = MOCK_BOOKS.map(b => b.title).sort();
+
+  // Show success screen if submitted
+  if (submitted) {
+    return (
+      <Paper shadow="md" p="xl" radius="md" style={{ backgroundColor: 'white' }}>
+        <Center style={{ minHeight: '400px' }}>
+          <Stack gap="xl" align="center" style={{ maxWidth: '600px', textAlign: 'center' }}>
+            <Box 
+              style={{ 
+                width: '100px', 
+                height: '100px', 
+                borderRadius: '50%', 
+                background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)'
+              }}
+            >
+              <CheckCircle2 size={60} style={{ color: '#059669' }} />
+            </Box>
+            
+            <Stack gap="md" align="center">
+              <Text size="xl" fw={600} style={{ color: '#1f2937' }}>
+                Report Successfully Submitted!
+              </Text>
+              
+              <Text size="md" c="dimmed" style={{ lineHeight: 1.6 }}>
+                Your report for <strong>{submittedBookTitle}</strong> was successfully submitted!
+                A confirmation email was sent to your inbox and further updates about next steps 
+                including potential reimbursement will be sent via email.
+              </Text>
+            </Stack>
+            
+            <Group position="center" spacing="md" mt="md">
+              <Button
+                size="md"
+                style={{
+                  backgroundColor: '#14b8a6',
+                  '&:hover': { backgroundColor: '#0f9d8e' }
+                }}
+                onClick={() => navigate('/')}
+              >
+                Return to Homepage
+              </Button>
+
+              <Button
+                size="md"
+                style={{
+                  backgroundColor: '#14b8a6',
+                  '&:hover': { backgroundColor: '#0f9d8e' }
+                }}
+                onClick={() => setSubmitted(false)}
+              >
+                Submit Another Report
+              </Button>
+            </Group>
+          </Stack>
+        </Center>
+      </Paper>
+    );
+  }
+
+  return (
+    <Paper shadow="md" p="xl" radius="md" style={{ backgroundColor: 'white' }}>
+      <Stack gap="lg">
+        <div>
+          <Text size="xl" fw={600} mb={4} style={{ color: '#1f2937' }}>Report Lost or Damaged Book</Text>
+          <Text size="sm" c="dimmed">
+            Fill out the form below to report a lost or damaged library book
+          </Text>
+        </div>
+
+        {errors.length > 0 && (
+          <Alert
+            color="red"
+            title="Please fix the following errors:"
+            icon={<AlertCircle size={16} />}
+            styles={{
+              root: {
+                backgroundColor: '#fef2f2',
+                borderColor: '#fca5a5'
+              }
+            }}
+          >
+            <ul style={{ marginTop: '0.5rem', paddingLeft: '1.25rem' }}>
+              {errors.map((error, index) => (
+                <li key={index}>{error}</li>
+              ))}
+            </ul>
+          </Alert>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <Stack gap="md">
+            <Group grow>
+              <Autocomplete
+                label="Book Title"
+                placeholder="Type or select a book title"
+                data={bookTitleOptions}
+                value={formData.bookTitle}
+                onChange={(val) => {
+                  // update title
+                  setFormData(prev => ({ ...prev, bookTitle: val }));
+                  // if the typed value matches an existing title, autofill author and id
+                  const match = MOCK_BOOKS.find(b => b.title.toLowerCase() === val.trim().toLowerCase());
+                  if (match) {
+                    setFormData(prev => ({ ...prev, bookAuthor: match.author || prev.bookAuthor, bookId: match.isbn || prev.bookId }));
+                  }
+                }}
+                required
+                size="md"
+                styles={{
+                  input: {
+                    borderColor: '#d1d5db',
+                    '&:focus': {
+                      borderColor: '#14b8a6'
+                    }
+                  }
+                }}
+              />
+
+              <TextInput
+                label="Author"
+                placeholder="Enter author name"
+                value={formData.bookAuthor}
+                onChange={(e) => setFormData({ ...formData, bookAuthor: e.target.value })}
+                required
+                size="md"
+                styles={{
+                  input: {
+                    borderColor: '#d1d5db',
+                    '&:focus': {
+                      borderColor: '#14b8a6'
+                    }
+                  }
+                }} />
+            </Group>
+
+            <Group grow>
+              <TextInput
+                label="Book ID / ISBN (Optional)"
+                placeholder="Enter book ID or ISBN if known"
+                value={formData.bookId}
+                onChange={(e) => setFormData({ ...formData, bookId: e.target.value })}
+                size="md"
+                styles={{
+                  input: {
+                    borderColor: '#d1d5db',
+                    '&:focus': {
+                      borderColor: '#14b8a6'
+                    }
+                  }
+                }} />
+
+              <Select
+                label="Status"
+                placeholder="Select status"
+                value={formData.status}
+                onChange={(value) => setFormData({ ...formData, status: value })}
+                data={[
+                  { value: 'lost', label: 'Lost' },
+                  { value: 'damaged', label: 'Damaged' },
+                ]}
+                required
+                size="md"
+                styles={{
+                  input: {
+                    borderColor: '#d1d5db',
+                    '&:focus': {
+                      borderColor: '#14b8a6'
+                    }
+                  }
+                }} />
+            </Group>
+
+            <Textarea
+              label="Description"
+              placeholder="Please provide details about the condition or circumstances..."
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              minRows={4}
+              required
+              size="md"
+              styles={{
+                input: {
+                  borderColor: '#d1d5db',
+                  '&:focus': {
+                    borderColor: '#14b8a6'
+                  }
+                }
+              }} />
+
+            <Group mt="md">
+              <Button
+                type="submit"
+                style={{
+                  flex: 1,
+                  backgroundColor: '#14b8a6',
+                  '&:hover': { backgroundColor: '#0f9d8e' }
+                }}
+                size="md"
+              >
+                Submit Report
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleClear}
+                size="md"
+                style={{
+                  borderColor: '#14b8a6',
+                  color: '#14b8a6',
+                  '&:hover': {
+                    backgroundColor: '#f0fdfa'
+                  }
+                }}
+              >
+                Clear Form
+              </Button>
+            </Group>
+          </Stack>
+        </form>
+
+        {/* Report list — placed inside the same Stack so it gets the same gap spacing */}
+        <ReportList reports={reports} />
+      </Stack>
+    </Paper>
+  );
+}
 
 export default Report;
