@@ -42,6 +42,41 @@ const Browse = () => {
     setHasSearched(true);
   };
 
+  // Suggestion helpers when no results are found
+  const categoryCounts = MOCK_BOOKS.flatMap(b => b.categories || []).reduce((acc, c) => {
+    acc[c] = (acc[c] || 0) + 1;
+    return acc;
+  }, {});
+  const topCategories = Object.keys(categoryCounts).sort((a, b) => categoryCounts[b] - categoryCounts[a]);
+
+  const authorCounts = MOCK_BOOKS.map(b => b.author).reduce((acc, a) => {
+    acc[a] = (acc[a] || 0) + 1;
+    return acc;
+  }, {});
+  const topAuthors = Object.keys(authorCounts).sort((a, b) => authorCounts[b] - authorCounts[a]);
+
+  const suggestedBooks = MOCK_BOOKS.filter(b => b.available).slice(0, 4);
+
+  const applyCategorySuggestion = (cat) => {
+    setSelectedCategories([cat]);
+    setSelectedAuthors([]);
+    setHasSearched(true);
+    setTimeout(() => handleSearch(), 0);
+  };
+
+  const applyAuthorSuggestion = (author) => {
+    setSelectedAuthors([author]);
+    setSelectedCategories([]);
+    setHasSearched(true);
+    setTimeout(() => handleSearch(), 0);
+  };
+
+  const applyBookSuggestion = (bookTitle) => {
+    setSearchQuery(bookTitle);
+    setHasSearched(true);
+    setTimeout(() => handleSearch(bookTitle), 0);
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSearch();
@@ -157,9 +192,114 @@ const Browse = () => {
 
           {searchResults.length === 0 ? (
             <Paper shadow="md" p="xl" radius="md" style={{ backgroundColor: 'white' }}>
-              <Text ta="center" c="dimmed">
-                No books found matching your search criteria.
-              </Text>
+              <Stack gap="md">
+                <Text ta="center" c="dimmed">
+                  No books found matching your search criteria.
+                </Text>
+
+                <Text size="sm" fw={600} style={{ color: '#1f2937' }}>Suggested picks</Text>
+
+                <Grid>
+                  {suggestedBooks.map((book) => (
+                    <Grid.Col key={`s-${book.id}`} span={{ base: 12, md: 6 }}>
+                      <Paper
+                        shadow="md"
+                        p="lg"
+                        radius="md"
+                        style={{
+                          height: '100%',
+                          transition: 'all 0.2s',
+                          backgroundColor: 'white',
+                          border: '1px solid #e5e7eb'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(20, 184, 166, 0.2)';
+                          e.currentTarget.style.borderColor = '#14b8a6';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.boxShadow = '';
+                          e.currentTarget.style.borderColor = '#e5e7eb';
+                        }}
+                      >
+                        <Stack gap="md">
+                          <Group justify="space-between" align="flex-start">
+                            <Box style={{ flex: 1 }}>
+                              <Group gap="xs" mb="xs">
+                                <BookOpen size={20} style={{ color: '#14b8a6', flexShrink: 0 }} />
+                                <Text fw={600} style={{ color: '#1f2937' }}>{book.title}</Text>
+                              </Group>
+                              <Group gap="xs">
+                                <User size={16} style={{ color: '#9ca3af' }} />
+                                <Text size="sm" c="dimmed">{book.author}</Text>
+                              </Group>
+                            </Box>
+                            <Badge
+                              color={book.available ? 'teal' : 'gray'}
+                              variant="light"
+                              style={{
+                                backgroundColor: book.available ? '#d1fae5' : '#f3f4f6',
+                                color: book.available ? '#047857' : '#6b7280'
+                              }}
+                            >
+                              {book.available ? 'Available' : 'Checked Out'}
+                            </Badge>
+                          </Group>
+
+                          <Stack gap="xs">
+                            <Group>
+                              <Text size="sm" c="dimmed" style={{ width: '80px' }}>ISBN:</Text>
+                              <Text size="sm" style={{ color: '#4b5563' }}>{book.isbn}</Text>
+                            </Group>
+                            <Group>
+                              <Text size="sm" c="dimmed" style={{ width: '80px' }}>Category:</Text>
+                              <Group spacing="xs">
+                                {(book.categories || []).map((c) => (
+                                  <Badge
+                                    key={c}
+                                    variant="outline"
+                                    style={{ borderColor: '#14b8a6', color: '#14b8a6' }}
+                                  >
+                                    {c}
+                                  </Badge>
+                                ))}
+                              </Group>
+                            </Group>
+                            <Group>
+                              <Text size="sm" c="dimmed" style={{ width: '80px' }}>Location:</Text>
+                              <Group gap="xs">
+                                <MapPin size={14} style={{ color: '#14b8a6' }} />
+                                <Text size="sm" style={{ color: '#4b5563' }}>Aisle {book.location.aisle}, Shelf {book.location.shelf}</Text>
+                              </Group>
+                            </Group>
+                          </Stack>
+
+                          <Tooltip label="This book is checked out" disabled={book.available} position="top" withArrow>
+                            <div>
+                              <Button
+                                fullWidth
+                                variant={reservedBooks.has(book.id) ? 'filled' : 'outline'}
+                                onClick={() => handleReserve(book.id)}
+                                disabled={!book.available}
+                                style={{
+                                  backgroundColor: reservedBooks.has(book.id)
+                                    ? '#14b8a6'
+                                    : !book.available
+                                    ? '#f3f4f6'
+                                    : 'transparent',
+                                  borderColor: reservedBooks.has(book.id) ? '#14b8a6' : !book.available ? '#e5e7eb' : '#14b8a6',
+                                  color: reservedBooks.has(book.id) ? 'white' : !book.available ? '#9ca3af' : '#14b8a6',
+                                }}
+                              >
+                                {reservedBooks.has(book.id) ? 'Reserved' : 'Reserve Book'}
+                              </Button>
+                            </div>
+                          </Tooltip>
+                        </Stack>
+                      </Paper>
+                    </Grid.Col>
+                  ))}
+                </Grid>
+              </Stack>
             </Paper>
           ) : (
             <Grid>
