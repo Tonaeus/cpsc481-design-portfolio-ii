@@ -40,6 +40,14 @@ const Book = () => {
   return (
     <Card shadow="sm" padding="xl" radius="md" withBorder>
       <Stack gap="lg">
+        <Group position="apart" align="center">
+          <Button component={Link} to="/browse" variant="subtle" size="sm">
+            &lt; Back to Browse
+          </Button>
+
+          <div />
+        </Group>
+
         <Group justify="space-between" align="flex-start">
           <div>
             <Text size="xs" c="dimmed" fw={500} tt="uppercase">

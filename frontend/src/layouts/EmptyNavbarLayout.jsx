@@ -1,12 +1,12 @@
 import { Outlet } from "react-router";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 // import bgImage from "../assets/backgrounds/dinosaur-skeleton-clipart-xl.png";
 
 function MainLayout() {
 	return (
 		<div className="flex flex-col min-h-screen">
 			<header>
-				<Navbar showUserButton={false} />
+				<Header showUserButton={false} />
 			</header>
 			<main className="relative flex justify-center flex-1 bg-gray-100 overflow-y-auto">
 				{/* <div className="absolute inset-0 hidden xl:flex justify-center items-center pointer-events-none">

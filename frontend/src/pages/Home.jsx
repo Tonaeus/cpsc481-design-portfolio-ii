@@ -44,28 +44,28 @@ export default function Home({ onNavigateToPayment }) {
 			title: "The Great Gatsby",
 			author: "F. Scott Fitzgerald",
 			cover: theGreatGatsby,
-			category: "Fiction",
+			categories: ["Fiction"],
 		},
 		{
 			id: 2,
 			title: "The Hobbit",
 			author: "J.R.R. Tolkien",
 			cover: theHobbit,
-			category: "Science",
+			categories: ["Fantasy"],
 		},
 		{
 			id: 3,
 			title: "1984",
 			author: "George Orwell",
 			cover: _1984,
-			category: "Sci-Fi",
+			categories: ["Fiction", "Dystopia"],
 		},
 		{
 			id: 4,
 			title: "Brave New World",
 			author: "Aldous Huxley",
 			cover: braveNewWorld,
-			category: "Children's Book",
+			categories: ["Fiction", "Dystopia"],
 		},
 	];
 
@@ -249,9 +249,11 @@ export default function Home({ onNavigateToPayment }) {
 									/>
 								</Box>
 								<Box p="md">
-									<Badge color="teal.1" c="teal.7" mb="xs">
-										{book.category}
-									</Badge>
+									{(book.categories || (book.category ? [book.category] : [])).map((c) => (
+										<Badge key={c} color="teal.1" c="teal.7" mb="xs">
+											{c}
+										</Badge>
+									))}
 									<Title order={4} c="teal.7" lineClamp={1}>
 										{book.title}
 									</Title>

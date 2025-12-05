@@ -3,7 +3,7 @@ import { Anchor } from "@mantine/core";
 import { Button } from "@mantine/core";
 import { User } from "lucide-react";
 
-const Navbar = ({ showUserButton = true }) => {
+const Header = ({ showUserButton = true }) => {
 	return (
 		<nav className="h-14 flex items-center px-4 border-b border-gray-200 relative">
 			<div className="absolute left-1/2 transform -translate-x-1/2">
@@ -32,4 +32,4 @@ const Navbar = ({ showUserButton = true }) => {
 	);
 };
 
-export default Navbar;
+export default Header;
