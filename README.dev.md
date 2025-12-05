@@ -6,9 +6,13 @@ npm create vite@latest
 
 ## Run the Project
 
-```bash
-npm run dev
-```
+1.  ```bash
+    cd frontend
+    ```
 
-[http://localhost:5173/](http://localhost:5173/)
+1.  ```bash
+    npm run dev
+    ```
+
+3.  [http://localhost:5173/](http://localhost:5173/)
 

@@ -193,7 +193,7 @@ if (currentStep === "confirmation") {
 	}
 
 	return (
-    <div className="flex flex-col h-full px-6 py-4 bg-transparent"> {/* Outer container now full width */}
+    <div className="flex flex-col h-full bg-transparent"> {/* Outer container now full width */}
 			{currentStep === "overview" ? (
 				<>
 					{/* Main Content Area (This one has shadow="xs" and rounded-xl) */}
