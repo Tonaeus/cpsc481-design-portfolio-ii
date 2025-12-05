@@ -41,8 +41,13 @@ const Book = () => {
     <Card shadow="sm" padding="xl" radius="md" withBorder>
       <Stack gap="lg">
         <Group position="apart" align="center">
-          <Button component={Link} to="/browse" variant="subtle" size="sm">
-            &lt; Back to Browse
+          <Button
+            component={Link}
+            to={state?.from === 'home' ? '/' : '/browse'}
+            variant="subtle"
+            size="sm"
+          >
+            {state?.from === 'home' ? '< Back to Homepage' : '< Back to Browse'}
           </Button>
 
           <div />

@@ -236,6 +236,9 @@ export default function Home({ onNavigateToPayment }) {
 								key={book.id}
 								withBorder
 								shadow="xs"
+								component={Link}
+								to="/book"
+								state={{ book, from: 'home' }}
 								className=" transition-all cursor-pointer overflow-hidden"
 								padding="0"
 							>
