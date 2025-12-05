@@ -6,6 +6,7 @@ import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/charts/styles.css";
 import "@mantine/carousel/styles.css";
+import HomeLayout from "./layouts/HomeLayout";
 import AccountNavbarLayout from "./layouts/AccountNavbarLayout";
 import EmptyNavbarLayout from "./layouts/EmptyNavbarLayout";
 import SidebarNavbarLayout from "./layouts/SidebarNavbarLayout";
@@ -19,6 +20,7 @@ import History from "./pages/History";
 import Report from "./pages/Report";
 import Transaction from "./pages/Transaction";
 import Reserve from "./pages/Reserve";
+import ReservationDetails from "./pages/ReservationDetails";
 import Payment from "./pages/Payment";
 import Empty from "./pages/Empty";
 
@@ -35,8 +37,10 @@ function App() {
 				<Notifications />
 				<BrowserRouter>
 					<Routes>
-						<Route element={<AccountNavbarLayout />}>
+						<Route element={<HomeLayout />}>
 							<Route path="/" element={<Home />} />
+						</Route>
+						<Route element={<AccountNavbarLayout />}>
 							<Route path="forgot-password" element={<ForgotPassword />} />
 						</Route>
 						<Route element={<EmptyNavbarLayout />}>
@@ -51,6 +55,7 @@ function App() {
 							<Route path="transaction" element={<Transaction />} />
 							<Route path="reserve" element={<Reserve />} />
 							<Route path="payment" element={<Payment />} />
+							<Route path="details" element={<ReservationDetails />} />
 							<Route path="empty" element={<Empty />} />
 						</Route>
 					</Routes>
