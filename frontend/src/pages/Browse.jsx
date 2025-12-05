@@ -6,7 +6,8 @@ import MOCK_BOOKS from '../assets/data/MockBooks';
 
 const Browse = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+  // show all books initially, but don't show the count until user searches
+  const [searchResults, setSearchResults] = useState(MOCK_BOOKS);
   const [hasSearched, setHasSearched] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedAuthors, setSelectedAuthors] = useState([]);
@@ -176,11 +177,12 @@ const Browse = () => {
       </Paper>
 
       {/* Search Results */}
-      {hasSearched && (
-        <Stack gap="md">
-          <Text c="dimmed" size="sm" style={{ paddingLeft: '0.25rem' }}>
-            {searchResults.length} {searchResults.length === 1 ? 'result' : 'results'} found
-          </Text>
+      <Stack gap="md">
+          {hasSearched && (
+            <Text c="dimmed" size="sm" style={{ paddingLeft: '0.25rem' }}>
+              {searchResults.length} {searchResults.length === 1 ? 'result' : 'results'} found
+            </Text>
+          )}
 
           {searchResults.length === 0 ? (
             <Paper shadow="md" p="xl" radius="md" style={{ backgroundColor: 'white' }}>
@@ -378,7 +380,6 @@ const Browse = () => {
             </Grid>
           )}
         </Stack>
-      )}
     </Stack>
   );
 };
