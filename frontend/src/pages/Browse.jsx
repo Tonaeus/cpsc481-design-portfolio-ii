@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { TextInput, Button, Paper, Text, Grid, Badge, Box, Stack, Group, Tooltip, Select, MultiSelect } from '@mantine/core';
+import { useNavigate } from 'react-router';
+import { TextInput, Button, Paper, Text, Grid, Badge, Box, Stack, Group, Select, MultiSelect } from '@mantine/core';
 import { Search, BookOpen, User, MapPin } from 'lucide-react';
 import MOCK_BOOKS from '../assets/data/MockBooks';
 
@@ -7,10 +8,10 @@ const Browse = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [hasSearched, setHasSearched] = useState(false);
-  const [reservedBooks, setReservedBooks] = useState(new Set());
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedAuthors, setSelectedAuthors] = useState([]);
   const [sortOrder, setSortOrder] = useState('alpha-asc');
+  const navigate = useNavigate();
 
   // options for the multi-selects
   const [categoryOptions] = useState(() => Array.from(new Set(MOCK_BOOKS.flatMap(b => b.categories))).sort());
@@ -89,17 +90,8 @@ const Browse = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategories, selectedAuthors, sortOrder]);
 
-  const handleReserve = (bookId) => {
-    setReservedBooks(prev => {
-      const newSet = new Set(prev);
-      if (newSet.has(bookId)) {
-        newSet.delete(bookId);
-      } else {
-        newSet.add(bookId);
-      }
-      return newSet;
-    });
-  };
+  // navigate to book details
+  const viewDetails = (book) => navigate('/book', { state: { book } });
 
   return (
     <Stack gap="lg">
@@ -273,27 +265,18 @@ const Browse = () => {
                             </Group>
                           </Stack>
 
-                          <Tooltip label="This book is checked out" disabled={book.available} position="top" withArrow>
-                            <div>
-                              <Button
-                                fullWidth
-                                variant={reservedBooks.has(book.id) ? 'filled' : 'outline'}
-                                onClick={() => handleReserve(book.id)}
-                                disabled={!book.available}
-                                style={{
-                                  backgroundColor: reservedBooks.has(book.id)
-                                    ? '#14b8a6'
-                                    : !book.available
-                                    ? '#f3f4f6'
-                                    : 'transparent',
-                                  borderColor: reservedBooks.has(book.id) ? '#14b8a6' : !book.available ? '#e5e7eb' : '#14b8a6',
-                                  color: reservedBooks.has(book.id) ? 'white' : !book.available ? '#9ca3af' : '#14b8a6',
-                                }}
-                              >
-                                {reservedBooks.has(book.id) ? 'Reserved' : 'Reserve Book'}
-                              </Button>
-                            </div>
-                          </Tooltip>
+                          <Button
+                            fullWidth
+                            variant="outline"
+                            onClick={() => viewDetails(book)}
+                            style={{
+                              borderColor: '#14b8a6',
+                              color: '#14b8a6',
+                              backgroundColor: 'transparent'
+                            }}
+                          >
+                            View Details
+                          </Button>
                         </Stack>
                       </Paper>
                     </Grid.Col>
@@ -376,27 +359,18 @@ const Browse = () => {
                         </Group>
                       </Stack>
 
-                      <Tooltip label="This book is checked out" disabled={book.available} position="top" withArrow>
-                        <div>
-                          <Button
-                            fullWidth
-                            variant={reservedBooks.has(book.id) ? 'filled' : 'outline'}
-                            onClick={() => handleReserve(book.id)}
-                            disabled={!book.available}
-                            style={{
-                              backgroundColor: reservedBooks.has(book.id)
-                                ? '#14b8a6'
-                                : !book.available
-                                ? '#f3f4f6'
-                                : 'transparent',
-                              borderColor: reservedBooks.has(book.id) ? '#14b8a6' : !book.available ? '#e5e7eb' : '#14b8a6',
-                              color: reservedBooks.has(book.id) ? 'white' : !book.available ? '#9ca3af' : '#14b8a6',
-                            }}
-                          >
-                            {reservedBooks.has(book.id) ? 'Reserved' : 'Reserve Book'}
-                          </Button>
-                        </div>
-                      </Tooltip>
+                      <Button
+                        fullWidth
+                        variant="outline"
+                        onClick={() => viewDetails(book)}
+                        style={{
+                          borderColor: '#14b8a6',
+                          color: '#14b8a6',
+                          backgroundColor: 'transparent'
+                        }}
+                      >
+                        View Details
+                      </Button>
                     </Stack>
                   </Paper>
                 </Grid.Col>
