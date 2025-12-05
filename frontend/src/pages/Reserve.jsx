@@ -38,8 +38,8 @@ const Reserve = () => {
         <Title order={2}>Place a Hold</Title>
 
         <Text c="dimmed" ta="center" maw={540}>
-          You&apos;re reserving a copy of this book. We&apos;ll hold it at the
-          main desk once it&apos;s returned and ready for pickup.
+          You're reserving a copy of this book. We'll hold it at the
+          main desk once it's returned and ready for pickup.
         </Text>
 
         <Paper withBorder radius="md" p="md" mt="sm" w="100%" maw={520}>
@@ -77,7 +77,7 @@ const Reserve = () => {
                 </Text>
               </Text>
               <Text size="sm" c="dimmed">
-                We&apos;ll notify you when a copy becomes available.
+                We'll notify you when a copy becomes available.
               </Text>
             </Stack>
           </Group>
@@ -91,10 +91,10 @@ const Reserve = () => {
         </Text>
 
         <Group mt="md">
-          <Button component={Link} to="/details" state={{ book }}>
+          <Button w={135} component={Link} to="/details" state={{ book }}>
             Confirm
           </Button>
-          <Button variant="default" component={Link} to="/book" state={{ book }}>
+          <Button w={135} variant="default" component={Link} to="/book" state={{ book }}>
             Cancel
           </Button>
         </Group>

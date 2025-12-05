@@ -1,4 +1,7 @@
 // Mock book data (~60 items) — multiline, human-readable
+import mockingbird from "../book-covers/to-kill-a-mockingbird.jpg";
+import gatsby from "../book-covers/the-great-gatsby.jpg";
+
 const MOCK_BOOKS = [
   {
     id: '1',
@@ -8,6 +11,7 @@ const MOCK_BOOKS = [
     categories: ['Fiction'],
     available: true,
     location: { aisle: 'A', shelf: '3' },
+    cover: mockingbird,
   },
   {
     id: '2',
@@ -26,6 +30,7 @@ const MOCK_BOOKS = [
     categories: ['Fiction'],
     available: false,
     location: { aisle: 'A', shelf: '2' },
+    cover: gatsby,
   },
   {
     id: '4',

@@ -18,12 +18,11 @@ import MOCK_BOOKS from "../assets/data/MockBooks";
 
 const Book = () => {
   const { state } = useLocation();
-  const book = state?.book || MOCK_BOOKS[0];
+  const book = state?.book || MOCK_BOOKS[2];
 
   useEffect(() => {
-    document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | ${
-      book?.title || "Book"
-    }`;
+    document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | ${book?.title || "Book"
+      }`;
   }, [book?.title]);
 
   if (!book) {
@@ -86,8 +85,8 @@ const Book = () => {
             title="Available to borrow"
             mt="md"
           >
-            This book is currently on the shelf. You can check it out here at
-            the kiosk or at the main desk.
+            This book is currently on the shelf. Find it in the stacks and check
+            it out at the self-service kiosk or at the main desk.
           </Alert>
         ) : (
           <Alert
@@ -101,8 +100,8 @@ const Book = () => {
             <Text span inherit fw={600}>
               Reserve
             </Text>{" "}
-            button below to place a hold, and we&apos;ll set it aside for you
-            once it&apos;s returned.
+            button below to place a hold, and we'll set it aside for you
+            once it's returned.
           </Alert>
         )}
 
@@ -151,7 +150,7 @@ const Book = () => {
               <Text size="sm" c="dimmed">
                 When a copy is available, you can borrow it directly from the
                 library or this kiosk. When all copies are checked out, place a
-                hold and you&apos;ll be notified when one is ready for pickup.
+                hold and you'll be notified when one is ready for pickup.
               </Text>
             </Paper>
           </Grid.Col>
@@ -167,31 +166,28 @@ const Book = () => {
                 radius="md"
                 w="100%"
                 h={320}
-                fit="cover"
+                fit="contain"
               />
             </Paper>
           </Grid.Col>
         </Grid>
 
         {book.available ? (
-          <>
-            <Group mt="lg">
-              <Button>Checkout</Button>
-            </Group>
-            <Text size="xs" c="dimmed" mt="xs">
-        
-            </Text>
-          </>
+          <Text size="xs" c="dimmed" mt="xs">
+            Reservations are only for books that are currently checked out.
+            Since this copy is available, please find it on the shelf and check
+            it out at the self-service kiosk or main desk.
+          </Text>
         ) : (
           <>
             <Group mt="lg">
-              <Button component={Link} to="/reserve" state={{ book }}>
-                Reserve this book
+              <Button w={135} component={Link} to="/reserve" state={{ book }}>
+                Reserve book
               </Button>
             </Group>
             <Text size="xs" c="dimmed" mt={4}>
-              You&apos;ll be notified via email when your reserved copy is
-              ready for pickup.
+              You'll be notified via email when your reserved copy is ready
+              for pickup.
             </Text>
           </>
         )}

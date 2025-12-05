@@ -41,7 +41,7 @@ const ReservationDetails = () => {
         <Title order={2}>Reservation Details</Title>
 
         <Text c="dimmed" ta="center">
-          Your reservation has been placed successfully. We&apos;ll notify you at
+          Your reservation has been placed successfully. We'll notify you at
           the main desk when a copy becomes available.
         </Text>
 
@@ -85,17 +85,17 @@ const ReservationDetails = () => {
                 <Text span c="dimmed">
                   Queue status:
                 </Text>{" "}
-                You&apos;ll be next in line once a copy is returned.
+                You'll be next in line once a copy is returned.
               </Text>
             </Stack>
           </Group>
         </Paper>
 
         <Group mt="lg">
-          <Button component={Link} to="/">
+          <Button w={135} component={Link} to="/">
             Go to Home
           </Button>
-          <Button variant="default" component={Link} to="/history">
+          <Button w={135} variant="default" component={Link} to="/history">
             View History
           </Button>
         </Group>
