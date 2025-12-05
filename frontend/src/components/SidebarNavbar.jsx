@@ -10,6 +10,7 @@ import {
 	ScanBarcode,
 	LogOut,
 	Compass,
+	Home,
 } from "lucide-react";
 import useAuthContext from "../hooks/useAuthContext";
 import { useHotkeys } from "@mantine/hooks";
@@ -86,6 +87,19 @@ const SidebarNavbar = () => {
 				<div className="h-[1px] mb-4 bg-gray-200" />
 				<div className="h-full flex flex-col justify-between">
 					<div>
+						<Button
+							component={Link}
+							to="/"
+							fullWidth
+							variant={isActive("/") ? "light" : "subtle"}
+							color={isActive("/") ? undefined : "dark"}
+						>
+							<div className="flex gap-4 items-center absolute left-4">
+								<Home size={18} />
+								Home
+							</div>
+						</Button>
+
 						<Button
 							component={Link}
 							to="/dashboard"
