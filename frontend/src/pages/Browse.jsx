@@ -34,6 +34,10 @@ const Browse = () => {
 		Array.from(new Set(MOCK_BOOKS.map((b) => b.author))).sort()
 	);
 
+	useEffect(() => {
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Browse`;
+	}, []);
+
 	const handleSearch = () => {
 		const query = searchQuery.trim().toLowerCase();
 
@@ -170,13 +174,14 @@ const Browse = () => {
 							onChange={setSelectedAuthors}
 							placeholder="Filter by Author (type or pick)"
 							searchable
-							creatable
-							getCreateLabel={(query) => `Add "${query}"`}
-							onCreate={(query) => {
-								const item = query;
-								setAuthorOptions((prev) => [...prev, item]);
-								return item;
-							}}
+							// Got warnings with createble, getCreateLabel, and onCreate props
+							// creatable 
+							// getCreateLabel={(query) => `Add "${query}"`}
+							// onCreate={(query) => {
+							// 	const item = query;
+							// 	setAuthorOptions((prev) => [...prev, item]);
+							// 	return item;
+							// }}
 							style={{ minWidth: 250 }}
 						/>
 

@@ -15,11 +15,7 @@ import {
 	Card,
 	Box,
 } from "@mantine/core";
-import {
-	CreditCard,
-	MoveLeft,
-	CheckCircle2,
-} from "lucide-react";
+import { CreditCard, MoveLeft, CheckCircle2 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 
 import useAuthContext from "../hooks/useAuthContext";
@@ -41,6 +37,10 @@ export default function Payment() {
 		cvv: "",
 		cardholderName: "",
 	});
+
+	useEffect(() => {
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Payment`;
+	}, []);
 
 	useEffect(() => {
 		if (!loading && !user) {

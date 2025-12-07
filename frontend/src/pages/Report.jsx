@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
 	Card,
 	Autocomplete,
@@ -37,6 +37,10 @@ const Report = ({ onSubmit }) => {
 	const [errors, setErrors] = useState([]);
 	const [reports, setReports] = useState([]);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		document.title = `${import.meta.env.VITE_APP_NAME_ABBREV} | Report`;
+	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -142,15 +146,9 @@ const Report = ({ onSubmit }) => {
 					</Stack>
 
 					<Group position="center" spacing="md" mt="md">
-						<Button
-							onClick={() => navigate("/")}
-						>
-							Return to Home
-						</Button>
+						<Button onClick={() => navigate("/")}>Return to Home</Button>
 
-						<Button
-							onClick={() => setSubmitted(false)}
-						>
+						<Button onClick={() => setSubmitted(false)}>
 							Submit Another Report
 						</Button>
 					</Group>
@@ -272,11 +270,7 @@ const Report = ({ onSubmit }) => {
 							>
 								Submit Report
 							</Button>
-							<Button
-								type="button"
-								variant="outline"
-								onClick={handleClear}
-							>
+							<Button type="button" variant="outline" onClick={handleClear}>
 								Clear Form
 							</Button>
 						</Group>
