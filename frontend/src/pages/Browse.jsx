@@ -143,7 +143,6 @@ const Browse = () => {
 							onKeyPress={handleKeyPress}
 							leftSection={<Search size={16} />}
 							style={{ flex: 1 }}
-							size="md"
 							styles={{
 								input: {
 									borderColor: "#d1d5db",
@@ -155,11 +154,6 @@ const Browse = () => {
 						/>
 						<Button
 							onClick={handleSearch}
-							size="md"
-							style={{
-								backgroundColor: "#14b8a6",
-								"&:hover": { backgroundColor: "#0f9d8e" },
-							}}
 						>
 							Search
 						</Button>
@@ -363,11 +357,6 @@ const Browse = () => {
 													fullWidth
 													variant="outline"
 													onClick={() => viewDetails(book)}
-													style={{
-														borderColor: "#14b8a6",
-														color: "#14b8a6",
-														backgroundColor: "transparent",
-													}}
 												>
 													View Details
 												</Button>
@@ -480,11 +469,6 @@ const Browse = () => {
 											fullWidth
 											variant="outline"
 											onClick={() => viewDetails(book)}
-											style={{
-												borderColor: "#14b8a6",
-												color: "#14b8a6",
-												backgroundColor: "transparent",
-											}}
 										>
 											View Details
 										</Button>

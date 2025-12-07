@@ -378,9 +378,7 @@ export default function Home({ onNavigateToPayment }) {
 									library card.
 								</Text>
 								<Button
-									color="teal"
 									rightSection={<ArrowRight size={16} />}
-									className="w-fit"
 									component={Link}
 									to="/browse" // Changed from /digital to /browse
 								>

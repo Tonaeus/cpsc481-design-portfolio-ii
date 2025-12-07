@@ -143,22 +143,12 @@ const Report = ({ onSubmit }) => {
 
 					<Group position="center" spacing="md" mt="md">
 						<Button
-							size="md"
-							style={{
-								backgroundColor: "#14b8a6",
-								"&:hover": { backgroundColor: "#0f9d8e" },
-							}}
 							onClick={() => navigate("/")}
 						>
 							Return to Homepage
 						</Button>
 
 						<Button
-							size="md"
-							style={{
-								backgroundColor: "#14b8a6",
-								"&:hover": { backgroundColor: "#0f9d8e" },
-							}}
 							onClick={() => setSubmitted(false)}
 						>
 							Submit Another Report
@@ -324,10 +314,7 @@ const Report = ({ onSubmit }) => {
 								type="submit"
 								style={{
 									flex: 1,
-									backgroundColor: "#14b8a6",
-									"&:hover": { backgroundColor: "#0f9d8e" },
 								}}
-								size="md"
 							>
 								Submit Report
 							</Button>
@@ -335,14 +322,6 @@ const Report = ({ onSubmit }) => {
 								type="button"
 								variant="outline"
 								onClick={handleClear}
-								size="md"
-								style={{
-									borderColor: "#14b8a6",
-									color: "#14b8a6",
-									"&:hover": {
-										backgroundColor: "#f0fdfa",
-									},
-								}}
 							>
 								Clear Form
 							</Button>

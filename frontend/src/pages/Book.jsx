@@ -52,7 +52,6 @@ const Book = () => {
 						component={Link}
 						to={state?.from === "home" ? "/" : "/browse"}
 						variant="subtle"
-						size="sm"
 					>
 						{state?.from === "home" ? "← Back to Homepage" : "← Back to Browse"}
 					</Button>

@@ -28,7 +28,7 @@ export default function Payment() {
 	const [transactions, setTransactions] = useState([]);
 	const [currentStep, setCurrentStep] = useState("overview");
 	const [selectedBookIds, setSelectedBookIds] = useState([]);
-    const [isProcessing, setIsProcessing] = useState(false);
+	const [isProcessing, setIsProcessing] = useState(false);
 	const [formData, setFormData] = useState({
 		cardNumber: "",
 		expirationDate: "",
@@ -69,7 +69,7 @@ export default function Payment() {
 					feeAmount: fee,
 				};
 			})
-			.filter((book) => book.feeAmount > 0); 
+			.filter((book) => book.feeAmount > 0);
 	}, [transactions]);
 
 	const selectedBooks = overdueBooks.filter((b) =>
@@ -85,14 +85,13 @@ export default function Payment() {
 	const isPaymentFormValid = useMemo(() => {
 		const { cardNumber, expirationDate, cvv, cardholderName } = formData;
 		return (
-			cardNumber.replace(/\s/g, '').length === 16 && // Checks for 16 digits
+			cardNumber.replace(/\s/g, "").length === 16 && // Checks for 16 digits
 			expirationDate.length === 5 && // Checks for MM/YY format length
 			cvv.length >= 3 && // Checks for 3 or 4 digits
 			cardholderName.trim().length > 0
 		);
 	}, [formData]);
 	// -----------------------------------------
-
 
 	const handleInputChange = (e) => {
 		const { name, value } = e.target;
@@ -121,7 +120,7 @@ export default function Payment() {
 
 	const handleProceedToPayment = () => setCurrentStep("payment");
 	const handleBackToOverview = () => setCurrentStep("overview");
-	
+
 	const handlePayNow = (e) => {
 		e.preventDefault();
 
@@ -131,12 +130,12 @@ export default function Payment() {
 			return;
 		}
 
-        setIsProcessing(true);
+		setIsProcessing(true);
 
-        setTimeout(() => {
-            setIsProcessing(false);
-            setCurrentStep("confirmation");
-        }, 1500); 
+		setTimeout(() => {
+			setIsProcessing(false);
+			setCurrentStep("confirmation");
+		}, 1500);
 	};
 
 	if (loading) {
@@ -147,59 +146,58 @@ export default function Payment() {
 		);
 	}
 
-    if (isProcessing) {
-        return (
+	if (isProcessing) {
+		return (
 			<Center h="100%" className="flex flex-col">
-                <Loader color="teal" size="xl" />
-                <Title order={3} mt="md" c="teal">Processing Payment...</Title>
-                <Text c="dimmed" mt="xs">Do not close this window.</Text>
+				<Loader color="teal" size="xl" />
+				<Title order={3} mt="md" c="teal">
+					Processing Payment...
+				</Title>
+				<Text c="dimmed" mt="xs">
+					Do not close this window.
+				</Text>
 			</Center>
-        );
-    }
-if (currentStep === "confirmation") {
+		);
+	}
+	if (currentStep === "confirmation") {
 		return (
 			// Main container: full height, centered horizontally
-<div className="flex flex-col items-center h-full p-6 text-center mt-20"> 
-    {/* ICON */}
-    <CircleCheck
-        size={150}
-        strokeWidth={1.5}
-        color="teal"
-        className="mb-8"
-    />
+			<div className="flex flex-col items-center h-full p-6 text-center mt-20">
+				{/* ICON */}
+				<CircleCheck
+					size={150}
+					strokeWidth={1.5}
+					color="teal"
+					className="mb-8"
+				/>
 
-    <Title order={1} className="text-teal-700 mt-6">
-        Payment Successful!
-    </Title>
+				<Title order={1} className="text-teal-700 mt-6">
+					Payment Successful!
+				</Title>
 
-    <Text className="max-w-md mt-10 text-lg mb-4">
-        Thank you for your payment of <strong>${totalFees.toFixed(2)}</strong>.  
-        A receipt has been sent to <strong>{user?.email}</strong>.
-    </Text>
+				<Text className="max-w-md mt-10 text-lg mb-4">
+					Thank you for your payment of <strong>${totalFees.toFixed(2)}</strong>
+					. A receipt has been sent to <strong>{user?.email}</strong>.
+				</Text>
 
-    <Button 
-        component={Link}
-        to="/dashboard"
-        color="teal"
-        size="lg"
-        className="mt-9 mb-5"
-    >
-        Back to Dashboard
-    </Button>
-</div>
-
+				<Button component={Link} to="/dashboard" className="mt-9 mb-5">
+					Back to Dashboard
+				</Button>
+			</div>
 		);
 	}
 
 	return (
-    <div className="flex flex-col h-full bg-transparent"> {/* Outer container now full width */}
+		<div className="flex flex-col h-full bg-transparent">
+			{" "}
+			{/* Outer container now full width */}
 			{currentStep === "overview" ? (
 				<>
-					<Paper 
-						withBorder 
+					<Paper
+						withBorder
 						className="p-4 rounded-xl bg-white flex-1 overflow-auto" // Added flex-1 and overflow-auto
 					>
-						<Stack spacing="lg"> 
+						<Stack spacing="lg">
 							<Stack gap={2}>
 								<Title order={3} className="text-gray-800">
 									Select Fees to Pay
@@ -212,51 +210,53 @@ if (currentStep === "confirmation") {
 							{/* Removed Divider */}
 
 							{overdueBooks.length > 0 ? (
-							<Table
-								striped
-								highlightOnHover
-								withTableBorder
-								withColumnBorders
-								className="w-full text-base rounded-lg overflow-hidden"
-							>
-								<thead style={{ background: "var(--mantine-color-teal-filled)" }}>
-									<tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
-										<th className="px-4 py-3 text-center">Select</th>
-										<th className="px-4 py-3">Book Title</th>
-										<th className="px-4 py-3">Due Date</th>
-										<th className="px-4 py-3 text-right">Fee</th>
-									</tr>
-								</thead>
-
-								<tbody>
-									{overdueBooks.map((book) => (
-										<tr
-											key={book.id}
-											className="transition-all border-b last:border-none hover:bg-teal-50"
-										>
-											<td className="px-4 py-3 text-center">
-												<Checkbox
-													checked={selectedBookIds.includes(book.id)}
-													onChange={() => handleToggleBook(book.id)}
-													color="teal"
-												/>
-											</td>
-
-											<td className="px-4 py-3 font-medium text-gray-900">
-												{book.title}
-											</td>
-
-											<td className="px-4 py-3 text-gray-600">
-												{book.dueDate}
-											</td>
-
-											<td className="px-4 py-3 text-right font-semibold text-red-600">
-												${book.feeAmount.toFixed(2)}
-											</td>
+								<Table
+									striped
+									highlightOnHover
+									withTableBorder
+									withColumnBorders
+									className="w-full text-base rounded-lg overflow-hidden"
+								>
+									<thead
+										style={{ background: "var(--mantine-color-teal-filled)" }}
+									>
+										<tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
+											<th className="px-4 py-3 text-center">Select</th>
+											<th className="px-4 py-3">Book Title</th>
+											<th className="px-4 py-3">Due Date</th>
+											<th className="px-4 py-3 text-right">Fee</th>
 										</tr>
-									))}
-								</tbody>
-							</Table>
+									</thead>
+
+									<tbody>
+										{overdueBooks.map((book) => (
+											<tr
+												key={book.id}
+												className="transition-all border-b last:border-none hover:bg-teal-50"
+											>
+												<td className="px-4 py-3 text-center">
+													<Checkbox
+														checked={selectedBookIds.includes(book.id)}
+														onChange={() => handleToggleBook(book.id)}
+														color="teal"
+													/>
+												</td>
+
+												<td className="px-4 py-3 font-medium text-gray-900">
+													{book.title}
+												</td>
+
+												<td className="px-4 py-3 text-gray-600">
+													{book.dueDate}
+												</td>
+
+												<td className="px-4 py-3 text-right font-semibold text-red-600">
+													${book.feeAmount.toFixed(2)}
+												</td>
+											</tr>
+										))}
+									</tbody>
+								</Table>
 							) : (
 								<div className="py-10 text-center">
 									<Text c="dimmed">You have no overdue fees! 🎉</Text>
@@ -264,8 +264,6 @@ if (currentStep === "confirmation") {
 										component={Link}
 										to="/dashboard"
 										variant="subtle"
-										color="teal"
-										mt="md"
 									>
 										Return to Dashboard
 									</Button>
@@ -274,11 +272,8 @@ if (currentStep === "confirmation") {
 						</Stack>
 					</Paper>
 
-					<Paper 
-						withBorder 
-						className="p-4 bg-teal-50 rounded-xl mt-4" // Matched padding p-5
-					>
-						<Group justify="space-between" align="center" >
+					<Paper withBorder className="p-4 bg-teal-50 rounded-xl mt-4">
+						<Group justify="space-between" align="center">
 							<Group>
 								<Text fw={600} size="lg">
 									Selected Fees Due:
@@ -288,8 +283,6 @@ if (currentStep === "confirmation") {
 								</Text>
 							</Group>
 							<Button
-								color="teal"
-								size="lg"
 								onClick={handleProceedToPayment}
 								disabled={selectedBookIds.length === 0}
 							>
@@ -302,23 +295,16 @@ if (currentStep === "confirmation") {
 				// PAYMENT STEP (Refactored for full width white boxes and footer button)
 				<div className="flex flex-col flex-1">
 					{/* 1. Header and Back Button Wrapped in White Paper Box */}
-					<Paper 
-						withBorder 
-						className="p-5 rounded-xl bg-white mb-4" 
-					>
+					<Paper withBorder className="p-4 rounded-xl bg-white mb-4">
 						<Group justify="space-between" align="center">
-              <Stack gap={2}>
+							<Stack gap={2}>
 								<Title order={3} className="text-gray-800">
 									Enter Payment Details
 								</Title>
-								<Text c="dimmed">
-									Enter your preferred method of payment.
-								</Text>
+								<Text c="dimmed">Enter your preferred method of payment.</Text>
 							</Stack>
 							<Button
 								variant="outline"
-								color="teal" 
-								size="md"
 								leftSection={<MoveLeft size={18} color="teal" />}
 								onClick={handleBackToOverview}
 							>
@@ -328,13 +314,12 @@ if (currentStep === "confirmation") {
 					</Paper>
 
 					{/* 2. Two-Column Content (Group grow) */}
-					<Group grow className="flex-1"> 
+					<Group grow className="flex-1">
 						{/* Left Column: Fee Summary Table (Styled like Overview Paper) */}
-						<Paper 
-							withBorder 
-							className="p-5 rounded-xl bg-white flex-1 h-full"
-						>
-							<Stack spacing="md" className="h-full"> {/* Added h-full here to ensure the inner content tries to fill space */}
+						<Paper withBorder className="p-4 rounded-xl bg-white flex-1 h-full">
+							<Stack spacing="md" className="h-full">
+								{" "}
+								{/* Added h-full here to ensure the inner content tries to fill space */}
 								<Text fw={600} size="lg">
 									Items to Pay:
 								</Text>
@@ -344,7 +329,9 @@ if (currentStep === "confirmation") {
 									withTableBorder
 									className="rounded-lg"
 								>
-									<thead style={{ background: "var(--mantine-color-teal-filled)" }}>
+									<thead
+										style={{ background: "var(--mantine-color-teal-filled)" }}
+									>
 										<tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
 											<th className="px-4 py-3">Book Title</th>
 											<th className="px-4 py-3 text-right">Fee</th>
@@ -352,7 +339,10 @@ if (currentStep === "confirmation") {
 									</thead>
 									<tbody>
 										{selectedBooks.map((b) => (
-											<tr key={b.id} className="hover:bg-teal-50 border-b last:border-none">
+											<tr
+												key={b.id}
+												className="hover:bg-teal-50 border-b last:border-none"
+											>
 												<td className="px-4 py-3 font-medium text-gray-900">
 													{b.title}
 												</td>
@@ -367,15 +357,13 @@ if (currentStep === "confirmation") {
 						</Paper>
 
 						{/* Right Column: Payment Form (Styled like Overview Paper) */}
-						<Paper 
-							withBorder 
-							className="p-5 rounded-xl bg-white flex-1 flex flex-col justify-between h-full"
+						<Paper
+							withBorder
+							className="p-4 rounded-xl bg-white flex-1 flex flex-col justify-between h-full"
 						>
 							<form onSubmit={handlePayNow} className="flex flex-col flex-1">
 								<Stack className="flex-1">
-									<Title order={4}>
-										Card Information
-									</Title>
+									<Title order={4}>Card Information</Title>
 
 									<div className="grid grid-cols-1 gap-3">
 										<TextInput
@@ -388,7 +376,12 @@ if (currentStep === "confirmation") {
 											required
 											inputMode="numeric"
 											maxLength={19}
-											error={formData.cardNumber.length > 0 && formData.cardNumber.replace(/\s/g, '').length < 16 ? "Card number must be 16 digits" : null}
+											error={
+												formData.cardNumber.length > 0 &&
+												formData.cardNumber.replace(/\s/g, "").length < 16
+													? "Card number must be 16 digits"
+													: null
+											}
 										/>
 
 										<Group grow>
@@ -401,7 +394,12 @@ if (currentStep === "confirmation") {
 												required
 												inputMode="numeric"
 												maxLength={5}
-												error={formData.expirationDate.length > 0 && formData.expirationDate.length < 5 ? "Must be MM/YY" : null}
+												error={
+													formData.expirationDate.length > 0 &&
+													formData.expirationDate.length < 5
+														? "Must be MM/YY"
+														: null
+												}
 											/>
 											<TextInput
 												label="CVV"
@@ -412,7 +410,11 @@ if (currentStep === "confirmation") {
 												required
 												inputMode="numeric"
 												maxLength={4}
-												error={formData.cvv.length > 0 && formData.cvv.length < 3 ? "Must be 3 or 4 digits" : null}
+												error={
+													formData.cvv.length > 0 && formData.cvv.length < 3
+														? "Must be 3 or 4 digits"
+														: null
+												}
 											/>
 										</Group>
 										<TextInput
@@ -422,7 +424,12 @@ if (currentStep === "confirmation") {
 											onChange={handleInputChange}
 											placeholder="John Doe"
 											required
-											error={formData.cardholderName.length > 0 && formData.cardholderName.trim().length === 0 ? "Cardholder name is required" : null}
+											error={
+												formData.cardholderName.length > 0 &&
+												formData.cardholderName.trim().length === 0
+													? "Cardholder name is required"
+													: null
+											}
 										/>
 									</div>
 								</Stack>
@@ -432,11 +439,8 @@ if (currentStep === "confirmation") {
 					</Group>
 
 					{/* 3. Footer Summary Paper (Pay Now Button) */}
-					<Paper 
-						withBorder 
-						className="p-5 bg-teal-50 rounded-xl mt-4" 
-					>
-						<Group justify="space-between" align="center" >
+					<Paper withBorder className="p-4 bg-teal-50 rounded-xl mt-4">
+						<Group justify="space-between" align="center">
 							<Group>
 								<Text fw={600} size="lg">
 									Total Payment Due:
@@ -446,10 +450,8 @@ if (currentStep === "confirmation") {
 								</Text>
 							</Group>
 							<Button
-								type="button" 
-								color="teal"
-								size="lg"
-								onClick={handlePayNow} 
+								type="button"
+								onClick={handlePayNow}
 								disabled={!isPaymentFormValid}
 							>
 								Pay Now
