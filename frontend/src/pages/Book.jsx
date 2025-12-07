@@ -73,7 +73,6 @@ const Book = () => {
 							<Badge
 								variant="light"
 								color={book.available ? "green" : "gray"}
-								radius="sm"
 							>
 								{book.available ? "Available" : "Checked out"}
 							</Badge>
@@ -86,7 +85,6 @@ const Book = () => {
 								<Badge
 									key={cat}
 									variant="outline"
-									radius="sm"
 									size="sm"
 									ml="xs"
 								>
@@ -101,7 +99,6 @@ const Book = () => {
 					<Alert
 						variant="light"
 						color="green"
-						radius="md"
 						title="Available to borrow"
 						mt="md"
 					>
@@ -112,7 +109,6 @@ const Book = () => {
 					<Alert
 						variant="light"
 						color="red"
-						radius="md"
 						title="Currently checked out"
 						mt="md"
 					>
@@ -127,7 +123,7 @@ const Book = () => {
 
 				<Grid gutter="xl" align="stretch" mt="md">
 					<Grid.Col span={{ base: 12, md: 8 }}>
-						<Paper withBorder radius="md" p="md">
+						<Paper withBorder p="md">
 							<Text size="sm" fw={600} mb={8}>
 								Metadata
 							</Text>
@@ -163,7 +159,7 @@ const Book = () => {
 							</Stack>
 						</Paper>
 
-						<Paper radius="md" p="md" mt="md" bg="gray.0">
+						<Paper p="md" mt="md" bg="gray.0">
 							<Text size="sm" fw={600} mb={4}>
 								About this title
 							</Text>
@@ -176,14 +172,13 @@ const Book = () => {
 					</Grid.Col>
 
 					<Grid.Col span={{ base: 12, md: 4 }}>
-						<Paper withBorder radius="md" p="sm">
+						<Paper withBorder p="sm">
 							<Image
 								src={
 									book.cover ||
 									"https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80"
 								}
 								alt={book.title}
-								radius="md"
 								w="100%"
 								h={320}
 								fit="contain"

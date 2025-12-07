@@ -34,7 +34,7 @@ const ReservationDetails = () => {
   return (
     <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
       <Stack gap="md" align="center">
-        <Badge color="green" variant="light" radius="sm">
+        <Badge color="green" variant="light">
           Hold placed
         </Badge>
 
@@ -45,7 +45,7 @@ const ReservationDetails = () => {
           the main desk when a copy becomes available.
         </Text>
 
-        <Paper withBorder radius="md" p="md" mt="sm" w="100%" maw={540}>
+        <Paper withBorder p="md" mt="sm" w="100%" maw={540}>
           <Group align="flex-start" gap="md">
             <Image
               src={
@@ -53,7 +53,6 @@ const ReservationDetails = () => {
                 "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80"
               }
               alt={book.title || "Book cover"}
-              radius="md"
               w={90}
               h={130}
               fit="cover"

@@ -7,7 +7,6 @@ import {
 	Group,
 	Table,
 	TextInput,
-	Divider,
 	Checkbox,
 	// ScrollArea, // Removed ScrollArea in favor of flex-1 with overflow on Paper
 	Loader,

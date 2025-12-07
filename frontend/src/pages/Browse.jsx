@@ -256,7 +256,6 @@ const Browse = () => {
 										<Card
 											withBorder
 											p="lg"
-											radius="md"
 											style={{
 												height: "100%",
 												transition: "all 0.2s",
@@ -386,7 +385,6 @@ const Browse = () => {
 								<Card
 									withBorder
 									p="lg"
-									radius="md"
 									style={{
 										height: "100%",
 										transition: "all 0.2s",
