@@ -145,7 +145,7 @@ const Report = ({ onSubmit }) => {
 						<Button
 							onClick={() => navigate("/")}
 						>
-							Return to Homepage
+							Return to Home
 						</Button>
 
 						<Button

@@ -12,8 +12,14 @@ import {
 	Loader,
 	Center,
 	Paper,
+	Card,
+	Box,
 } from "@mantine/core";
-import { CreditCard, CircleCheck, MoveLeft } from "lucide-react";
+import {
+	CreditCard,
+	MoveLeft,
+	CheckCircle2,
+} from "lucide-react";
 import { Link, useNavigate } from "react-router";
 
 import useAuthContext from "../hooks/useAuthContext";
@@ -162,28 +168,47 @@ export default function Payment() {
 	if (currentStep === "confirmation") {
 		return (
 			// Main container: full height, centered horizontally
-			<div className="flex flex-col items-center h-full p-6 text-center mt-20">
-				{/* ICON */}
-				<CircleCheck
-					size={150}
-					strokeWidth={1.5}
-					color="teal"
-					className="mb-8"
-				/>
+			<Card
+				className="h-auto min-h-full flex items-center justify-center"
+				withBorder
+			>
+				<Stack
+					gap="xl"
+					align="center"
+					style={{ maxWidth: "600px", textAlign: "center" }}
+				>
+					<Box
+						style={{
+							width: "100px",
+							height: "100px",
+							borderRadius: "50%",
+							background: "linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							boxShadow: "0 4px 12px rgba(16, 185, 129, 0.3)",
+						}}
+					>
+						<CheckCircle2 size={60} style={{ color: "#059669" }} />
+					</Box>
 
-				<Title order={1} className="text-teal-700 mt-6">
-					Payment Successful!
-				</Title>
+					<Stack gap="md" align="center">
+						<Text size="xl" fw={600} style={{ color: "#1f2937" }}>
+							Payment Successful!
+						</Text>
 
-				<Text className="max-w-md mt-10 text-lg mb-4">
-					Thank you for your payment of <strong>${totalFees.toFixed(2)}</strong>
-					. A receipt has been sent to <strong>{user?.email}</strong>.
-				</Text>
+						<Text size="md" c="dimmed" style={{ lineHeight: 1.6 }}>
+							Thank you for your payment of{" "}
+							<strong>${totalFees.toFixed(2)}</strong>. A receipt has been sent
+							to <strong>{user?.email}</strong>.
+						</Text>
+					</Stack>
 
-				<Button component={Link} to="/dashboard" className="mt-9 mb-5">
-					Back to Dashboard
-				</Button>
-			</div>
+					<Group position="center" spacing="md" mt="md">
+						<Button onClick={() => navigate("/")}>Return to Home</Button>
+					</Group>
+				</Stack>
+			</Card>
 		);
 	}
 
@@ -260,11 +285,7 @@ export default function Payment() {
 							) : (
 								<div className="py-10 text-center">
 									<Text c="dimmed">You have no overdue fees! 🎉</Text>
-									<Button
-										component={Link}
-										to="/dashboard"
-										variant="subtle"
-									>
+									<Button component={Link} to="/dashboard" variant="subtle">
 										Return to Dashboard
 									</Button>
 								</div>

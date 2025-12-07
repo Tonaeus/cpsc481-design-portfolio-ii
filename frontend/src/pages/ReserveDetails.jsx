@@ -91,10 +91,10 @@ const ReservationDetails = () => {
         </Paper>
 
         <Group mt="lg">
-          <Button w={135} component={Link} to="/">
-            Go to Home
+          <Button w={150} component={Link} to="/">
+            Return to Home
           </Button>
-          <Button w={135} variant="default" component={Link} to="/history">
+          <Button w={150} variant="default" component={Link} to="/history">
             View History
           </Button>
         </Group>
