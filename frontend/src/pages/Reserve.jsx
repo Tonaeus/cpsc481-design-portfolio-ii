@@ -23,14 +23,14 @@ const Reserve = () => {
 
   if (!book) {
     return (
-      <Card shadow="sm" padding="xl" radius="md" withBorder>
+      <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
         <Text>Reservation unavailable. No book selected.</Text>
       </Card>
     );
   }
 
   return (
-    <Card shadow="sm" padding="xl" radius="md" withBorder>
+    <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
       <Stack gap="md" align="center">
         <Text size="xs" c="dimmed" fw={500} tt="uppercase">
           Reservation
@@ -42,7 +42,7 @@ const Reserve = () => {
           main desk once it's returned and ready for pickup.
         </Text>
 
-        <Paper withBorder radius="md" p="md" mt="sm" w="100%" maw={520}>
+        <Paper withBorder p="md" mt="sm" w="100%" maw={520}>
           <Group align="flex-start" gap="md">
             <Image
               src={
@@ -50,7 +50,6 @@ const Reserve = () => {
                 "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80"
               }
               alt={book.title || "Book cover"}
-              radius="md"
               w={80}
               h={112}
               fit="cover"
@@ -63,7 +62,7 @@ const Reserve = () => {
                     {book.author || "Author unknown"}
                   </Text>
                 </div>
-                <Badge variant="light" color="green" radius="sm">
+                <Badge variant="light" color="green">
                   Hold request
                 </Badge>
               </Group>

@@ -168,7 +168,6 @@ export default function Home({ onNavigateToPayment }) {
 					{/* Card 1: Browse Catalog -> Links to /browse */}
 					<Card
 						withBorder
-						shadow="xs"
 						component={Link}
 						to="/browse"
 						className=" transition-all cursor-pointer text-center"
@@ -187,7 +186,6 @@ export default function Home({ onNavigateToPayment }) {
 					{/* Card 2: My Account */}
 					<Card
 						withBorder
-						shadow="xs"
 						component={Link}
 						to="/dashboard"
 						className=" transition-all cursor-pointer text-center"
@@ -206,7 +204,6 @@ export default function Home({ onNavigateToPayment }) {
 					{/* Card 3: Events -> Scrolls to Events Section */}
 					<Card
 						withBorder
-						shadow="xs"
 						onClick={scrollToEvents} // Use the scroll function
 						className=" transition-all cursor-pointer text-center"
 					>
@@ -235,7 +232,6 @@ export default function Home({ onNavigateToPayment }) {
 							<Card
 								key={book.id}
 								withBorder
-								shadow="xs"
 								component={Link}
 								to="/book"
 								state={{ book, from: 'home' }}
@@ -285,7 +281,6 @@ export default function Home({ onNavigateToPayment }) {
 								<Card
 									key={item.id}
 									withBorder
-									shadow="xs"
 									className=" transition-all cursor-pointer"
 								>
 									<Group align="flex-start" wrap="nowrap">
@@ -325,7 +320,6 @@ export default function Home({ onNavigateToPayment }) {
 								<Card
 									key={event.id}
 									withBorder
-									shadow="xs"
 									className=" transition-all cursor-pointer"
 								>
 									<Group align="flex-start" wrap="nowrap">
@@ -366,7 +360,7 @@ export default function Home({ onNavigateToPayment }) {
 
 				{/* Featured Image Section */}
 				<section className="">
-					<Paper withBorder shadow="xs" className="overflow-hidden">
+					<Paper withBorder className="overflow-hidden">
 						<div className="grid md:grid-cols-2 gap-0">
 							<Box className="h-80 flex items-center justify-center">
 								<Image
@@ -384,9 +378,7 @@ export default function Home({ onNavigateToPayment }) {
 									library card.
 								</Text>
 								<Button
-									color="teal"
 									rightSection={<ArrowRight size={16} />}
-									className="w-fit"
 									component={Link}
 									to="/browse" // Changed from /digital to /browse
 								>

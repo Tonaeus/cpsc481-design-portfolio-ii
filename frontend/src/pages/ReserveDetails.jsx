@@ -23,7 +23,7 @@ const ReservationDetails = () => {
 
   if (!book) {
     return (
-      <Card shadow="sm" padding="xl" radius="md" withBorder>
+      <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
         <Text>Reservation details unavailable. No book selected.</Text>
       </Card>
     );
@@ -32,9 +32,9 @@ const ReservationDetails = () => {
   const reservationNumber = `RS-${String(book.id).padStart(4, "0")}`;
 
   return (
-    <Card shadow="sm" padding="xl" radius="md" withBorder>
+    <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
       <Stack gap="md" align="center">
-        <Badge color="green" variant="light" radius="sm">
+        <Badge color="green" variant="light">
           Hold placed
         </Badge>
 
@@ -45,7 +45,7 @@ const ReservationDetails = () => {
           the main desk when a copy becomes available.
         </Text>
 
-        <Paper withBorder radius="md" p="md" mt="sm" w="100%" maw={540}>
+        <Paper withBorder p="md" mt="sm" w="100%" maw={540}>
           <Group align="flex-start" gap="md">
             <Image
               src={
@@ -53,7 +53,6 @@ const ReservationDetails = () => {
                 "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400&q=80"
               }
               alt={book.title || "Book cover"}
-              radius="md"
               w={90}
               h={130}
               fit="cover"
@@ -92,10 +91,10 @@ const ReservationDetails = () => {
         </Paper>
 
         <Group mt="lg">
-          <Button w={135} component={Link} to="/">
-            Go to Home
+          <Button w={150} component={Link} to="/">
+            Return to Home
           </Button>
-          <Button w={135} variant="default" component={Link} to="/history">
+          <Button w={150} variant="default" component={Link} to="/history">
             View History
           </Button>
         </Group>
