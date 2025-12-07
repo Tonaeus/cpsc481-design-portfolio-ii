@@ -143,14 +143,6 @@ const Browse = () => {
 							onKeyPress={handleKeyPress}
 							leftSection={<Search size={16} />}
 							style={{ flex: 1 }}
-							styles={{
-								input: {
-									borderColor: "#d1d5db",
-									"&:focus": {
-										borderColor: "#14b8a6",
-									},
-								},
-							}}
 						/>
 						<Button
 							onClick={handleSearch}

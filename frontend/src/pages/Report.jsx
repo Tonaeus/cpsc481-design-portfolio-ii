@@ -215,15 +215,6 @@ const Report = ({ onSubmit }) => {
 									}
 								}}
 								required
-								size="md"
-								styles={{
-									input: {
-										borderColor: "#d1d5db",
-										"&:focus": {
-											borderColor: "#14b8a6",
-										},
-									},
-								}}
 							/>
 
 							<TextInput
@@ -234,15 +225,6 @@ const Report = ({ onSubmit }) => {
 									setFormData({ ...formData, bookAuthor: e.target.value })
 								}
 								required
-								size="md"
-								styles={{
-									input: {
-										borderColor: "#d1d5db",
-										"&:focus": {
-											borderColor: "#14b8a6",
-										},
-									},
-								}}
 							/>
 						</Group>
 
@@ -254,15 +236,6 @@ const Report = ({ onSubmit }) => {
 								onChange={(e) =>
 									setFormData({ ...formData, bookId: e.target.value })
 								}
-								size="md"
-								styles={{
-									input: {
-										borderColor: "#d1d5db",
-										"&:focus": {
-											borderColor: "#14b8a6",
-										},
-									},
-								}}
 							/>
 
 							<Select
@@ -277,15 +250,6 @@ const Report = ({ onSubmit }) => {
 									{ value: "damaged", label: "Damaged" },
 								]}
 								required
-								size="md"
-								styles={{
-									input: {
-										borderColor: "#d1d5db",
-										"&:focus": {
-											borderColor: "#14b8a6",
-										},
-									},
-								}}
 							/>
 						</Group>
 
@@ -296,17 +260,7 @@ const Report = ({ onSubmit }) => {
 							onChange={(e) =>
 								setFormData({ ...formData, description: e.target.value })
 							}
-							minRows={4}
 							required
-							size="md"
-							styles={{
-								input: {
-									borderColor: "#d1d5db",
-									"&:focus": {
-										borderColor: "#14b8a6",
-									},
-								},
-							}}
 						/>
 
 						<Group mt="md">
