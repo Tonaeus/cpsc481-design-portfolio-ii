@@ -23,7 +23,7 @@ const ReservationDetails = () => {
 
   if (!book) {
     return (
-      <Card shadow="sm" padding="xl" radius="md" withBorder>
+      <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
         <Text>Reservation details unavailable. No book selected.</Text>
       </Card>
     );
@@ -32,7 +32,7 @@ const ReservationDetails = () => {
   const reservationNumber = `RS-${String(book.id).padStart(4, "0")}`;
 
   return (
-    <Card shadow="sm" padding="xl" radius="md" withBorder>
+    <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
       <Stack gap="md" align="center">
         <Badge color="green" variant="light" radius="sm">
           Hold placed

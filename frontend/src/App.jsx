@@ -19,7 +19,7 @@ import History from "./pages/History";
 import Report from "./pages/Report";
 import Transaction from "./pages/Transaction";
 import Reserve from "./pages/Reserve";
-import ReservationDetails from "./components/ReservationDetails";
+import ReserveDetails from "./pages/ReserveDetails";
 import Payment from "./pages/Payment";
 import Empty from "./pages/Empty";
 
@@ -52,7 +52,7 @@ function App() {
 							<Route path="transaction" element={<Transaction />} />
 							<Route path="reserve" element={<Reserve />} />
 							<Route path="payment" element={<Payment />} />
-							<Route path="details" element={<ReservationDetails />} />
+							<Route path="details" element={<ReserveDetails />} />
 							<Route path="empty" element={<Empty />} />
 						</Route>
 					</Routes>

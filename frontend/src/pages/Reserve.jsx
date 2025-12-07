@@ -23,7 +23,7 @@ const Reserve = () => {
 
   if (!book) {
     return (
-      <Card shadow="sm" padding="xl" radius="md" withBorder>
+      <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
         <Text>Reservation unavailable. No book selected.</Text>
       </Card>
     );
