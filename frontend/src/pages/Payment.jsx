@@ -200,7 +200,7 @@ if (currentStep === "confirmation") {
 					<Paper 
 						withBorder 
 						shadow="xs" 
-						className="p-5 rounded-xl bg-white flex-1 overflow-auto" // Added flex-1 and overflow-auto
+						className="p-4 rounded-xl bg-white flex-1 overflow-auto" // Added flex-1 and overflow-auto
 					>
 						<Stack spacing="lg"> 
 							<Stack gap={2}>
@@ -281,7 +281,7 @@ if (currentStep === "confirmation") {
 					<Paper 
 						withBorder 
                         shadow="xs" // Added shadow prop
-						className="p-5 bg-teal-50 rounded-xl mt-4" // Matched padding p-5
+						className="p-4 bg-teal-50 rounded-xl mt-4" // Matched padding p-5
 					>
 						<Group justify="space-between" align="center" >
 							<Group>
