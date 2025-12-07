@@ -28,7 +28,10 @@ const Book = () => {
 
 	if (!book) {
 		return (
-			<Card shadow="sm" padding="xl" radius="md" withBorder>
+			<Card
+				className="h-auto min-h-full flex flex-col justify-between"
+				withBorder
+			>
 				<Text>Book not found.</Text>
 			</Card>
 		);
