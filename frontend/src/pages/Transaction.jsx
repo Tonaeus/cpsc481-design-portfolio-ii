@@ -96,7 +96,7 @@ const Transaction = () => {
 	const transactionsRows = transactions.map((tx) => (
 		<Table.Tr key={tx.transaction_id}>
 			<Table.Td>
-				<Anchor component={Link} to={`/books/${tx.book.id}`}>
+				<Anchor component={Link} to={`/book`}>
 					<Info size={18} />
 				</Anchor>
 			</Table.Td>
