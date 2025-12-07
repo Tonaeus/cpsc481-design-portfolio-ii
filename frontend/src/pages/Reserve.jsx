@@ -30,7 +30,7 @@ const Reserve = () => {
   }
 
   return (
-    <Card shadow="sm" padding="xl" radius="md" withBorder>
+    <Card className="h-auto min-h-full flex items-center justify-center" withBorder>
       <Stack gap="md" align="center">
         <Text size="xs" c="dimmed" fw={500} tt="uppercase">
           Reservation
