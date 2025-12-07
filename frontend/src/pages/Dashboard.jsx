@@ -268,7 +268,6 @@ const Dashboard = () => {
 						{recommendations.map((book) => (
 							<Carousel.Slide key={book.id}>
 								<Card
-									shadow="xs"
 									withBorder
 									className="h-[243px] flex flex-col items-center justify-between"
 								>

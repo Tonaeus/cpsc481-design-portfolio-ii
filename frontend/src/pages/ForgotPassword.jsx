@@ -43,7 +43,7 @@ const ForgotPassword = () => {
 
 	return (
 		<div className="h-full flex justify-center items-center">
-			<Card shadow="xs" padding="xl" withBorder className="w-sm">
+			<Card padding="xl" withBorder className="w-sm">
 				<Text size="xl" weight={500} ta="center" mb="sm">
 					Forgot Password
 				</Text>

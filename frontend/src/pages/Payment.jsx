@@ -196,10 +196,8 @@ if (currentStep === "confirmation") {
     <div className="flex flex-col h-full bg-transparent"> {/* Outer container now full width */}
 			{currentStep === "overview" ? (
 				<>
-					{/* Main Content Area (This one has shadow="xs" and rounded-xl) */}
 					<Paper 
 						withBorder 
-						shadow="xs" 
 						className="p-4 rounded-xl bg-white flex-1 overflow-auto" // Added flex-1 and overflow-auto
 					>
 						<Stack spacing="lg"> 
@@ -220,7 +218,7 @@ if (currentStep === "confirmation") {
 								highlightOnHover
 								withTableBorder
 								withColumnBorders
-								className="w-full text-base rounded-lg overflow-hidden shadow-sm"
+								className="w-full text-base rounded-lg overflow-hidden"
 							>
 								<thead style={{ background: "var(--mantine-color-teal-filled)" }}>
 									<tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
@@ -277,10 +275,8 @@ if (currentStep === "confirmation") {
 						</Stack>
 					</Paper>
 
-					{/* Fee Summary (Now matching the shadow and border radius of the main Paper) */}
 					<Paper 
 						withBorder 
-                        shadow="xs" // Added shadow prop
 						className="p-4 bg-teal-50 rounded-xl mt-4" // Matched padding p-5
 					>
 						<Group justify="space-between" align="center" >
@@ -309,7 +305,6 @@ if (currentStep === "confirmation") {
 					{/* 1. Header and Back Button Wrapped in White Paper Box */}
 					<Paper 
 						withBorder 
-						shadow="xs" 
 						className="p-5 rounded-xl bg-white mb-4" 
 					>
 						<Group justify="space-between" align="center">
@@ -338,7 +333,6 @@ if (currentStep === "confirmation") {
 						{/* Left Column: Fee Summary Table (Styled like Overview Paper) */}
 						<Paper 
 							withBorder 
-							shadow="xs" 
 							className="p-5 rounded-xl bg-white flex-1 h-full"
 						>
 							<Stack spacing="md" className="h-full"> {/* Added h-full here to ensure the inner content tries to fill space */}
@@ -349,7 +343,7 @@ if (currentStep === "confirmation") {
 									striped
 									withColumnBorders
 									withTableBorder
-									className="rounded-lg shadow-sm"
+									className="rounded-lg"
 								>
 									<thead style={{ background: "var(--mantine-color-teal-filled)" }}>
 										<tr className="text-left text-gray-700 text-sm font-semibold uppercase tracking-wide">
@@ -376,7 +370,6 @@ if (currentStep === "confirmation") {
 						{/* Right Column: Payment Form (Styled like Overview Paper) */}
 						<Paper 
 							withBorder 
-							shadow="xs" 
 							className="p-5 rounded-xl bg-white flex-1 flex flex-col justify-between h-full"
 						>
 							<form onSubmit={handlePayNow} className="flex flex-col flex-1">
@@ -442,7 +435,6 @@ if (currentStep === "confirmation") {
 					{/* 3. Footer Summary Paper (Pay Now Button) */}
 					<Paper 
 						withBorder 
-                        shadow="xs" 
 						className="p-5 bg-teal-50 rounded-xl mt-4" 
 					>
 						<Group justify="space-between" align="center" >
