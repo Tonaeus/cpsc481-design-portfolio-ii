@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Paper, Autocomplete, TextInput, Select, Textarea, Button, Stack, Text, Alert, Group, Box, Center } from '@mantine/core';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
-import ReportList from './ReportList.jsx';
+import ReportList from '../components/ReportList.jsx';
 import MOCK_BOOKS from '../assets/data/MockBooks';
 import { useNavigate } from 'react-router';
 
@@ -143,7 +143,7 @@ const Report = ({ onSubmit }) => {
   }
 
   return (
-    <Paper shadow="md" p="xl" radius="md" style={{ backgroundColor: 'white' }}>
+    <Paper className="h-auto min-h-full" shadow="md" p="xl" radius="md" style={{ backgroundColor: 'white' }}>
       <Stack gap="lg">
         <div>
           <Text size="xl" fw={600} mb={4} style={{ color: '#1f2937' }}>Report Lost or Damaged Book</Text>

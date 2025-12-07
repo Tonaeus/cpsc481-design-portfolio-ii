@@ -3,7 +3,7 @@ import { AlertTriangle, XCircle } from 'lucide-react';
 
 const ReportList = ({ reports }) => {
   return (
-    <Paper shadow="md" p="xl" radius="md" style={{ backgroundColor: 'white' }}>
+    <Paper withBorder shadow="md" p="xl" radius="md" style={{ backgroundColor: 'white' }}>
       <Stack gap="lg">
         <div>
           <Text size="xl" fw={600} mb={4} style={{ color: '#1f2937' }}>Reported Issues</Text>

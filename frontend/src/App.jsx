@@ -20,7 +20,7 @@ import History from "./pages/History";
 import Report from "./pages/Report";
 import Transaction from "./pages/Transaction";
 import Reserve from "./pages/Reserve";
-import ReservationDetails from "./pages/ReservationDetails";
+import ReservationDetails from "./components/ReservationDetails";
 import Payment from "./pages/Payment";
 import Empty from "./pages/Empty";
 
@@ -47,6 +47,7 @@ function App() {
 							<Route path="account" element={<Account />} />
 						</Route>
 						<Route element={<SidebarNavbarLayout />}>
+						  <Route path="/" element={<Home />} />
 							<Route path="dashboard" element={<Dashboard />} />
 							<Route path="browse" element={<Browse />} />
 							<Route path="book" element={<Book />} />
