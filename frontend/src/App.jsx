@@ -54,6 +54,7 @@ function App() {
 							<Route path="payment" element={<Payment />} />
 							<Route path="details" element={<ReserveDetails />} />
 							<Route path="empty" element={<Empty />} />
+							<Route path="*" element={<Empty />} />
 						</Route>
 					</Routes>
 				</BrowserRouter>
