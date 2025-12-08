@@ -52,7 +52,7 @@ const Dashboard = () => {
 	const rows = filteredTransactions.map((tx) => (
 		<Table.Tr key={tx.transaction_id}>
 			<Table.Td>
-				<Anchor component={Link} to={`/books/${tx.book.id}`}>
+				<Anchor component={Link} to={`/book`}>
 					<Info size={18} />
 				</Anchor>
 			</Table.Td>
@@ -270,6 +270,8 @@ const Dashboard = () => {
 								<Card
 									withBorder
 									className="h-[243px] flex flex-col items-center justify-between"
+									component={Link}
+									to="/book"
 								>
 									<Image
 										src={book.cover}
