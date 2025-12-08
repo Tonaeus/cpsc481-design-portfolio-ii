@@ -4,13 +4,10 @@
 
 This project is a modernized library inventory system designed to streamline core library management tasks for both patrons and staff. It includes enhanced features for browsing books, managing reservations, and handling transactions.
 
----
-
 ## 🚀 Website
 
-You can view and interact with the deployed application here: [https://cpsc481-design-portfolio-ii.netlify.app/](https://cpsc481-design-portfolio-ii.netlify.app/)
-
----
+You can view and interact with the deployed application here: 
+* URL: [https://cpsc481-design-portfolio-ii.netlify.app/](https://cpsc481-design-portfolio-ii.netlify.app/)
 
 ## 🔑 Pages
 
@@ -34,8 +31,6 @@ The project includes the following main user interfaces:
 ### Staff Access
 * Transaction: Borrowing and renewal management page
 
----
-
 ## 👩‍💻 Staff Login
 
 To access the staff pages, use the following account:
@@ -43,25 +38,23 @@ To access the staff pages, use the following account:
 * **Role:** Library Staff
 * **Email:** `linda.morris@example.com`
 
----
-
 ## 🛠️ Code Structure
 
 The project follows a component-based architecture. The main directories and files are organized as follows:
 
 | Directory/File | Purpose |
 | :--- | :--- |
-| `database/` | Contains json data. |
-| `backend/` | Contains JavaScript functions to fetch json data. |
-| `src/assets/` | Contains static files such as images and data. |
-| `src/components/` | Reusable UI components. |
-| `src/contexts/` | Manages global application state. |
-| `src/hooks/` | Custom logic hooks for state management. |
-| `src/layouts/` | Defines the structure and layout for different application views. |
-| `src/reducers/` | Contains state management logic. |
-| `src/styles/` | Specific files for styling. |
-| `src/utils/` | Contains helper functions. |
-| `src/app.jsx` | Defines application routes. |
+| `database/` | Contains JSON data |
+| `backend/` | Contains JavaScript functions to fetch JSON data |
+| `src/assets/` | Contains static files such as images and data |
+| `src/components/` | Reusable UI components |
+| `src/contexts/` | Manages global application state |
+| `src/hooks/` | Custom logic hooks for state management |
+| `src/layouts/` | Defines the structure and layout for different application views |
+| `src/reducers/` | Contains state management logic |
+| `src/styles/` | Specific files for styling |
+| `src/utils/` | Contains helper functions |
+| `src/app.jsx` | Defines application routes |
 
 ## 🧑‍🤝‍🧑 Contributors
 
