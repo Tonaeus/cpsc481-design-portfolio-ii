@@ -52,7 +52,7 @@ The project follows a component-based architecture. The main directories and fil
 | `src/hooks/` | Custom logic hooks for state management |
 | `src/layouts/` | Defines the structure and layout for different application views |
 | `src/reducers/` | Contains state management logic |
-| `src/styles/` | Specific files for styling |
+| `src/styles/` | Contains styling files |
 | `src/utils/` | Contains helper functions |
 | `src/app.jsx` | Defines application routes |
 
